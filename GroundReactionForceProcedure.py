@@ -58,7 +58,8 @@ def grf(VerticalGrf,ApGrf,FrameRate = 10):
     #Index
     ApGrfIndexBrakingPeak = ApGrf.index(min(ApGrf))
     ApGrfIndexPropulsivePeak = ApGrf.index(max(ApGrf))
-    ApGrfIndexZero = ApGrf.index(0, ApGrfIndexBrakingPeak, ApGrfIndexPropulsivePeak)
+    ApGrfPower = [grf ** 2 for grf in ApGrf[ApGrfIndexBrakingPeak : ApGrfIndexPropulsivePeak]]
+    ApGrfIndexZero = ApGrfIndexBrakingPeak + ApGrfPower.index(min(ApGrfPower))
 
     #Peak 
     BrakingPeak = min(ApGrf)
