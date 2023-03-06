@@ -1,10 +1,13 @@
 # MakeDictStep
 #Author: Nathan Martin 2023-03 - 01
 
-def MakeDictStep(VerticalGrf, ApGrf):
+import pandas as pd
+
+def MakeDictStep(VerticalGrf, ApGrf, RollingMedianStep = 30):
     """
     This function make two dictionnary of the ground reaction force in vertical axes and
-    anteroposterior axes avec chaque pas en index.
+    anteroposterior axes with each step in index. Use a rolling median with a step size of 30 
+    to smooth out data loss.
 
     Inputs: support phase vertical ground reaction force, support phase
         anteroposterior ground reaction force
@@ -23,7 +26,15 @@ def MakeDictStep(VerticalGrf, ApGrf):
                 ToeOff.append(i)
         return HeelStrike, ToeOff
     
-    HeelStrike, ToeOff = GetStepEvent(VerticalGrf)
+    def RollingMedian(VerticalGrf):
+        RollingMedianGrf = [abs(value) for value in VerticalGrf]
+        RollingMedianGrf = pd.DataFrame(RollingMedianGrf)
+        RollingMedianGrf = RollingMedianGrf.rolling(window = RollingMedianStep, center = True).median()
+        RollingMedianGrf = RollingMedianGrf.fillna(0)
+        RollingMedianGrf = RollingMedianGrf[0].tolist()
+        return RollingMedianGrf
+    
+    HeelStrike, ToeOff = GetStepEvent(RollingMedian(VerticalGrf))
     VerticalGrfStep = {i : VerticalGrf[HeelStrike[i]:ToeOff[i]] for i in range(0, len(HeelStrike))}
     ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in range(0, len(HeelStrike))}
     return VerticalGrfStep, ApGrfStep
