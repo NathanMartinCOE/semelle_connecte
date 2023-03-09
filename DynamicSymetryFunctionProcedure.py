@@ -5,6 +5,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import interpolate
 
 
 def DynamicSymetryFunctionProcedure(GrfValuesLeft, GrfValuesRight):
@@ -49,43 +50,110 @@ def DynamicSymetryFunctionProcedure(GrfValuesLeft, GrfValuesRight):
     return DataFrameDynamicSymetryScore
 
 
-def PlotDynamicSymetryFunction(VerticalGrfRight, VerticalGrfLeft):
-    XVerticalGrfRight = np.linspace(0,len(VerticalGrfRight),len(VerticalGrfRight))
-    XVerticalGrfLeft = np.linspace(0,len(VerticalGrfLeft),len(VerticalGrfLeft))
+def PlotDynamicSymetryFunctionRealtime(VerticalGrfRight, VerticalGrfLeft):    
+
+
+    # Rajoute des 0 après le pas le plus court en temps
+    if VerticalGrfRight.shape[0] > VerticalGrfLeft.shape[0]:
+        AddZero = [0] * (VerticalGrfRight.shape[0]-VerticalGrfLeft.shape[0])
+        VerticalGrfLeft = np.concatenate((VerticalGrfLeft, AddZero))
+    elif VerticalGrfLeft.shape[0] > VerticalGrfRight.shape[0]:
+        AddZero = [0] * (VerticalGrfLeft.shape[0]-VerticalGrfRight.shape[0])
+        VerticalGrfRight = np.concatenate((VerticalGrfRight, AddZero))
+
+    # Definition d'un thresfold de 5/100 et de -5/100 pour la FSD
+    Thresfold = 5/100
+    ThresfoldPositive = [Thresfold] * max([VerticalGrfRight.shape[0], VerticalGrfLeft.shape[0]])
+    ThresfoldNegative = [-Thresfold] * max([VerticalGrfRight.shape[0], VerticalGrfLeft.shape[0]])
+
+    # Création d'un DataFrame contenant les forces de réactions au sol de la jambe droite et gauche
+            # et des Thresfold positif et négatif
+    DataFrameVerticalGrf = pd.DataFrame({'yRight': VerticalGrfRight,
+                                         'yLeft': VerticalGrfLeft,
+                                         'ThresfoldPositive': ThresfoldPositive,
+                                          'ThresfoldNegative' : ThresfoldNegative})
     
-    LenMinGrf = min([len(VerticalGrfRight),len(VerticalGrfLeft)])
-    #ValueMaxGrf = max([max(VerticalGrfRight),max(VerticalGrfLeft)])
-    #Thresfold = ValueMaxGrf * 5 / 100
+    # Calcul de la fonction de symetrie dynamique
+    FunctionDynamicAssym = []
+    conditionfillpositive = []
+    conditionfillnegative = []
+    rangexdt = max(DataFrameVerticalGrf['yRight']) - min(DataFrameVerticalGrf['yRight'])
+    rangexgt = max(DataFrameVerticalGrf['yLeft']) - min(DataFrameVerticalGrf['yLeft'])
+
+    for grf in range(0, DataFrameVerticalGrf.shape[0]):
+        #FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
+        FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt) * 100)
+        conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameVerticalGrf['ThresfoldPositive'][grf])
+        conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameVerticalGrf['ThresfoldNegative'][grf])
+    
+    # Ajout de la FunctionDynamicAssym et des conditions fill au DataFrame
+    DataFrameVerticalGrf['FunctionDynamicAssym'] = FunctionDynamicAssym
+    DataFrameVerticalGrf['conditionfillpositive'] = conditionfillpositive
+    DataFrameVerticalGrf['conditionfillnegative'] = conditionfillnegative
+
+    # Procédure Graphique
+    plt.figure(figsize=(15,8))
+    plt.plot(DataFrameVerticalGrf['yLeft'], c='red', ls='--', label='Jambe gauche')
+    plt.plot(DataFrameVerticalGrf['yRight'], c='blue', ls='--', label='Jambe droite')
+    plt.plot(DataFrameVerticalGrf['FunctionDynamicAssym'], c='black', label = 'Fonction de Symétrie Dynamique')
+    plt.hlines(y = Thresfold , xmin=0, xmax = DataFrameVerticalGrf.shape[0], colors='black',
+                lw=0.5, ls='--', label = f'5% Thresfold (={Thresfold})')
+    plt.hlines(y = -Thresfold, xmin=0, xmax = DataFrameVerticalGrf.shape[0], colors='black',
+                lw=0.5, ls='--', label = f'-5% Thresfold (={-Thresfold})')
+    plt.fill_between(x = range(0,DataFrameVerticalGrf.shape[0]), y1 = Thresfold, y2 = DataFrameVerticalGrf['FunctionDynamicAssym'], where = conditionfillpositive, alpha = 0.2, color = 'r')
+    plt.fill_between(x = range(0,DataFrameVerticalGrf.shape[0]), y1 = -Thresfold, y2 = DataFrameVerticalGrf['FunctionDynamicAssym'], where = conditionfillnegative, alpha = 0.2, color = 'r') 
+    plt.legend()
+    plt.show()
+
+
+def PlotDynamicSymetryFunctionNormalised(VerticalGrfRight, VerticalGrfLeft):
+    # Fonction d'interpolation pour mettre sur 100 point une force de réaction au sol
+    def InterpolationGrf(VerticalGrf):
+        x = np.linspace(0,len(VerticalGrf),len(VerticalGrf))
+        y = VerticalGrf
+        f = interpolate.interp1d(x, y)
+        xnew = np.linspace(0, len(VerticalGrf), 101)
+        ynew = f(xnew)
+        return xnew, ynew
+
+    xnewVerticalGrfLeft, ynewVerticalGrfLeft = InterpolationGrf(VerticalGrfLeft)
+    xnewVerticalGrfRight, ynewVerticalGrfRight = InterpolationGrf(VerticalGrfRight)
+    
     Thresfold = 5 / 100
 
-    DataFrameVerticalGrfRight = pd.DataFrame({'xRight':XVerticalGrfRight,'yRight':VerticalGrfRight})
-    DataFrameVerticalGrfLeft = pd.DataFrame({'xLeft':XVerticalGrfLeft,'yLeft':VerticalGrfLeft})
-    DataFrameVerticalGrfRight['xnormRight'] = DataFrameVerticalGrfRight['xRight'] * 100 / DataFrameVerticalGrfRight['xRight'][len(DataFrameVerticalGrfRight)-1]
-    DataFrameVerticalGrfLeft['xnormLeft']=DataFrameVerticalGrfLeft['xLeft'] * 100 / DataFrameVerticalGrfLeft['xLeft'][len(DataFrameVerticalGrfLeft)-1]
+    DataFrameVerticalGrfLeft = pd.DataFrame({'xLeft':xnewVerticalGrfLeft,'yLeft':ynewVerticalGrfLeft})
+    DataFrameVerticalGrfRight = pd.DataFrame({'xRight':xnewVerticalGrfRight,'yRight':ynewVerticalGrfRight})
+    
+    #return DataFrameVerticalGrfLeft, DataFrameVerticalGrfRight
 
-    ThresfoldPositive = [Thresfold] * LenMinGrf
-    ThresfoldNegative = [-Thresfold] * LenMinGrf
-    xdt = DataFrameVerticalGrfRight['yRight']
+    LenMaxGrf = max([DataFrameVerticalGrfRight.shape[0], DataFrameVerticalGrfLeft.shape[0]])
+
+    ThresfoldPositive = [Thresfold] * LenMaxGrf
+    ThresfoldNegative = [-Thresfold] * LenMaxGrf
+
     xgt = DataFrameVerticalGrfLeft['yLeft']
+    xdt = DataFrameVerticalGrfRight['yRight']
     VerticalGrfAsym = []
     conditionfillpositive = []
     conditionfillnegative = []
     rangexdt = max(xdt) - min(xdt)
     rangexgt = max(xgt) - min(xgt)
-    for i in range(0, LenMinGrf):
+    for i in range(0, LenMaxGrf):
         VerticalGrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt) * 100)
+        #VerticalGrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt)) # Fateur 100 doit être enlevé
         conditionfillpositive.append(VerticalGrfAsym[i] >= ThresfoldPositive[i])
         conditionfillnegative.append(VerticalGrfAsym[i] <= ThresfoldNegative[i])
 
     plt.figure(figsize=(15,8))
-    plt.plot(DataFrameVerticalGrfRight['xnormRight'], DataFrameVerticalGrfRight['yRight'], c='b', ls='--', label='Jambe gauche')
-    plt.plot(DataFrameVerticalGrfLeft['xnormLeft'], DataFrameVerticalGrfLeft['yLeft'], c='r', ls='--', label='Jambe droite')
-    plt.plot(DataFrameVerticalGrfRight['xnormRight'], VerticalGrfAsym, c='black', label = 'Fonction de Symétrie Dynamique')
-    plt.hlines(y = Thresfold, xmin=0, xmax = max(DataFrameVerticalGrfRight['xnormRight']), colors='black',
+    plt.plot(DataFrameVerticalGrfRight['yRight'], c='blue', ls='--', label='Jambe droite')
+    plt.plot(DataFrameVerticalGrfLeft['yLeft'], c='r', ls='--', label='Jambe gauche')
+    plt.plot(VerticalGrfAsym, c='black', label = 'Fonction de Symétrie Dynamique')
+
+    plt.hlines(y = Thresfold, xmin=0, xmax = 100, colors='black',
                 lw=0.5, ls='--', label = f'5% Thresfold (={Thresfold})')
-    plt.hlines(y = -Thresfold, xmin=0, xmax = max(DataFrameVerticalGrfRight['xnormRight']), colors='black',
+    plt.hlines(y = -Thresfold, xmin=0, xmax = 100, colors='black',
                 lw=0.5, ls='--', label = f'-5% Thresfold (={-Thresfold})')
-    plt.fill_between(x = DataFrameVerticalGrfRight['xnormRight'], y1 = ThresfoldPositive, y2 = VerticalGrfAsym, where = conditionfillpositive, alpha = 0.2, color = 'r')
-    plt.fill_between(x = DataFrameVerticalGrfRight['xnormRight'], y1 = ThresfoldNegative, y2 = VerticalGrfAsym, where = conditionfillnegative, alpha = 0.2, color = 'r')
+    plt.fill_between(x = range(0, 101), y1 = ThresfoldPositive, y2 = VerticalGrfAsym, where = conditionfillpositive, alpha = 0.2, color = 'r')
+    plt.fill_between(x = range(0, 101), y1 = ThresfoldNegative, y2 = VerticalGrfAsym, where = conditionfillnegative, alpha = 0.2, color = 'r')
     plt.legend()
     plt.show()
