@@ -50,7 +50,7 @@ def DynamicSymetryFunctionProcedure(GrfValuesLeft, GrfValuesRight):
     return DataFrameDynamicSymetryScore
 
 
-def PlotDynamicSymetryFunctionRealtime(VerticalGrfRight, VerticalGrfLeft):    
+def PlotDynamicSymetryFunctionRealtime(VerticalGrfRight, VerticalGrfLeft, GetData = None):    
 
 
     # Rajoute des 0 après le pas le plus court en temps
@@ -81,7 +81,7 @@ def PlotDynamicSymetryFunctionRealtime(VerticalGrfRight, VerticalGrfLeft):
     rangexgt = max(DataFrameVerticalGrf['yLeft']) - min(DataFrameVerticalGrf['yLeft'])
 
     for grf in range(0, DataFrameVerticalGrf.shape[0]):
-        #FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
+        # FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
         FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt) * 100)
         conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameVerticalGrf['ThresfoldPositive'][grf])
         conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameVerticalGrf['ThresfoldNegative'][grf])
@@ -104,6 +104,9 @@ def PlotDynamicSymetryFunctionRealtime(VerticalGrfRight, VerticalGrfLeft):
     plt.fill_between(x = range(0,DataFrameVerticalGrf.shape[0]), y1 = -Thresfold, y2 = DataFrameVerticalGrf['FunctionDynamicAssym'], where = conditionfillnegative, alpha = 0.2, color = 'r') 
     plt.legend()
     plt.show()
+
+    if GetData != None:
+         return DataFrameVerticalGrf
 
 
 def PlotDynamicSymetryFunctionNormalised(VerticalGrfRight, VerticalGrfLeft):
@@ -139,8 +142,8 @@ def PlotDynamicSymetryFunctionNormalised(VerticalGrfRight, VerticalGrfLeft):
     rangexdt = max(xdt) - min(xdt)
     rangexgt = max(xgt) - min(xgt)
     for i in range(0, LenMaxGrf):
-        VerticalGrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt) * 100)
-        #VerticalGrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt)) # Fateur 100 doit être enlevé
+        #VerticalGrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt) * 100)
+        VerticalGrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt)) # Fateur 100 doit être enlevé
         conditionfillpositive.append(VerticalGrfAsym[i] >= ThresfoldPositive[i])
         conditionfillnegative.append(VerticalGrfAsym[i] <= ThresfoldNegative[i])
 
