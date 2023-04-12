@@ -53,7 +53,7 @@ def MakeDictStep(VerticalGrf, ApGrf):
     ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)}
     return VerticalGrfStep, ApGrfStep
 
-def MakeDictStepForCut(VerticalGrf, ApGrf, RollingMedianStep = 30):
+#def MakeDictStepForCut(VerticalGrf, ApGrf, RollingMedianStep = 30):
     """
     This function make two dictionnary of the ground reaction force in vertical axes and
     anteroposterior axes with each step in index. Use a rolling median with a step size of 30 
