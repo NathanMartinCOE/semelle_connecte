@@ -3,6 +3,8 @@
 
 from GroundReactionForceProcedure import grf
 from MakeDictStep import MakeDictStep
+# from semelle_connecte.GroundReactionForceProcedure import grf
+# from semelle_connecte.MakeDictStep import MakeDictStep
 
 def GetGrfValues(VerticalGrf, ApGrf, FrameRate = 10):
     """

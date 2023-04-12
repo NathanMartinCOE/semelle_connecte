@@ -30,11 +30,11 @@ def DynamicSymetryFunctionProcedure(GrfValuesLeft, GrfValuesRight):
         xgt = DataFrameGrfValueLeft.iloc[ligne,col]
         if max(DataFrameGrfValueRight.iloc[:,col])-min(DataFrameGrfValueRight.iloc[:,col]) == 0 :
                 rangexdt = max(DataFrameGrfValueRight.iloc[:,col])-min(DataFrameGrfValueRight.iloc[:,col]) + 1
-        if max(DataFrameGrfValueRight.iloc[:,col])-min(DataFrameGrfValueRight.iloc[:,col]) != 0 :
+        elif max(DataFrameGrfValueRight.iloc[:,col])-min(DataFrameGrfValueRight.iloc[:,col]) != 0 :
                 rangexdt = max(DataFrameGrfValueRight.iloc[:,col])-min(DataFrameGrfValueRight.iloc[:,col])  
         if max(DataFrameGrfValueLeft.iloc[:,col])-min(DataFrameGrfValueLeft.iloc[:,col]) == 0 :
             rangexgt = max(DataFrameGrfValueLeft.iloc[:,col])-min(DataFrameGrfValueLeft.iloc[:,col]) + 1
-        if max(DataFrameGrfValueLeft.iloc[:,col])-min(DataFrameGrfValueLeft.iloc[:,col]) != 0 :
+        elif max(DataFrameGrfValueLeft.iloc[:,col])-min(DataFrameGrfValueLeft.iloc[:,col]) != 0 :
             rangexgt = max(DataFrameGrfValueLeft.iloc[:,col])-min(DataFrameGrfValueLeft.iloc[:,col])
         return 2*(xdt-xgt)/(rangexdt+rangexgt)
 
@@ -81,8 +81,8 @@ def PlotDynamicSymetryFunctionRealtime(VerticalGrfRight, VerticalGrfLeft, GetDat
     rangexgt = max(DataFrameVerticalGrf['yLeft']) - min(DataFrameVerticalGrf['yLeft'])
 
     for grf in range(0, DataFrameVerticalGrf.shape[0]):
-        # FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
-        FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt) * 100)
+        FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
+        #FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf]) / (rangexdt + rangexgt) * 100)
         conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameVerticalGrf['ThresfoldPositive'][grf])
         conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameVerticalGrf['ThresfoldNegative'][grf])
     

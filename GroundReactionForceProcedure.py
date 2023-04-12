@@ -2,6 +2,7 @@
 #Author: Nathan Martin 2023-02-28
 
 import numpy as np
+import pandas as pd
 from scipy.signal import argrelextrema
 
 def grf(VerticalGrf,ApGrf,FrameRate = 10):
@@ -27,7 +28,18 @@ def grf(VerticalGrf,ApGrf,FrameRate = 10):
             Time to : BrakePhaseTimeTo,
             Impulse : PropulsivePhaseTimeTo, BrakingImpulse, PropulsiveImpulse
     """
+    # Function for change dtype to list
+    def ToList(data):
+        if type(data) == list:
+            pass
+        elif type(data) == np.ndarray:
+            data = list(data)
+        elif type(data) == pd.core.series.Series:
+            data = data.to_list()
+        return data
     
+    VerticalGrf = ToList(VerticalGrf)
+    ApGrf = ToList(ApGrf)
     TabVGrf = np.array(VerticalGrf)
 
     #Index
