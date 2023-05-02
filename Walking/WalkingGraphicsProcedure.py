@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 from math import nan
 
 from Tools.ToolsInterpolationGrf import InterpolationGrf
-
+from Walking.WalkingFilters import WalkingDataProcessingFilter, WalkingKinematicsFilter
+from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure, GroundReactionForceKinematicsProcedure
 
 class AbstractWalkingGraphicsProcedure(object):
     """abstract procedure """
@@ -48,8 +50,8 @@ class PlotDynamicSymetryFunctionRealtimeProcedure(AbstractWalkingGraphicsProcedu
                 AddZero = [0] * (GrfLeft.shape[0]-GrfRight.shape[0])
                 GrfRight = np.concatenate((GrfRight, AddZero))
 
-            # Definition d'un thresfold de 5/100 et de -5/100 pour la FSD
-            Thresfold = 5/100
+            # Definition d'un thresfold de 5% et de -5% pour la FSD
+            Thresfold = 5
             ThresfoldPositive = [Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
             ThresfoldNegative = [-Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
 
@@ -68,8 +70,8 @@ class PlotDynamicSymetryFunctionRealtimeProcedure(AbstractWalkingGraphicsProcedu
             rangexgt = max(DataFrameGrf['yLeft']) - min(DataFrameGrf['yLeft'])
 
             for grf in range(0, DataFrameGrf.shape[0]):
-                FunctionDynamicAssym.append(2*(DataFrameGrf['yRight'][grf] - DataFrameGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
-                #FunctionDynamicAssym.append(2*(DataFrameVerticalGrf['yRight'][grf] - DataFrameVerticalGrf['yLeft'][grf]) / (rangexdt + rangexgt) * 100)
+                # FunctionDynamicAssym.append(2*(DataFrameGrf['yRight'][grf] - DataFrameGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
+                FunctionDynamicAssym.append(2*(DataFrameGrf['yRight'][grf] - DataFrameGrf['yLeft'][grf]) / (rangexdt + rangexgt) * 100)
                 conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameGrf['ThresfoldPositive'][grf])
                 conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameGrf['ThresfoldNegative'][grf])
             
@@ -235,3 +237,142 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
         MeanGrfDataframeCut = MeanCutDataGrf(walking.m_DictOfDataFrameCutGrf["VerticalGrf"])
         PlotCutDataGrf(MeanGrfDataframeCut)
         
+class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
+    """
+    1) Faits un plots de l'asymétrie d'un des paramètres de ground reaction force au cours du temps 
+    2) Recherche le pas ou l'asymétrie sur ce paramètre est la plus importante et le plot
+    3) Recherche le pas ou l'asymétrie sur ce paramètre est la moins importante et le plot
+    Args name and num :
+    0 : FirtPeak                                    10 : BrakingPeak
+    1 : MidstanceValley                             11 : PropulsivePeak
+    2 : SecondPeak                                  12 : BrakePhaseDuration
+    3 : FirtPeakTimeTo                              13 : PropulsivePhaseDuration
+    4 : MidstanceValleyTimeTo                       14 : BrakePhaseTimeTo
+    5 : SecondPeakTimeTo                            15 : PropulsivePhaseTimeTo
+    6 : TimeFromMidstanceValleyToToeOff             16 : BrakingImpulse
+    7 : FirtAndMidstanceImpulse                     17 : PropulsiveImpulse
+    8 : SecondAndPreswingImpulse
+    9 : TotalVerticalGrfImpulse 
+    """
+
+    def __init__(self):
+        super(PlotMaxAndMinAsymetryProcedure, self).__init__()
+
+    def run(self, walking):
+        def FindMaxAndMinAsym(walking, names, nums, axe):
+            for name, num in zip(names, nums):
+                listvalue = []
+                for step in np.arange(len(walking.m_GroundReactionForces['LeftLeg'])):
+                    listvalue.append(walking.m_GroundReactionForces['LeftLeg'][step][num])
+                for step in np.arange(len(walking.m_GroundReactionForces['RightLeg'])):
+                    listvalue.append(walking.m_GroundReactionForces['RightLeg'][step][num])
+
+                thresfold5 = max([abs(val) for val in listvalue]) * 5/100
+                thresfold10 = max([abs(val) for val in listvalue]) * 10/100
+
+                StepAsymMax = np.asarray([val ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]).argmax()
+
+                print("Score d'asymétrie :")
+                print("-valeur positive = valeur jambe droite > valeur jambe gauche")
+                print("-valeur négative = valeur jambe gauche > valeur jambe droite")
+                print(f"Le pas le plus asymétrique sur le paramètre {name} est le pas numéro {StepAsymMax}")
+                plt.figure(figsize=(10,5))
+                plt.subplot(1,2,1)
+                plt.plot(walking.m_StepGrfValue["LeftLeg"][axe][StepAsymMax], c='r', label='Left')
+                plt.plot(walking.m_StepGrfValue["RightLeg"][axe][StepAsymMax], c='blue', label='Right')
+                plt.legend()
+                plt.subplot(1,2,2)
+                plt.scatter(x = np.arange(len(walking.m_DataFrameDynamicSymetryScore[name])),
+                            y = walking.m_DataFrameDynamicSymetryScore[name])
+                plt.hlines(y= thresfold10, xmin=0, xmax=120, colors='red', ls='--', label=f"10% : {round(thresfold10,2)}")
+                plt.hlines(y= thresfold5, xmin=0, xmax=120, colors='black', ls='--', label=f"5% : {round(thresfold5,2)}")
+                plt.hlines(y= 0, xmin=0, xmax=120, colors='black')
+                plt.hlines(y= - thresfold5, xmin=0, xmax=120, colors='black', ls='--')
+                plt.hlines(y= - thresfold10, xmin=0, xmax=120, colors='red', ls='--')
+                plt.scatter(x= StepAsymMax, y= walking.m_DataFrameDynamicSymetryScore[name][StepAsymMax], c='r')
+                plt.legend()
+                plt.show()
+
+                StepAsymMin = np.asarray([val ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]).argmin()
+
+                print(f"Le pas le moins asymétrique sur le paramètre {name} est le pas numéro {StepAsymMin}")
+                plt.figure(figsize=(10,5))
+                plt.subplot(1,2,1)
+                plt.plot(walking.m_StepGrfValue["LeftLeg"][axe][StepAsymMin], c='r', label='Left')
+                plt.plot(walking.m_StepGrfValue["RightLeg"][axe][StepAsymMin], c='blue', label='Right')
+                plt.legend()
+                plt.subplot(1,2,2)
+                plt.scatter(x = np.arange(len(walking.m_DataFrameDynamicSymetryScore[name])),
+                            y = walking.m_DataFrameDynamicSymetryScore[name])
+                plt.hlines(y= thresfold10, xmin=0, xmax=120, colors='red', ls='--', label=f"10% : {round(thresfold10,2)}")
+                plt.hlines(y= thresfold5, xmin=0, xmax=120, colors='black', ls='--', label=f"5% : {round(thresfold5,2)}")
+                plt.hlines(y= 0, xmin=0, xmax=120, colors='black')
+                plt.hlines(y= - thresfold5, xmin=0, xmax=120, colors='black', ls='--')
+                plt.hlines(y= - thresfold10, xmin=0, xmax=120, colors='red', ls='--')
+                plt.scatter(x= StepAsymMin, y= walking.m_DataFrameDynamicSymetryScore[name][StepAsymMin], c='r')
+                plt.legend()
+                plt.show()
+
+        names = ["FirtPeak", "MidstanceValley", "SecondPeak", "FirtPeakTimeTo", "MidstanceValleyTimeTo", "SecondPeakTimeTo", "TimeFromMidstanceValleyToToeOff", "FirtAndMidstanceImpulse", "SecondAndPreswingImpulse", "TotalVerticalGrfImpulse"]
+        nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        FindMaxAndMinAsym(walking, names, nums, axe="VerticalGrf")
+
+        names = ["BrakingPeak", "PropulsivePeak", "BrakePhaseDuration", "PropulsivePhaseDuration", "BrakePhaseTimeTo", "PropulsivePhaseTimeTo", "BrakingImpulse", "PropulsiveImpulse"]
+        nums = [10, 11, 12, 13, 14, 15, 16, 17]
+        FindMaxAndMinAsym(walking, names, nums, axe="ApGrf")
+
+class PlotWorthAndBestStepProcedure(AbstractWalkingGraphicsProcedure):
+    """
+    This procedure find the step witch maximize or minimazie the asymetry for all parameter.
+    
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance  
+    
+    Outputs :
+        Return 6 plots :
+            - Maximal asymetry for all parameter (the worth step)
+            - Maximal asymetry for Vertical Grf parameter (the worth step in Vertical Grf)
+            - Maximal asymetry for AntPost Grf parameter (the worth step in AntPost Grf)
+            - Minimal asymetry for all parameter (the best step)
+            - Minimal asymetry for Vertical Grf parameter (the best step in Vertical Grf)
+            - Minimal asymetry for AntPost Grf parameter (the best step in AntPost Grf)
+    """
+
+    def __init__(self):
+        super(PlotWorthAndBestStepProcedure, self).__init__()
+
+    def run(self, walking):
+        if len(walking.m_DataFrameDynamicSymetryScore)==0:
+            procedure = NormalisationProcedure()
+            WalkingDataProcessingFilter(walking, procedure).run()
+            procedure = GroundReactionForceKinematicsProcedure()
+            WalkingKinematicsFilter(walking, procedure).run()
+            procedure = DynamicSymetryFunctionComputeProcedure()
+            WalkingKinematicsFilter(walking, procedure).run()
+
+        data = walking.m_DataFrameDynamicSymetryScore
+        data = abs(data)
+        data["SumAsymTotal"] = data.sum(axis=1)
+        data["SumAsymVertical"] = data[["FirtPeak", "MidstanceValley", "SecondPeak", "FirtPeakTimeTo", "MidstanceValleyTimeTo", "SecondPeakTimeTo", "TimeFromMidstanceValleyToToeOff", "FirtAndMidstanceImpulse", "SecondAndPreswingImpulse", "TotalVerticalGrfImpulse"]][:].sum(axis=1)
+        data["SumAsymAntpost"] = data[["BrakingPeak", "PropulsivePeak", "BrakePhaseDuration", "PropulsivePhaseDuration", "BrakePhaseTimeTo", "PropulsivePhaseTimeTo", "BrakingImpulse", "PropulsiveImpulse"]][:].sum(axis=1)
+
+        steps = []
+        steps.append(data["SumAsymTotal"].argmax())
+        steps.append(data["SumAsymVertical"].argmax())
+        steps.append(data["SumAsymAntpost"].argmax())
+        steps.append(data["SumAsymTotal"].argmin())
+        steps.append(data["SumAsymVertical"].argmin())
+        steps.append(data["SumAsymAntpost"].argmin())
+
+        titles = ["Step with maximal asymetry in Vertical and AntPost Grf", "Step with maximal asymetry in Vertical Grf", "Step with maximal asymetry in AntPost Grf", "Step with minimal asymetry in Vertical and AntPost Grf", "Step with minimal asymetry in Vertical Grf", "Step with minimal asymetry in AntPost Grf"]
+
+        for step, title in zip(steps, titles):
+            plt.figure(figsize=(10,5))
+            plt.subplot(1,2,1)
+            plt.title(title)
+            plt.plot(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step], c='r', label='Left')
+            plt.plot(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step], c='blue', label='Right')
+            plt.subplot(1,2,2)
+            plt.plot(walking.m_StepGrfValue["LeftLeg"]["ApGrf"][step], c='r', label='Left')
+            plt.plot(walking.m_StepGrfValue["RightLeg"]["ApGrf"][step], c='blue', label='Right')
+            plt.show()
