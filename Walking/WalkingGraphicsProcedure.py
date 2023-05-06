@@ -376,3 +376,45 @@ class PlotWorthAndBestStepProcedure(AbstractWalkingGraphicsProcedure):
             plt.plot(walking.m_StepGrfValue["LeftLeg"]["ApGrf"][step], c='r', label='Left')
             plt.plot(walking.m_StepGrfValue["RightLeg"]["ApGrf"][step], c='blue', label='Right')
             plt.show()
+
+class PlotTwoStepProcedure(AbstractWalkingGraphicsProcedure):
+    """
+    This procedure plot the sum of vertical ground reaction force for right-left and left-right steps.
+    
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance  
+    
+    Outputs :
+        Return 3 plots :
+            - Sum of vertical ground reaction force of mean Left-Right step and mean Right-Left step
+            - Sum of vertical ground reaction force of mean Left-Right step +- std
+            - Sum of vertical ground reaction force of mean Right-Left step +- std
+    """
+
+    def __init__(self):
+        super(PlotTwoStepProcedure, self).__init__()
+
+    def run(self, walking):
+        DataFrameLeftRight = walking.m_DataFrameLeftRight
+        DataFrameRightLeft= walking.m_DataFrameRightLeft
+
+        plt.figure(figsize=(10,10))
+        plt.subplot(3,1,1)
+        plt.title("Left Right and Right Left")
+        plt.plot(DataFrameLeftRight["Mean"], c="r", label="Left Right")
+        plt.plot(DataFrameRightLeft["Mean"], c="b",  label="Right Left")
+        plt.xticks([])
+        plt.legend()
+        plt.subplot(3,1,2)
+        plt.title("Left Right")
+        plt.plot(DataFrameLeftRight["Mean"], c="black")
+        plt.plot(DataFrameLeftRight["Mean + Std"], c="grey")
+        plt.plot(DataFrameLeftRight["Mean - Std"], c="grey")
+        plt.xticks([])
+        plt.subplot(3,1,3)
+        plt.title("Right Left")
+        plt.plot(DataFrameRightLeft["Mean"], c="black")
+        plt.plot(DataFrameRightLeft["Mean + Std"], c="grey")
+        plt.plot(DataFrameRightLeft["Mean - Std"], c="grey")
+        plt.xticks([])
+        plt.show()
