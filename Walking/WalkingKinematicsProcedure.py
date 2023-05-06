@@ -274,6 +274,94 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
 
             walking.setDataFrameDynamicSymetryScore(DataFrameDynamicSymetryScore)
 
+
+class TwoStepProcedure(AbstractWalkingKinematicsProcedure):
+    """
+    This function make two DataFrame with total of ground reaction force (Left + Right).
+
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance 
+
+    Outputs:
+        LeftRight_df = a DataFrame of the sum of ground reaction force for each Left and Right step
+        RightLeft_df = a DataFrame of the sum of ground reaction force for each Right and Left step     
+    """
+
+    def __init__(self):
+        super(TwoStepProcedure, self).__init__()
+
+    def run(self, walking):
+        from Tools.ToolsGetStepEvent import GetStepEvent
+        from Tools.ToolsInterpolationGrf import Interpolation
+
+        Left = walking.m_sole["LeftLeg"].data["VerticalGrf"]
+        Right = walking.m_sole["RightLeg"].data["VerticalGrf"]
+        Sum = walking.m_sole["LeftLeg"].data["VerticalGrf"] + walking.m_sole["RightLeg"].data["VerticalGrf"]
+
+        HeelStrikeLeft, ToeOffLeft = GetStepEvent(Left)
+        HeelStrikeRight, ToeOffRight = GetStepEvent(Right)
+
+        firts_step = "right"
+        LeftRight = []
+        RightLeft = []
+
+        if len(HeelStrikeLeft) == len(HeelStrikeRight):
+            LenHeelStrike = len(HeelStrikeLeft)
+        elif len(HeelStrikeLeft) != len(HeelStrikeRight):
+            print(f"Caution : Not the same number of Heel Strike --> Left = {len(HeelStrikeLeft)} Right = {len(HeelStrikeRight)}")
+            LenHeelStrike = min([len(HeelStrikeLeft), len(HeelStrikeRight)])
+
+        if len(ToeOffLeft) == len(ToeOffRight):
+            LenToeOff = len(ToeOffLeft)
+        elif len(ToeOffLeft) != len(ToeOffRight):
+            print(f"Caution : Not the same number of Toe Off --> Left = {len(ToeOffLeft)} Right = {len(ToeOffRight)}")  
+            LenToeOff = min([len(ToeOffLeft),len(ToeOffRight)])
+
+        if LenHeelStrike != LenToeOff:
+            print("Caution : the number of HeelStrike and ToeOff are not the same !")
+            LenStep = min([LenHeelStrike, LenToeOff])
+        elif LenHeelStrike == LenToeOff:
+            LenStep = LenHeelStrike
+
+        for i, j in zip(np.arange(LenStep),np.arange(LenStep-1)):
+            if firts_step == "right":
+                RightLeft.append(Sum[HeelStrikeRight[i] : ToeOffLeft[i]])  
+                LeftRight.append(Sum[HeelStrikeLeft[j] : ToeOffRight[j+1]])
+            if firts_step == "left": 
+                LeftRight.append(Sum[HeelStrikeLeft[i] : ToeOffRight[i]]) 
+                RightLeft.append(Sum[HeelStrikeRight[j] : ToeOffLeft[j+1]])   
+
+        LenStepLeftRight = []
+        LenStepRightLeft = []
+        for StepLeftRight, StepRightLeft in zip(LeftRight, RightLeft):
+            LenStepLeftRight.append(len(StepLeftRight))
+            LenStepRightLeft.append(len(StepRightLeft))
+
+        LenMin = min([min(LenStepLeftRight), min(LenStepRightLeft)])
+
+        LeftRight_df = pd.DataFrame()
+        RightLeft_df = pd.DataFrame()
+        i = 0
+        for StepLeftRight, StepRightLeft in zip(LeftRight, RightLeft):
+            xLR, yLR = Interpolation(StepLeftRight, LenMin)
+            LeftRight_df[f"Step{i}"] = yLR
+            xRL, yRL = Interpolation(StepRightLeft, LenMin)
+            RightLeft_df[f"Step{i}"] = yRL
+            i += 1
+
+        LeftRight_df["Mean"] = LeftRight_df.mean(axis=1)
+        RightLeft_df["Mean"] = RightLeft_df.mean(axis=1)
+        LeftRight_df["Std"] = LeftRight_df.std(axis=1)
+        RightLeft_df["Std"] = RightLeft_df.std(axis=1)
+        LeftRight_df["Mean + Std"] = LeftRight_df["Mean"] + LeftRight_df["Std"]
+        RightLeft_df["Mean + Std"] = RightLeft_df["Mean"] + RightLeft_df["Std"]
+        LeftRight_df["Mean - Std"] = LeftRight_df["Mean"] - LeftRight_df["Std"]
+        RightLeft_df["Mean - Std"] = RightLeft_df["Mean"] - RightLeft_df["Std"]
+
+        walking.setDataFrameLeftRight(LeftRight_df)
+        walking.setDataFrameRightLeft(RightLeft_df)
+
+
 #### caution this procedure is not working actually
 class GaitTrackingKineticsProcedure(AbstractWalkingKinematicsProcedure):
     """ This procedure track the position of IMU place on leg by using X-IO technologie code
