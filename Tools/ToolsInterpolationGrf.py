@@ -23,3 +23,12 @@ def InterpolationGrf(Grf):
     xnew = np.linspace(0, len(Grf), 100)
     ynew = f(xnew)
     return xnew, ynew
+
+
+def Interpolation(data, xnew_num = 100):
+    x = np.linspace(0,len(data),len(data))
+    y = data
+    f = interpolate.interp1d(x, y)
+    xnew = np.linspace(0, len(data), xnew_num)
+    ynew = f(xnew)
+    return xnew, ynew
