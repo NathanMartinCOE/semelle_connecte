@@ -18,26 +18,7 @@ def MakeDictStep(VerticalGrf, ApGrf):
     Outputs: Dictionnary of the vertical ground reaction force of each step, 
     Dictionnary of the anteroposterior ground reaction force of each step  
     """
-    if min(VerticalGrf) != 0 :
-        thresfold = min(VerticalGrf) + 10 / 100 * min(VerticalGrf)
-        print(f"Caution no 0 find in Vertical GRF dataframe : use of a thresfold at {thresfold}")
-    else : thresfold = 0
-
-    def GetStepEvent(VerticalGrf):
-        HeelStrike = []
-        ToeOff = []
-        for i in range(0,len(VerticalGrf)-1):
-            if thresfold == 0:
-                if VerticalGrf[i] == 0 and VerticalGrf[i+1] > 0 : 
-                    HeelStrike.append(i)
-                if VerticalGrf[i] > 0 and VerticalGrf[i+1] == 0 : 
-                    ToeOff.append(i)
-            else :
-                if VerticalGrf[i] < thresfold  and VerticalGrf[i+1] > thresfold : 
-                    HeelStrike.append(i)
-                if VerticalGrf[i] > thresfold and VerticalGrf[i+1] < thresfold : 
-                    ToeOff.append(i)
-        return HeelStrike, ToeOff
+    from Tools.ToolsGetStepEvent import GetStepEvent
     
     def RollingMedian(VerticalGrf, RollingMedianStep = 30):
         RollingMedianGrf = [abs(value) for value in VerticalGrf]
