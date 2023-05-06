@@ -16,8 +16,10 @@ class Walking():
         self.m_IMU = dict()
         self.m_GroundReactionForces = dict()
         self.m_StepGrfValue = dict()
-        self.m_DataFrameDynamicSymetryScore = pd.DataFrame()
         self.m_DictOfDataFrameCutGrf = dict()
+        self.m_DataFrameDynamicSymetryScore = pd.DataFrame()
+        self.m_DataFrameLeftRight = pd.DataFrame()
+        self.m_DataFrameRightLeft = pd.DataFrame()
     
     def SetAnthropometric(self, RightLegSize, LeftLegSize, RightArmSize, LeftArmSize, Size):
         """ all anthropometric data are in (m) """
@@ -131,4 +133,20 @@ class Walking():
             DataFrameCutGrf get by (Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure)
         """
         self.m_DictOfDataFrameCutGrf = DictOfDataFrameCutGrf
+
+    def setDataFrameLeftRight(self, DataFrameLeftRight):
+        """ Add a DataFrame with the total vertical ground reaction force for each Left-Right steps.
+        
+        Args:
+            DataFrameLeftRight get by (Walking.WalkingKinematicsProcedure.TwoStepProcedure)
+        """
+        self.m_DataFrameLeftRight = DataFrameLeftRight
+
+    def setDataFrameRightLeft(self, DataFrameRightLeft):
+        """ Add a DataFrame with the total vertical ground reaction force for each Right-Left steps.
+        
+        Args:
+            DataFrameRightLeft get by (Walking.WalkingKinematicsProcedure.TwoStepProcedure)
+        """
+        self.m_DataFrameRightLeft = DataFrameRightLeft
 
