@@ -30,8 +30,13 @@ def MakeDictStep(VerticalGrf, ApGrf):
     
     # HeelStrike, ToeOff = GetStepEvent(RollingMedian(VerticalGrf)) # Si présence de NaN dans les data peut être utile
     HeelStrike, ToeOff = GetStepEvent(VerticalGrf)
-    VerticalGrfStep = {i : VerticalGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))} # ici j'ai enlevé len(HeelStrike - 1)
-    ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))} # ici j'ai enlevé len(HeelStrike - 1)
+    try :
+        VerticalGrfStep = {i : VerticalGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))}
+        ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))} 
+    except :
+        VerticalGrfStep = {i : VerticalGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)} 
+        ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)} 
+
     return VerticalGrfStep, ApGrfStep
 
 #def MakeDictStepForCut(VerticalGrf, ApGrf, RollingMedianStep = 30):

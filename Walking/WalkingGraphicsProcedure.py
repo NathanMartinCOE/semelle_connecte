@@ -21,10 +21,120 @@ class AbstractWalkingGraphicsProcedure(object):
         pass
 
 
-class PlotDynamicSymetryFunctionRealtimeProcedure(AbstractWalkingGraphicsProcedure):
+# class PlotDynamicSymetryFunctionRealtimeProcedure(AbstractWalkingGraphicsProcedure):
+#     """
+#     This procedure create 3 plot of the dynamic symetry function of the mean ground reaction force 
+#     during one step in real time.
+
+#     Args:
+#         Walking (semelle_connecte.Walking.Walking): a walking patient instance  
+
+#     Outputs:
+#         plot of dynamic symetry function for Vertical Ground Reaction Force
+#         plot of dynamic symetry function for Antero-posterior Ground Reaction Force
+#         plot of dynamic symetry function for Medio-lateral Ground Reaction Force
+#     """
+
+#     def __init__(self):
+#         super(PlotDynamicSymetryFunctionRealtimeProcedure, self).__init__()
+
+#     def run(self, walking):
+
+#         def PlotDynamicSymetryFunctionRealtime(GrfRight, GrfLeft): 
+
+#             # Rajoute des 0 après le pas le plus court en temps
+#             if GrfRight.shape[0] > GrfLeft.shape[0]:
+#                 AddZero = [0] * (GrfRight.shape[0]-GrfLeft.shape[0])
+#                 GrfLeft = np.concatenate((GrfLeft, AddZero))
+#             elif GrfLeft.shape[0] > GrfRight.shape[0]:
+#                 AddZero = [0] * (GrfLeft.shape[0]-GrfRight.shape[0])
+#                 GrfRight = np.concatenate((GrfRight, AddZero))
+
+#             # Definition d'un thresfold de 5% et de -5% pour la FSD
+#             Thresfold = 5
+#             ThresfoldPositive = [Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
+#             ThresfoldNegative = [-Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
+
+#             # Création d'un DataFrame contenant les forces de réactions au sol de la jambe droite et gauche
+#                     # et des Thresfold positif et négatif
+#             DataFrameGrf = pd.DataFrame({'yRight': GrfRight,
+#                                          'yLeft': GrfLeft,
+#                                          'ThresfoldPositive': ThresfoldPositive,
+#                                          'ThresfoldNegative' : ThresfoldNegative})
+            
+#             # Calcul de la fonction de symetrie dynamique
+#             FunctionDynamicAssym = []
+#             conditionfillpositive = []
+#             conditionfillnegative = []
+#             rangexdt = max(DataFrameGrf['yRight']) - min(DataFrameGrf['yRight'])
+#             rangexgt = max(DataFrameGrf['yLeft']) - min(DataFrameGrf['yLeft'])
+
+#             for grf in range(0, DataFrameGrf.shape[0]):
+#                 # FunctionDynamicAssym.append(2*(DataFrameGrf['yRight'][grf] - DataFrameGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
+#                 FunctionDynamicAssym.append(2*(DataFrameGrf['yRight'][grf] - DataFrameGrf['yLeft'][grf]) / (rangexdt + rangexgt) * 100)
+#                 conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameGrf['ThresfoldPositive'][grf])
+#                 conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameGrf['ThresfoldNegative'][grf])
+            
+#             # Ajout de la FunctionDynamicAssym et des conditions fill au DataFrame
+#             DataFrameGrf['FunctionDynamicAssym'] = FunctionDynamicAssym
+#             DataFrameGrf['conditionfillpositive'] = conditionfillpositive
+#             DataFrameGrf['conditionfillnegative'] = conditionfillnegative
+
+#             # Procédure Graphique
+#             plt.figure(figsize=(15,8))
+#             plt.plot(DataFrameGrf['yLeft'], c='red', ls='--', label='Jambe gauche')
+#             plt.plot(DataFrameGrf['yRight'], c='blue', ls='--', label='Jambe droite')
+#             plt.plot(DataFrameGrf['FunctionDynamicAssym'], c='black', label = 'Fonction de Symétrie Dynamique')
+#             plt.hlines(y = Thresfold , xmin=0, xmax = DataFrameGrf.shape[0], colors='black',
+#                         lw=0.5, ls='--', label = f'5% Thresfold (={Thresfold})')
+#             plt.hlines(y = -Thresfold, xmin=0, xmax = DataFrameGrf.shape[0], colors='black',
+#                         lw=0.5, ls='--', label = f'-5% Thresfold (={-Thresfold})')
+#             plt.fill_between(x = range(0,DataFrameGrf.shape[0]), y1 = Thresfold, y2 = DataFrameGrf['FunctionDynamicAssym'], where = conditionfillpositive, alpha = 0.2, color = 'r')
+#             plt.fill_between(x = range(0,DataFrameGrf.shape[0]), y1 = -Thresfold, y2 = DataFrameGrf['FunctionDynamicAssym'], where = conditionfillnegative, alpha = 0.2, color = 'r') 
+#             plt.legend()
+#             plt.show()
+
+#         from Tools.ToolsGetStepEvent import GetStepEvent
+#         HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"]["VerticalGrf"])
+
+#         axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"]
+
+#         if len(HeelStrike) == 1 :
+#             for axe in axis :
+#                 if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
+#                     PlotDynamicSymetryFunctionRealtime(GrfRight = walking.m_sole["RightLeg"].data[axe],
+#                                                     GrfLeft = walking.m_sole["LeftLeg"].data[axe])
+#                 else :
+#                     print(f"No value for {axe} Ground Reaction Force")
+#         elif len(HeelStrike)>1 :
+#             from Walking.WalkingFilters import WalkingKinematicsFilter, WalkingDataProcessingFilter
+#             from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+#             from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+#             from Tools.ToolsInterpolationGrf import Interpolation
+
+#             procedure = NormalisationProcedure()
+#             WalkingDataProcessingFilter(walking, procedure).run()
+#             print("NormalisationProcedure : done")
+#             procedure = GroundReactionForceKinematicsProcedure()
+#             WalkingKinematicsFilter(walking, procedure).run()
+#             print("GroundReactionForceKinematicsProcedure : done")
+            
+            
+#             data_norm = pd.DataFrame()
+#             for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
+#                 x, data_norm[f"Step{step}"] = Interpolation(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step], 1000)
+
+#             df2 = pd.DataFrame([[0.0] * len(data_norm.columns)], columns= data_norm.columns)
+#             data_norm = data_norm.append(df2, ignore_index=True)
+#             data_norm["Mean"] = data_norm.mean(axis=1)
+
+#             data_norm
+
+
+class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProcedure):
     """
-    This procedure create 3 plot of the dynamic symetry function of the mean ground reaction force 
-    during one step in real time.
+    This procedure create 3 plot of dynamic symetry function of the mean ground reaction force 
+    during one step normalised by % of step cycle.
 
     Args:
         Walking (semelle_connecte.Walking.Walking): a walking patient instance  
@@ -36,11 +146,11 @@ class PlotDynamicSymetryFunctionRealtimeProcedure(AbstractWalkingGraphicsProcedu
     """
 
     def __init__(self):
-        super(PlotDynamicSymetryFunctionRealtimeProcedure, self).__init__()
+        super(PlotDynamicSymetryFunctionNormalisedProcedure, self).__init__()
 
     def run(self, walking):
 
-        def PlotDynamicSymetryFunctionRealtime(GrfRight, GrfLeft): 
+        def PlotDynamicSymetryFunction(GrfRight, GrfLeft): 
 
             # Rajoute des 0 après le pas le plus court en temps
             if GrfRight.shape[0] > GrfLeft.shape[0]:
@@ -94,82 +204,57 @@ class PlotDynamicSymetryFunctionRealtimeProcedure(AbstractWalkingGraphicsProcedu
             plt.legend()
             plt.show()
 
-        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"]
-        for axe in axis :
-            if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
-                PlotDynamicSymetryFunctionRealtime(GrfRight = walking.m_sole["RightLeg"].data[axe],
-                                                GrfLeft = walking.m_sole["LeftLeg"].data[axe])
-            else :
-                print(f"No value for {axe} Ground Reaction Force")
+        
+        from Walking.WalkingFilters import WalkingKinematicsFilter, WalkingDataProcessingFilter
+        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from Tools.ToolsGetStepEvent import GetStepEvent
+
+        HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
+        
+        procedure = GroundReactionForceKinematicsProcedure()
+        WalkingKinematicsFilter(walking, procedure).run()
+        print("GroundReactionForceKinematicsProcedure : done")
+        procedure = NormalisationProcedure()
+        WalkingDataProcessingFilter(walking, procedure).run()
+        print("NormalisationProcedure : done")
 
 
-class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProcedure):
-    """
-    This procedure create 3 plot of dynamic symetry function of the mean ground reaction force 
-    during one step normalised by % of step cycle.
+        axis = ["VerticalGrf", "ApGrf"] #"MediolateralGrf"] MakeDictStep ne prend pas ML
 
-    Args:
-        Walking (semelle_connecte.Walking.Walking): a walking patient instance  
-
-    Outputs:
-        plot of dynamic symetry function for Vertical Ground Reaction Force
-        plot of dynamic symetry function for Antero-posterior Ground Reaction Force
-        plot of dynamic symetry function for Medio-lateral Ground Reaction Force
-    """
-
-    def __init__(self):
-        super(PlotDynamicSymetryFunctionNormalisedProcedure, self).__init__()
-
-    def run(self, walking):
-
-        def PlotDynamicSymetryFunctionNormalised(GrfRight, GrfLeft):
-            xnewGrfLeft, ynewGrfLeft = InterpolationGrf(GrfLeft)
-            xnewGrfRight, ynewGrfRight = InterpolationGrf(GrfRight)
+        if len(HeelStrike) == 1 :
+            for axe in axis :
+                if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
+                    PlotDynamicSymetryFunction(GrfRight = walking.m_StepGrfValue["RightLeg"].data[axe],
+                                               GrfLeft = walking.m_StepGrfValue["LeftLeg"].data[axe])
+                else :
+                    print(f"No value for {axe} Ground Reaction Force")
+        elif len(HeelStrike)>1 :
             
-            Thresfold = 5 / 100
+            for axe in axis :
+                if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
+                    MeanLeft = pd.DataFrame()
+                    MeanRight = pd.DataFrame()
 
-            DataFrameGrfLeft = pd.DataFrame({'xLeft':xnewGrfLeft,'yLeft':ynewGrfLeft})
-            DataFrameGrfRight = pd.DataFrame({'xRight':xnewGrfRight,'yRight':ynewGrfRight})
+                    for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
+                        MeanLeft[f"Step{step}"] = walking.m_StepGrfValue["LeftLeg"][axe][step]
+                        MeanRight[f"Step{step}"] = walking.m_StepGrfValue["RightLeg"][axe][step]
 
-            LenMaxGrf = max([DataFrameGrfRight.shape[0], DataFrameGrfLeft.shape[0]])
+                    df_zero = pd.DataFrame([[0.0] * len(MeanLeft.columns)], columns= MeanLeft.columns)
+                    MeanLeft = MeanLeft.append(df_zero, ignore_index=True)
+                    df_zero = pd.DataFrame([[0.0] * len(MeanRight.columns)], columns= MeanRight.columns)
+                    MeanRight = MeanRight.append(df_zero, ignore_index=True)
 
-            ThresfoldPositive = [Thresfold] * LenMaxGrf
-            ThresfoldNegative = [-Thresfold] * LenMaxGrf
+                    MeanLeft["Mean"] = MeanLeft.mean(axis=1)
+                    MeanRight["Mean"] = MeanRight.mean(axis=1)
 
-            xgt = DataFrameGrfLeft['yLeft']
-            xdt = DataFrameGrfRight['yRight']
-            GrfAsym = []
-            conditionfillpositive = []
-            conditionfillnegative = []
-            rangexdt = max(xdt) - min(xdt)
-            rangexgt = max(xgt) - min(xgt)
-            for i in range(0, LenMaxGrf):
-                #GrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt) * 100)
-                GrfAsym.append(2*(xdt[i]-xgt[i])/(rangexdt+rangexgt)) # Fateur 100 doit être enlevé
-                conditionfillpositive.append(GrfAsym[i] >= ThresfoldPositive[i])
-                conditionfillnegative.append(GrfAsym[i] <= ThresfoldNegative[i])
+                    PlotDynamicSymetryFunction(GrfRight = MeanRight["Mean"],
+                                               GrfLeft = MeanLeft["Mean"])
+                else :
+                    print(f"No value for {axe} Ground Reaction Force")
 
-            plt.figure(figsize=(15,8))
-            plt.plot(DataFrameGrfRight['yRight'], c='blue', ls='--', label='Jambe droite')
-            plt.plot(DataFrameGrfLeft['yLeft'], c='r', ls='--', label='Jambe gauche')
-            plt.plot(GrfAsym, c='black', label = 'Fonction de Symétrie Dynamique')
 
-            plt.hlines(y = Thresfold, xmin=0, xmax = 100, colors='black',
-                        lw=0.5, ls='--', label = f'5% Thresfold (={Thresfold})')
-            plt.hlines(y = -Thresfold, xmin=0, xmax = 100, colors='black',
-                        lw=0.5, ls='--', label = f'-5% Thresfold (={-Thresfold})')
-            plt.fill_between(x = range(0, 100), y1 = ThresfoldPositive, y2 = GrfAsym, where = conditionfillpositive, alpha = 0.2, color = 'r')
-            plt.fill_between(x = range(0, 100), y1 = ThresfoldNegative, y2 = GrfAsym, where = conditionfillnegative, alpha = 0.2, color = 'r')
-            plt.legend()
-            plt.show()
 
-        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"]
-        for axe in axis :
-            if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
-                PlotDynamicSymetryFunctionNormalised(GrfRight = walking.m_sole["RightLeg"].data[axe],
-                                                GrfLeft = walking.m_sole["LeftLeg"].data[axe])
-            else :
-                print(f"No value for {axe} Ground Reaction Force")
 
 
 class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):

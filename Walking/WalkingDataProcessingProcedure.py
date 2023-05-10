@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 
 from Tools.ToolsInterpolationGrf import InterpolationGrf
+from Tools.ToolsInterpolationGrf import Interpolation
 
 
 class AbstractWalkingDataProcessingProcedure(object):
@@ -140,8 +141,9 @@ class NormalisationProcedure(AbstractWalkingDataProcessingProcedure):
         for leg in Legs:
             for axe in Axes:
                 for step in Steps:
-                    xnormalised, ynormalised = InterpolationGrf(walking.m_StepGrfValue[leg][axe][step]) # Normalisation en % cycle
-                    ynormalised = ynormalised/ mass                                                     # Normalisation en % poids
+                    # xnormalised, ynormalised = InterpolationGrf(walking.m_StepGrfValue[leg][axe][step]) # Normalisation en % cycle
+                    xnormalised, ynormalised = Interpolation(walking.m_StepGrfValue[leg][axe][step], 1000) # Normalisation en % cycle
+                    # ynormalised = ynormalised/ mass    ## deja normalisé sur la mass lors de l'import                                                 # Normalisation en % poids
                     walking.m_StepGrfValue[leg][axe][step] = ynormalised
 
 
