@@ -195,6 +195,7 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
         # from Tools.ToolsMakeDictStep import MakeDictStepForCut
 
         def MeanCutDataGrf(GrfDataframeCut):
+            from Tools.ToolsInterpolationGrf import Interpolation
             antGrf = [0] * GrfDataframeCut.shape[0]
             MeanCutDataGrf = pd.DataFrame()
 
@@ -206,10 +207,11 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
                 VerticalGrfStep[len(VerticalGrfStep) - 1] = np.concatenate((VerticalGrfStep[len(VerticalGrfStep) - 1], ListNa40))
                 VerticalGrfStepDataFrame = pd.DataFrame()
                 for i in range(0, len(VerticalGrfStep)-1):
-                    VerticalGrfStepDataFrame[f"Step{i}"] = VerticalGrfStep[i]  
-                MeanCutDataGrf[f"Mean{colname}"] = VerticalGrfStepDataFrame.mean(axis = 1)
+                    x, VerticalGrfStepDataFrame[f"Step{i}"] = Interpolation(VerticalGrfStep[i], xnew_num= 1000)
+                MeanCutDataGrf[f"Mean{colname}"] = VerticalGrfStepDataFrame.mean(axis = 1, skipna=True)
 
             return MeanCutDataGrf
+        
         def PlotCutDataGrf(MeanGrfDataframeCut):
 
             MeanGrfDataframeCutLeft = pd.DataFrame()
@@ -236,6 +238,7 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
 
         MeanGrfDataframeCut = MeanCutDataGrf(walking.m_DictOfDataFrameCutGrf["VerticalGrf"])
         PlotCutDataGrf(MeanGrfDataframeCut)
+
         
 class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
     """
