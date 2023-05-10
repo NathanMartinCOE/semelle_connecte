@@ -66,22 +66,27 @@ class CutDataProcessingProcedure(AbstractWalkingDataProcessingProcedure):
     def run(self, walking):
         n_cut = self.m_CutNumber
         def CutDataGrf(GrfLeft, GrfRight, n_cut):
+            from Tools.ToolsGetStepEvent import GetStepEvent
+            from Tools.ToolsInterpolationGrf import Interpolation
+
             GrfDataframeCut = pd.DataFrame()
             if n_cut != 0 : 
-                indexLeft = GrfLeft.shape[0] // n_cut
-                indexRight = GrfRight.shape[0] // n_cut
-                valindexLeft = indexLeft
-                valindexRight = indexRight
-                ListIndexLeft = [0]
-                ListIndexRight = [0]
+                HeelStrikeLeft, ToeOffLeft = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
+                HeelStrikeRight, ToeOffRight = GetStepEvent(walking.m_sole["RightLeg"].data["VerticalGrf"])
+                index_Left = 0
+                index_Right = 0
+                index = 0
+                n_stepLeft = len(HeelStrikeLeft) // 3
+                n_stepRight = len(HeelStrikeRight) // 3
+                Len = min([len(GrfLeft[HeelStrikeLeft[0]: ToeOffLeft[0 + n_stepLeft - 1]]), len(GrfRight[HeelStrikeRight[0]: ToeOffRight[0 + n_stepRight - 1]])])
+                
                 for cut in np.arange(n_cut):
-                    ListIndexLeft.append(valindexLeft)
-                    valindexLeft = valindexLeft + indexLeft
-                    ListIndexRight.append(valindexRight)
-                    valindexRight = valindexRight + indexRight
-                for index in zip(range(0, len(ListIndexLeft[0: -1])), range(0, len(ListIndexRight[0: -1]))):
-                    GrfDataframeCut[f"Left{index[0]+1}"] = GrfLeft[ListIndexLeft[index[0]] : ListIndexLeft[index[0]+1]]
-                    GrfDataframeCut[f"Right{index[1]+1}"] = GrfRight[ListIndexRight[index[1]] : ListIndexRight[index[1]+1]]
+                    x, GrfDataframeCut[f"Left{index}"] = Interpolation(GrfLeft[HeelStrikeLeft[index_Left]: ToeOffLeft[index_Left + n_stepLeft - 1] + 10], xnew_num= Len)
+                    x, GrfDataframeCut[f"Right{index}"] = Interpolation(GrfRight[HeelStrikeRight[index_Right]: ToeOffRight[index_Right + n_stepRight - 1] + 10], xnew_num= Len)
+                    index_Left += n_stepLeft
+                    index_Right += n_stepRight
+                    index += 1
+
             elif n_cut == 0 :
                 GrfDataframeCut["Left"] = GrfLeft
                 GrfDataframeCut["Right"] = GrfRight
