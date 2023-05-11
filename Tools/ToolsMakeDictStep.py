@@ -6,7 +6,7 @@
 import pandas as pd
 import numpy as np
 
-def MakeDictStep(VerticalGrf, ApGrf):
+def MakeDictStep(VerticalGrf, ApGrf, MedioLatGrf):
     """
     This function make two dictionnary of the ground reaction force in vertical axes and
     anteroposterior axes with each step in index. Use a rolling median with a step size of 30 
@@ -32,12 +32,30 @@ def MakeDictStep(VerticalGrf, ApGrf):
     HeelStrike, ToeOff = GetStepEvent(VerticalGrf)
     try :
         VerticalGrfStep = {i : VerticalGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))}
-        ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))} 
+        if ApGrf.dtype != object:
+            ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))} 
+        elif ApGrf.dtype == object:
+            ApGrfStep = None
+        if MedioLatGrf.dtype != object:
+            MedioLatGrfStep = {i : MedioLatGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike))}
+        elif MedioLatGrf.dtype == object:
+            MedioLatGrfStep = None
     except :
-        VerticalGrfStep = {i : VerticalGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)} 
-        ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)} 
+        VerticalGrfStep = {i : VerticalGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)}
+        if ApGrf.dtype != object:
+            ApGrfStep = {i : ApGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)} 
+        elif ApGrf.dtype == object:
+            ApGrfStep = None
+        if MedioLatGrf.dtype != object:
+            MedioLatGrfStep = {i : MedioLatGrf[HeelStrike[i]:ToeOff[i]] for i in np.arange(len(HeelStrike)-1)}
+        elif MedioLatGrf.dtype == object:
+            MedioLatGrfStep = None
 
-    return VerticalGrfStep, ApGrfStep
+    GrfStep = {"VerticalGrfStep" : VerticalGrfStep,
+               "ApGrfStep" : ApGrfStep,
+               "MedioLatGrfStep" : MedioLatGrfStep}
+
+    return GrfStep
 
 #def MakeDictStepForCut(VerticalGrf, ApGrf, RollingMedianStep = 30):
     """

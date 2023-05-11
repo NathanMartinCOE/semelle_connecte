@@ -59,11 +59,18 @@ class GroundReactionForceKinematicsProcedure(AbstractWalkingKinematicsProcedure)
         GroundReactionForces = dict()
         StepGrfValue = dict()
         for leg in ["LeftLeg", "RightLeg"]:
-            VerticalGrfStep, ApGrfStep = MakeDictStep(VerticalGrf = walking.m_sole[leg].data["VerticalGrf"],
-                                                      ApGrf = walking.m_sole[leg].data["ApGrf"])
+            GrfStep = MakeDictStep(VerticalGrf = walking.m_sole[leg].data["VerticalGrf"],
+                                    ApGrf = walking.m_sole[leg].data["ApGrf"],
+                                    MedioLatGrf = walking.m_sole[leg].data["MediolateralGrf"])
+            
+            VerticalGrfStep = GrfStep["VerticalGrfStep"]
+            ApGrfStep = GrfStep["ApGrfStep"]
+            MedioLatGrfStep = GrfStep["MedioLatGrfStep"]
+
             GrfValues = {i : grf(VerticalGrfStep[i],ApGrfStep[i], FrameRate = 10) for i in range(0, len(VerticalGrfStep))}
             StepGrfValue[leg] = {"VerticalGrf" : VerticalGrfStep,
-                                 "ApGrf" : ApGrfStep}
+                                 "ApGrf" : ApGrfStep,
+                                 "MedioLatGrfStep" : MedioLatGrfStep}
             GroundReactionForces[leg] = GrfValues
 
         walking.setStepGrfValue(StepGrfValue)
