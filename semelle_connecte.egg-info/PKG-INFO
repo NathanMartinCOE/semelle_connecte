@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: semelle-connecte
+Version: 0.0.1
+Summary: package for processing with sole
+Home-page: 
+Author: Nathan Martin
+Author-email: nathanmartin.coe@outlook.fr
+Keywords: semelle_connecte
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Natural Language :: English
