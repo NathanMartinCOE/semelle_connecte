@@ -223,6 +223,16 @@ class Test_Graphics:
     #     WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotDynamicSymetryFunctionNormalisedProcedure(self):
+        from Walking.WalkingFilters import WalkingKinematicsFilter
+        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        procedure = GroundReactionForceKinematicsProcedure()
+        WalkingKinematicsFilter(walking, procedure).run()
+
+        from Walking.WalkingFilters import WalkingDataProcessingFilter
+        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        procedure = NormalisationProcedure()
+        WalkingDataProcessingFilter(walking, procedure).run()
+    
         from Walking.WalkingFilters import WalkingGraphicsFilter
         from Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
 
