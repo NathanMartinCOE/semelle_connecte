@@ -5,6 +5,7 @@
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 from Tools.ToolsInterpolationGrf import InterpolationGrf
 from Tools.ToolsInterpolationGrf import Interpolation
@@ -145,5 +146,69 @@ class NormalisationProcedure(AbstractWalkingDataProcessingProcedure):
                     xnormalised, ynormalised = Interpolation(walking.m_StepGrfValue[leg][axe][step], 1000) # Normalisation en % cycle
                     # ynormalised = ynormalised/ mass    ## deja normalisé sur la mass lors de l'import                                                 # Normalisation en % poids
                     walking.m_StepGrfValue[leg][axe][step] = ynormalised
+
+
+class DeleteStepProcedure(AbstractWalkingDataProcessingProcedure):
+    """ This procedure show you each Right and Left step of walkingm_StepGrfValue and 
+    if you find that one of this step is poor du to data filtered and random noise you can
+    delete it.
+    
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance  
+
+    Outputs:
+        update walking.m_StepGrfValue with nan in step you delete
+    """
+
+    def __init__(self):
+        super(DeleteStepProcedure, self).__init__()
+    
+    def run(self, walking):
+        if len(walking.m_StepGrfValue)==0 :
+            from Walking.WalkingFilters import WalkingKinematicsFilter
+            from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+
+            procedure = GroundReactionForceKinematicsProcedure()
+            WalkingKinematicsFilter(walking, procedure).run()
+        
+        if len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]) != len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"]):
+            LEN = max([len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]), len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"])])
+        else:
+            LEN = len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])
+
+        for step in np.arange(LEN):
+            plt.figure()
+            plt.subplot(1,2,1)
+            plt.title("Left Step")
+            try :
+                plt.plot(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step], c="r")
+            except:
+                plt.text(x=5, y=5, s="No value for step Left")
+            plt.subplot(1,2,2)
+            plt.title("Right Step")
+            try :
+                plt.plot(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step], c="b")
+            except:
+                plt.text(x=5, y=5, s="No value for step Right")
+            plt.show()
+
+            while True:
+                key = input("Use 'l' for delete Left ; 'r' for delete Right ; 'lr' for delete both and 'n' for next figure:")
+                if key == "n":
+                    break
+                elif key == "l":
+                    walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step])
+                    break
+                elif key == "r":
+                    walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step])
+                    break
+                elif key == "lr":
+                     walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step])
+                     walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step])
+                     break
+                
+
+
+
 
 
