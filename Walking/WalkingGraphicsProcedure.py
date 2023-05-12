@@ -94,21 +94,8 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
             plt.legend()
             plt.show()
 
-        
-        from Walking.WalkingFilters import WalkingKinematicsFilter, WalkingDataProcessingFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         from Tools.ToolsGetStepEvent import GetStepEvent
-
         HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
-        
-        procedure = GroundReactionForceKinematicsProcedure()
-        WalkingKinematicsFilter(walking, procedure).run()
-        print("GroundReactionForceKinematicsProcedure : done")
-        procedure = NormalisationProcedure()
-        WalkingDataProcessingFilter(walking, procedure).run()
-        print("NormalisationProcedure : done")
-
 
         axis = ["VerticalGrf", "ApGrf"] #"MediolateralGrf"] MakeDictStep ne prend pas ML
 
@@ -128,6 +115,7 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
 
                     for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
                         MeanLeft[f"Step{step}"] = walking.m_StepGrfValue["LeftLeg"][axe][step]
+                    for step in np.arange(len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"])):
                         MeanRight[f"Step{step}"] = walking.m_StepGrfValue["RightLeg"][axe][step]
 
                     df_zero = pd.DataFrame([[0.0] * len(MeanLeft.columns)], columns= MeanLeft.columns)
