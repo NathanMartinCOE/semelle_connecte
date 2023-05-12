@@ -213,6 +213,7 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
             plt.legend(ncol = 4,
                     loc = "center",
                     bbox_to_anchor = (((-0.61 * ((MeanGrfDataframeCut.columns.shape[0]//2)-2)) - 0.11), -0.14))
+            plt.show()
 
         MeanGrfDataframeCut = MeanCutDataGrf(walking.m_DictOfDataFrameCutGrf["VerticalGrf"])
         PlotCutDataGrf(MeanGrfDataframeCut)
