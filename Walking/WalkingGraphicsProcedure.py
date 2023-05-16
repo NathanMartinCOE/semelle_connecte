@@ -94,10 +94,11 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
             plt.legend()
             plt.show()
 
+
         from Tools.ToolsGetStepEvent import GetStepEvent
         HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
 
-        axis = ["VerticalGrf", "ApGrf"] #"MediolateralGrf"] MakeDictStep ne prend pas ML
+        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"] # MediolateralGrf peut entrainer des bug
 
         if len(HeelStrike) == 1 :
             for axe in axis :
@@ -106,8 +107,9 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
                                                GrfLeft = walking.m_StepGrfValue["LeftLeg"][axe][0])
                 else :
                     print(f"No value for {axe} Ground Reaction Force")
+
+
         elif len(HeelStrike)>1 :
-            
             for axe in axis :
                 if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
                     MeanLeft = pd.DataFrame()
@@ -229,6 +231,7 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
         super(PlotMaxAndMinAsymetryProcedure, self).__init__()
 
     def run(self, walking):
+
         def FindMaxAndMinAsym(walking, names, nums, axe):
             for name, num in zip(names, nums):
                 listvalue = []
@@ -240,7 +243,7 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
                 thresfold5 = max([abs(val) for val in listvalue]) * 5/100
                 thresfold10 = max([abs(val) for val in listvalue]) * 10/100
 
-                StepAsymMax = np.asarray([val ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]).argmax()
+                StepAsymMax = np.nanargmax(np.asarray([abs(val) ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]))
 
                 print("Score d'asymétrie :")
                 print("-valeur positive = valeur jambe droite > valeur jambe gauche")
@@ -252,18 +255,19 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
                 plt.plot(walking.m_StepGrfValue["RightLeg"][axe][StepAsymMax], c='blue', label='Right')
                 plt.legend()
                 plt.subplot(1,2,2)
+                LenStep = len(walking.m_StepGrfValue["LeftLeg"][axe])
                 plt.scatter(x = np.arange(len(walking.m_DataFrameDynamicSymetryScore[name])),
                             y = walking.m_DataFrameDynamicSymetryScore[name])
-                plt.hlines(y= thresfold10, xmin=0, xmax=120, colors='red', ls='--', label=f"10% : {round(thresfold10,2)}")
-                plt.hlines(y= thresfold5, xmin=0, xmax=120, colors='black', ls='--', label=f"5% : {round(thresfold5,2)}")
-                plt.hlines(y= 0, xmin=0, xmax=120, colors='black')
-                plt.hlines(y= - thresfold5, xmin=0, xmax=120, colors='black', ls='--')
-                plt.hlines(y= - thresfold10, xmin=0, xmax=120, colors='red', ls='--')
+                plt.hlines(y= thresfold10, xmin=0, xmax=LenStep, colors='red', ls='--', label=f"10% : {round(thresfold10,2)}")
+                plt.hlines(y= thresfold5, xmin=0, xmax=LenStep, colors='black', ls='--', label=f"5% : {round(thresfold5,2)}")
+                plt.hlines(y= 0, xmin=0, xmax=LenStep, colors='black')
+                plt.hlines(y= - thresfold5, xmin=0, xmax=LenStep, colors='black', ls='--')
+                plt.hlines(y= - thresfold10, xmin=0, xmax=LenStep, colors='red', ls='--')
                 plt.scatter(x= StepAsymMax, y= walking.m_DataFrameDynamicSymetryScore[name][StepAsymMax], c='r')
                 plt.legend()
                 plt.show()
 
-                StepAsymMin = np.asarray([val ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]).argmin()
+                StepAsymMin = np.nanargmin(np.asarray([abs(val) ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]))
 
                 print(f"Le pas le moins asymétrique sur le paramètre {name} est le pas numéro {StepAsymMin}")
                 plt.figure(figsize=(10,5))
@@ -272,13 +276,14 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
                 plt.plot(walking.m_StepGrfValue["RightLeg"][axe][StepAsymMin], c='blue', label='Right')
                 plt.legend()
                 plt.subplot(1,2,2)
+                LenStep = len(walking.m_StepGrfValue["LeftLeg"][axe])
                 plt.scatter(x = np.arange(len(walking.m_DataFrameDynamicSymetryScore[name])),
                             y = walking.m_DataFrameDynamicSymetryScore[name])
-                plt.hlines(y= thresfold10, xmin=0, xmax=120, colors='red', ls='--', label=f"10% : {round(thresfold10,2)}")
-                plt.hlines(y= thresfold5, xmin=0, xmax=120, colors='black', ls='--', label=f"5% : {round(thresfold5,2)}")
-                plt.hlines(y= 0, xmin=0, xmax=120, colors='black')
-                plt.hlines(y= - thresfold5, xmin=0, xmax=120, colors='black', ls='--')
-                plt.hlines(y= - thresfold10, xmin=0, xmax=120, colors='red', ls='--')
+                plt.hlines(y= thresfold10, xmin=0, xmax=LenStep, colors='red', ls='--', label=f"10% : {round(thresfold10,2)}")
+                plt.hlines(y= thresfold5, xmin=0, xmax=LenStep, colors='black', ls='--', label=f"5% : {round(thresfold5,2)}")
+                plt.hlines(y= 0, xmin=0, xmax=LenStep, colors='black')
+                plt.hlines(y= - thresfold5, xmin=0, xmax=LenStep, colors='black', ls='--')
+                plt.hlines(y= - thresfold10, xmin=0, xmax=LenStep, colors='red', ls='--')
                 plt.scatter(x= StepAsymMin, y= walking.m_DataFrameDynamicSymetryScore[name][StepAsymMin], c='r')
                 plt.legend()
                 plt.show()
@@ -334,7 +339,7 @@ class PlotWorthAndBestStepProcedure(AbstractWalkingGraphicsProcedure):
         steps.append(data["SumAsymTotal"].argmin())
         steps.append(data["SumAsymVertical"].argmin())
         steps.append(data["SumAsymAntpost"].argmin())
-
+        
         titles = ["Step with maximal asymetry in Vertical and AntPost Grf", "Step with maximal asymetry in Vertical Grf", "Step with maximal asymetry in AntPost Grf", "Step with minimal asymetry in Vertical and AntPost Grf", "Step with minimal asymetry in Vertical Grf", "Step with minimal asymetry in AntPost Grf"]
 
         for step, title in zip(steps, titles):
