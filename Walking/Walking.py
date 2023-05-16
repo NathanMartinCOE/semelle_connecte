@@ -20,6 +20,7 @@ class Walking():
         self.m_DataFrameDynamicSymetryScore = pd.DataFrame()
         self.m_DataFrameLeftRight = pd.DataFrame()
         self.m_DataFrameRightLeft = pd.DataFrame()
+        self.m_FunctionDynamicAssym = dict()
     
     def SetAnthropometric(self, RightLegSize, LeftLegSize, RightArmSize, LeftArmSize, Size):
         """ all anthropometric data are in (m) """
@@ -150,3 +151,10 @@ class Walking():
         """
         self.m_DataFrameRightLeft = DataFrameRightLeft
 
+    def setFunctionDynamicAssym(self, FunctionDynamicAssym):
+        """ Add a DataFrame with the dynamic function of assymetry.
+        
+        Args:
+            FunctionDynamicAssym gets by (Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure)
+        """
+        self.m_FunctionDynamicAssym = FunctionDynamicAssym     
