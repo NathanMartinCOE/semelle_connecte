@@ -136,15 +136,17 @@ class NormalisationProcedure(AbstractWalkingDataProcessingProcedure):
         mass = walking.m_mass
 
         Legs = ["LeftLeg", "RightLeg"]
-        Axes = ["VerticalGrf", "ApGrf"]   # l'axe  "MediolateralGrf" pas encore présent dans le dict
-        Steps = np.arange(len(walking.m_StepGrfValue['LeftLeg']['VerticalGrf']))
-        GrfValues = np.arange(len(walking.m_StepGrfValue['LeftLeg']['VerticalGrf'][0]))
+        Axes = ["VerticalGrf", "ApGrf", "MediolateralGrf"]   # MediolateralGrf peut entrainer des bug
+
         for leg in Legs:
+            Steps = np.arange(len(walking.m_StepGrfValue[leg]['VerticalGrf']))
             for axe in Axes:
                 for step in Steps:
-                    # xnormalised, ynormalised = InterpolationGrf(walking.m_StepGrfValue[leg][axe][step]) # Normalisation en % cycle
-                    xnormalised, ynormalised = Interpolation(walking.m_StepGrfValue[leg][axe][step], 1000) # Normalisation en % cycle
-                    # ynormalised = ynormalised/ mass    ## deja normalisé sur la mass lors de l'import                                                 # Normalisation en % poids
+                    try :
+                        xnormalised, ynormalised = Interpolation(walking.m_StepGrfValue[leg][axe][step], 1000) # Normalisation en % cycle
+                    except :
+                        ynormalised = [np.nan] * 1000
+                    # ynormalised = ynormalised/ mass    ## deja normalisé sur la mass lors de l'import    # Normalisation en % poids
                     walking.m_StepGrfValue[leg][axe][step] = ynormalised
 
 
@@ -175,21 +177,51 @@ class DeleteStepProcedure(AbstractWalkingDataProcessingProcedure):
             LEN = max([len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]), len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"])])
         else:
             LEN = len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])
+        
+        FrameRate = 10
+        ##### if the event are not at the good index it may be explain by the use of normalisation procedure before this procedure
 
         for step in np.arange(LEN):
             plt.figure()
             plt.subplot(1,2,1)
             plt.title("Left Step")
             try :
-                plt.plot(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step], c="r")
+                FirstPeak = walking.m_GroundReactionForces["LeftLeg"][step][0]
+                MidstanceValley = walking.m_GroundReactionForces["LeftLeg"][step][1]
+                SecondPeak = walking.m_GroundReactionForces["LeftLeg"][step][2]
+                FirtPeakTimeTo = walking.m_GroundReactionForces["LeftLeg"][step][3] * FrameRate
+                MidstanceValleyTimeTo = walking.m_GroundReactionForces["LeftLeg"][step][4] * FrameRate
+                SecondPeakTimeTo = walking.m_GroundReactionForces["LeftLeg"][step][5] * FrameRate
+                TimeFromMidstanceValleyToToeOff = walking.m_GroundReactionForces["LeftLeg"][step][6] * FrameRate
+
+                plt.plot(walking.m_StepGrfValue['LeftLeg']['VerticalGrf'][step], c="r")
+                plt.scatter(x=FirtPeakTimeTo ,y=FirstPeak, c ="r", label="FirstPeak")
+                plt.scatter(x=SecondPeakTimeTo ,y=SecondPeak, c="g", label="SecondPeak")
+                plt.scatter(x=MidstanceValleyTimeTo ,y=MidstanceValley, c="b", label="MidstanceValley")
+                plt.hlines(y=MidstanceValley, xmin=MidstanceValleyTimeTo, xmax=TimeFromMidstanceValleyToToeOff+MidstanceValleyTimeTo,
+                        colors ="r", ls="--", label='TimeFromMidstanceValleyToToeOff')
             except:
                 plt.text(x=5, y=5, s="No value for step Left")
             plt.subplot(1,2,2)
             plt.title("Right Step")
             try :
-                plt.plot(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step], c="b")
+                FirstPeak = walking.m_GroundReactionForces["RightLeg"][step][0]
+                MidstanceValley = walking.m_GroundReactionForces["RightLeg"][step][1]
+                SecondPeak = walking.m_GroundReactionForces["RightLeg"][step][2]
+                FirtPeakTimeTo = walking.m_GroundReactionForces["RightLeg"][step][3] * FrameRate
+                MidstanceValleyTimeTo = walking.m_GroundReactionForces["RightLeg"][step][4] * FrameRate
+                SecondPeakTimeTo = walking.m_GroundReactionForces["RightLeg"][step][5] * FrameRate
+                TimeFromMidstanceValleyToToeOff = walking.m_GroundReactionForces["RightLeg"][step][6] * FrameRate
+
+                plt.plot(walking.m_StepGrfValue['RightLeg']['VerticalGrf'][step], c="b")
+                plt.scatter(x=FirtPeakTimeTo ,y=FirstPeak, c ="r", label="FirstPeak")
+                plt.scatter(x=SecondPeakTimeTo ,y=SecondPeak, c="g", label="SecondPeak")
+                plt.scatter(x=MidstanceValleyTimeTo ,y=MidstanceValley, c="b", label="MidstanceValley")
+                plt.hlines(y=MidstanceValley, xmin=MidstanceValleyTimeTo, xmax=TimeFromMidstanceValleyToToeOff+MidstanceValleyTimeTo,
+                        colors ="r", ls="--", label='TimeFromMidstanceValleyToToeOff')
             except:
                 plt.text(x=5, y=5, s="No value for step Right")
+            plt.legend()
             plt.show()
 
             while True:
