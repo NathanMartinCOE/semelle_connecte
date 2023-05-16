@@ -1,5 +1,7 @@
 # pytest -q --disable-pytest-warnings  TestMottekGait.py
 
+# pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_reader::test_ReadMottekc3d
+
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Walking::test_Initialisation_Walking
 
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Kinematics::test_GroundReactionForceKinematicsProcedure
@@ -30,7 +32,12 @@ from Tools.ToolsFFT import TransformFourrier
 
 
 DataPath = 'C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\grf\\'
-Path = DataPath + 'gait_test5.c3d'
+Path = DataPath + 'gait_test4.c3d'
+
+class Test_reader():
+    def test_ReadMottekc3d(self):
+        from Reader.MottekReader import ReadMottekc3d
+        dataLeft, dataRight = ReadMottekc3d(Path, mass=60)
 
 acq = btkTools.smartReader(Path)
 grwc = btkTools.getForcePlateWrench(acq)
@@ -100,14 +107,17 @@ class Test_Kinematics:
     def test_GroundReactionForceKinematicsProcedure(self):
         from Walking.WalkingFilters import WalkingKinematicsFilter
         from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
-
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
     def test_DynamicSymetryFunctionComputeProcedure(self):
+        from Walking.WalkingFilters import WalkingDataProcessingFilter
+        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        procedure = NormalisationProcedure()
+        WalkingDataProcessingFilter(walking, procedure).run()
+
         from Walking.WalkingFilters import WalkingKinematicsFilter
         from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
-
         procedure = DynamicSymetryFunctionComputeProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
     
@@ -144,14 +154,7 @@ class Test_DataProcessing:
         WalkingKinematicsFilter(walking, procedure).run()
 
         from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
-        procedure = NormalisationProcedure()
-        WalkingDataProcessingFilter(walking, procedure).run()
-
-
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
         from Walking.WalkingDataProcessingProcedure import DeleteStepProcedure
-
         procedure = DeleteStepProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
 
@@ -161,7 +164,6 @@ class Test_Graphics:
     def test_PlotMaxAndMinAsymetryProcedure(self):
         from Walking.WalkingFilters import WalkingKinematicsFilter
         from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
-
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
