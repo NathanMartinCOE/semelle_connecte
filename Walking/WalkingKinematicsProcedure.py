@@ -70,7 +70,7 @@ class GroundReactionForceKinematicsProcedure(AbstractWalkingKinematicsProcedure)
             GrfValues = {i : grf(VerticalGrfStep[i],ApGrfStep[i], FrameRate = 10) for i in range(0, len(VerticalGrfStep))}
             StepGrfValue[leg] = {"VerticalGrf" : VerticalGrfStep,
                                  "ApGrf" : ApGrfStep,
-                                 "MedioLatGrfStep" : MedioLatGrfStep}
+                                 "MediolateralGrf" : MedioLatGrfStep}
             GroundReactionForces[leg] = GrfValues
 
         walking.setStepGrfValue(StepGrfValue)
@@ -113,7 +113,8 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
         else :
             DataFrameGrfValueLeft = pd.DataFrame(walking.m_GroundReactionForces["LeftLeg"]).T
             DataFrameGrfValueRight = pd.DataFrame(walking.m_GroundReactionForces["RightLeg"]).T
-            DataFrameDynamicSymetryScore = pd.DataFrame(np.zeros(DataFrameGrfValueLeft.shape))
+            Nb_ligne_min = min([DataFrameGrfValueLeft.shape[0], DataFrameGrfValueRight.shape[0]])
+            DataFrameDynamicSymetryScore = pd.DataFrame(np.zeros((Nb_ligne_min, 18)))
 
             def FSD(ligne, col):
                 xdt = DataFrameGrfValueRight.iloc[ligne,col]
@@ -128,8 +129,8 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
                     rangexgt = max(DataFrameGrfValueLeft.iloc[:,col])-min(DataFrameGrfValueLeft.iloc[:,col])
                 return 2*(xdt-xgt)/(rangexdt+rangexgt)
 
-            for ligne in range(0,DataFrameGrfValueLeft.shape[0]):
-                for col in range(0,DataFrameGrfValueLeft.shape[1]):
+            for ligne in range(0, Nb_ligne_min):
+                for col in range(0, DataFrameGrfValueLeft.shape[1]):
                     DataFrameDynamicSymetryScore.iloc[ligne,col] = FSD(ligne,col)
 
             DataFrameDynamicSymetryScore = DataFrameDynamicSymetryScore.rename(columns={0:"FirtPeak", 1 : "MidstanceValley", 2 : "SecondPeak", 3 : "FirtPeakTimeTo", 
@@ -138,6 +139,98 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
             "PropulsivePhaseDuration", 14 : "BrakePhaseTimeTo", 15 : "PropulsivePhaseTimeTo", 16 : "BrakingImpulse", 17 : "PropulsiveImpulse"})
 
             walking.setDataFrameDynamicSymetryScore(DataFrameDynamicSymetryScore)
+
+        
+        def DynamicSymetryFunction(GrfRight, GrfLeft):
+            # Rajoute des 0 après le pas le plus court en temps
+            if GrfRight.shape[0] > GrfLeft.shape[0]:
+                AddZero = [0] * (GrfRight.shape[0]-GrfLeft.shape[0])
+                GrfLeft = np.concatenate((GrfLeft, AddZero))
+            elif GrfLeft.shape[0] > GrfRight.shape[0]:
+                AddZero = [0] * (GrfLeft.shape[0]-GrfRight.shape[0])
+                GrfRight = np.concatenate((GrfRight, AddZero))
+
+            # Definition d'un thresfold de 5% et de -5% pour la FSD
+            Thresfold = 5
+            ThresfoldPositive = [Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
+            ThresfoldNegative = [-Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
+
+            # Création d'un DataFrame contenant les forces de réactions au sol de la jambe droite et gauche
+                    # et des Thresfold positif et négatif
+            DataFrameGrf = pd.DataFrame({'yRight': GrfRight,
+                                            'yLeft': GrfLeft,
+                                            'ThresfoldPositive': ThresfoldPositive,
+                                            'ThresfoldNegative' : ThresfoldNegative})
+            
+            # Calcul de la fonction de symetrie dynamique
+            FunctionDynamicAssym = []
+            conditionfillpositive = []
+            conditionfillnegative = []
+            rangexdt = max(DataFrameGrf['yRight']) - min(DataFrameGrf['yRight'])
+            rangexgt = max(DataFrameGrf['yLeft']) - min(DataFrameGrf['yLeft'])
+
+            for grf in range(0, DataFrameGrf.shape[0]):
+                # FunctionDynamicAssym.append(2*(DataFrameGrf['yRight'][grf] - DataFrameGrf['yLeft'][grf])/(rangexdt+rangexgt)) # facteur 100 doit être enlevé
+                FunctionDynamicAssym.append(2*(DataFrameGrf['yRight'][grf] - DataFrameGrf['yLeft'][grf]) / (rangexdt + rangexgt) * 100)
+                conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameGrf['ThresfoldPositive'][grf])
+                conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameGrf['ThresfoldNegative'][grf])
+            
+            # Ajout de la FunctionDynamicAssym et des conditions fill au DataFrame
+            DataFrameGrf['FunctionDynamicAssym'] = FunctionDynamicAssym
+            DataFrameGrf['conditionfillpositive'] = conditionfillpositive
+            DataFrameGrf['conditionfillnegative'] = conditionfillnegative
+
+            return DataFrameGrf['FunctionDynamicAssym']
+
+        from Tools.ToolsGetStepEvent import GetStepEvent
+        HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
+
+        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"] # MakeDictStep ne prend pas ML
+        DictFunctionDynamicAssym = dict()
+
+        if len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][0]) != len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][0]):
+            from Walking.WalkingFilters import WalkingDataProcessingFilter
+            from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+            procedure = NormalisationProcedure()
+            WalkingDataProcessingFilter(walking, procedure).run()
+
+        if len(HeelStrike) == 1 :
+            for axe in axis :
+                if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
+                    FunctionDynamicAssym = DynamicSymetryFunction(GrfRight = walking.m_StepGrfValue["RightLeg"][axe][0],
+                                                GrfLeft = walking.m_StepGrfValue["LeftLeg"][axe][0])
+                else :
+                    print(f"No value for {axe} Ground Reaction Force")
+
+                DictFunctionDynamicAssym[axe] = FunctionDynamicAssym
+
+        elif len(HeelStrike)>1 :
+            for axe in axis :
+                if walking.m_sole["LeftLeg"].data[axe].dtype != object and walking.m_sole["RightLeg"].data[axe].dtype != object :
+                    MeanLeft = pd.DataFrame()
+                    MeanRight = pd.DataFrame()
+
+                    for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
+                        MeanLeft[f"Step{step}"] = walking.m_StepGrfValue["LeftLeg"][axe][step]
+                    for step in np.arange(len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"])):
+                        MeanRight[f"Step{step}"] = walking.m_StepGrfValue["RightLeg"][axe][step]
+
+                    df_zero = pd.DataFrame([[0.0] * len(MeanLeft.columns)], columns= MeanLeft.columns)
+                    MeanLeft = MeanLeft.append(df_zero, ignore_index=True)
+                    df_zero = pd.DataFrame([[0.0] * len(MeanRight.columns)], columns= MeanRight.columns)
+                    MeanRight = MeanRight.append(df_zero, ignore_index=True)
+
+                    MeanLeft["Mean"] = MeanLeft.mean(axis=1)
+                    MeanRight["Mean"] = MeanRight.mean(axis=1)
+
+                    FunctionDynamicAssym = DynamicSymetryFunction(GrfRight = MeanRight["Mean"],
+                                                GrfLeft = MeanLeft["Mean"])
+                else :
+                    print(f"No value for {axe} Ground Reaction Force")
+                
+                DictFunctionDynamicAssym[axe] = FunctionDynamicAssym
+        
+        walking.setFunctionDynamicAssym(DictFunctionDynamicAssym)
 
 
 class TwoStepProcedure(AbstractWalkingKinematicsProcedure):
@@ -227,285 +320,5 @@ class TwoStepProcedure(AbstractWalkingKinematicsProcedure):
         walking.setDataFrameLeftRight(LeftRight_df)
         walking.setDataFrameRightLeft(RightLeft_df)
 
-
-#### caution this procedure is not working actually
-class GaitTrackingKineticsProcedure(AbstractWalkingKinematicsProcedure):
-    """ This procedure track the position of IMU place on leg by using X-IO technologie code
-    Gait-Tracking with IMU available on : https://github.com/xioTechnologies/Gait-Tracking
-
-    Args:
-        walking.m_IMU (semelle_connecte.Walking.Walking.m_IMU): a IMU members of a walking patient instance 
-                       example : walking.m_IMU["LeftLeg"] for track the left leg
-
-    Outputs:
-        plot the process of Data
-        plot the position in x and y axes by time
-        creat an animation of position in x,y,z axes
-    """
-
-    def __init__(self):
-        super(GaitTrackingKineticsProcedure, self).__init__()
-
-    def run(self, walkingIMU):
-        import imufusion
-        
-        sample_rate = 1125  # 1125 Hz
-        timestamp = np.asarray(walkingIMU.time)
-        gyroData = pd.DataFrame()
-        gyroData["X"] = walkingIMU.data["Gyro.X"]
-        gyroData["Y"] = walkingIMU.data["Gyro.Y"]
-        gyroData["Z"] = walkingIMU.data["Gyro.Z"]
-        gyroscope = np.asarray(gyroData)
-        accelData = pd.DataFrame()
-        accelData["X"] = walkingIMU.data["Accel.X"]
-        accelData["Y"] = walkingIMU.data["Accel.Y"]
-        accelData["Z"] = walkingIMU.data["Accel.Z"]
-        accelerometer = np.asarray(accelData)
-
-        #### Instantiate AHRS algorithms
-        offset = imufusion.Offset(sample_rate)
-        ahrs = imufusion.Ahrs()
-        ahrs.settings = imufusion.Settings(0.5, 10, 0.0, 5 * sample_rate) 
-        
-        #### Process sensor data (Euler angles // Internal State // Accelleration)
-        delta_time = np.diff(timestamp, prepend=timestamp[0])
-        euler = np.empty((len(timestamp), 3))
-        internal_states = np.empty((len(timestamp), 3))
-        acceleration = np.empty((len(timestamp), 3))
-
-        for index in range(len(timestamp)):
-            gyroscope[index] = offset.update(gyroscope[index])
-
-            ahrs.update_no_magnetometer(gyroscope[index], accelerometer[index], delta_time[index])
-
-            euler[index] = ahrs.quaternion.to_euler()
-
-            ahrs_internal_states = ahrs.internal_states
-            internal_states[index] = np.array([ahrs_internal_states.acceleration_error,
-                                                ahrs_internal_states.accelerometer_ignored,
-                                                ahrs_internal_states.acceleration_rejection_timer])
-
-            acceleration[index] = 9.81 * ahrs.earth_acceleration  # convert g to m/s/s
-
-        # Identify moving periods
-        is_moving = np.empty(len(timestamp))
-
-        for index in range(len(timestamp)):
-            is_moving[index] = np.sqrt(acceleration[index].dot(acceleration[index])) > 3  # threshold = 3 m/s/s
-
-        margin = int(0.1 * sample_rate)  # 100 ms
-
-        for index in range(len(timestamp) - margin):
-            is_moving[index] = any(is_moving[index:(index + margin)])  # add leading margin
-
-        for index in range(len(timestamp) - 1, margin, -1):
-            is_moving[index] = any(is_moving[(index - margin):index])  # add trailing margin
-
-        # Calculate velocity (includes integral drift)
-        velocity = np.zeros((len(timestamp), 3))
-
-        for index in range(len(timestamp)):
-            if is_moving[index]:  # only integrate if moving
-                velocity[index] = velocity[index - 1] + delta_time[index] * acceleration[index]
-
-        # Find start and stop indices of each moving period
-        is_moving_diff = np.diff(is_moving, append=is_moving[-1])
-
-
-        @dataclass
-        class IsMovingPeriod:
-            start_index: int = -1
-            stop_index: int = -1
-
-
-        is_moving_periods = []
-        is_moving_period = IsMovingPeriod()
-
-        for index in range(len(timestamp)):
-            if is_moving_period.start_index == -1:
-                if is_moving_diff[index] == 1:
-                    is_moving_period.start_index = index
-
-            elif is_moving_period.stop_index == -1:
-                if is_moving_diff[index] == -1:
-                    is_moving_period.stop_index = index
-                    is_moving_periods.append(is_moving_period)
-                    is_moving_period = IsMovingPeriod()
-
-        # Remove integral drift from velocity
-        velocity_drift = np.zeros((len(timestamp), 3))
-
-        for is_moving_period in is_moving_periods:
-            start_index = is_moving_period.start_index
-            stop_index = is_moving_period.stop_index
-
-            t = [timestamp[start_index], timestamp[stop_index]]
-            x = [velocity[start_index, 0], velocity[stop_index, 0]]
-            y = [velocity[start_index, 1], velocity[stop_index, 1]]
-            z = [velocity[start_index, 2], velocity[stop_index, 2]]
-
-            t_new = timestamp[start_index:(stop_index + 1)]
-
-            velocity_drift[start_index:(stop_index + 1), 0] = interp1d(t, x)(t_new)
-            velocity_drift[start_index:(stop_index + 1), 1] = interp1d(t, y)(t_new)
-            velocity_drift[start_index:(stop_index + 1), 2] = interp1d(t, z)(t_new)
-
-        velocity = velocity - velocity_drift
-
-
-        # Calculate position
-        position = np.zeros((len(timestamp), 3))
-
-        for index in range(len(timestamp)):
-            position[index] = position[index - 1] + delta_time[index] * velocity[index]
-
-        # Print error as distance between start and final positions
-        print("Error: " + "{:.3f}".format(np.sqrt(position[-1].dot(position[-1]))) + " m")
-
-        
-        PlotSensorData = True
-        """ This plots shows the processing """
-        if PlotSensorData == True :
-            #### First plot
-            figure, axes = plt.subplots(nrows=6, sharex=True, gridspec_kw={"height_ratios": [6, 6, 6, 2, 1, 1]}, figsize=(15, 15))
-            figure.suptitle("Sensors data, Euler angles, and AHRS internal states")
-
-            axes[0].plot(timestamp, gyroscope[:, 0], "tab:red", label="Gyroscope X")
-            axes[0].plot(timestamp, gyroscope[:, 1], "tab:green", label="Gyroscope Y")
-            axes[0].plot(timestamp, gyroscope[:, 2], "tab:blue", label="Gyroscope Z")
-            axes[0].set_ylabel("Degrees/s")
-            axes[0].grid()
-            axes[0].legend()
-
-            axes[1].plot(timestamp, accelerometer[:, 0], "tab:red", label="Accelerometer X")
-            axes[1].plot(timestamp, accelerometer[:, 1], "tab:green", label="Accelerometer Y")
-            axes[1].plot(timestamp, accelerometer[:, 2], "tab:blue", label="Accelerometer Z")
-            axes[1].set_ylabel("g")
-            axes[1].grid()
-            axes[1].legend()
-
-            # Plot Euler angles
-            axes[2].plot(timestamp, euler[:, 0], "tab:red", label="Roll")
-            axes[2].plot(timestamp, euler[:, 1], "tab:green", label="Pitch")
-            axes[2].plot(timestamp, euler[:, 2], "tab:blue", label="Yaw")
-            axes[2].set_ylabel("Degrees")
-            axes[2].grid()
-            axes[2].legend()
-
-            # Plot internal states
-            axes[3].plot(timestamp, internal_states[:, 0], "tab:olive", label="Acceleration error")
-            axes[3].set_ylabel("Degrees")
-            axes[3].grid()
-            axes[3].legend()
-
-            axes[4].plot(timestamp, internal_states[:, 1], "tab:cyan", label="Accelerometer ignored")
-            plt.sca(axes[4])
-            plt.yticks([0, 1], ["False", "True"])
-            axes[4].grid()
-            axes[4].legend()
-
-            axes[5].plot(timestamp, internal_states[:, 2], "tab:orange", label="Acceleration rejection timer")
-            axes[5].set_xlabel("Seconds")
-            axes[5].grid()
-            axes[5].legend()
-
-            #### Second plot
-            # Plot acceleration
-            _, axes = plt.subplots(nrows=4, sharex=True, gridspec_kw={"height_ratios": [6, 1, 6, 6]}, figsize=(15, 15))
-
-            axes[0].plot(timestamp, acceleration[:, 0], "tab:red", label="X")
-            axes[0].plot(timestamp, acceleration[:, 1], "tab:green", label="Y")
-            axes[0].plot(timestamp, acceleration[:, 2], "tab:blue", label="Z")
-            axes[0].set_title("Acceleration")
-            axes[0].set_ylabel("m/s/s")
-            axes[0].grid()
-            axes[0].legend()
-
-            # Plot moving periods
-            axes[1].plot(timestamp, is_moving, "tab:cyan", label="Is moving")
-            plt.sca(axes[1])
-            plt.yticks([0, 1], ["False", "True"])
-            axes[1].grid()
-            axes[1].legend()
-
-            # Plot velocity
-            axes[2].plot(timestamp, velocity[:, 0], "tab:red", label="X")
-            axes[2].plot(timestamp, velocity[:, 1], "tab:green", label="Y")
-            axes[2].plot(timestamp, velocity[:, 2], "tab:blue", label="Z")
-            axes[2].set_title("Velocity")
-            axes[2].set_ylabel("m/s")
-            axes[2].grid()
-            axes[2].legend()
-
-            # Plot position
-            axes[3].plot(timestamp, position[:, 0], "tab:red", label="X")
-            axes[3].plot(timestamp, position[:, 1], "tab:green", label="Y")
-            axes[3].plot(timestamp, position[:, 2], "tab:blue", label="Z")
-            axes[3].set_title("Position")
-            axes[3].set_xlabel("Seconds")
-            axes[3].set_ylabel("m")
-            axes[3].grid()
-            axes[3].legend()
-
-            plt.figure()
-            plt.plot(position[:, 0], position[:, 1])
-            plt.xlabel("X")
-            plt.ylabel("Y")
-            plt.show()
-
-            plt.figure()
-            plt.plot(position[:, 0], position[:, 2])
-            plt.xlabel("X")
-            plt.ylabel("Z")
-            plt.show()
-
-        # Create 3D animation (takes a long time change False -> True)
-        run3D = "False"
-        # run3D = "True"
-        if run3D == "True":
-            figure = plt.figure(figsize=(10, 10))
-
-            axes = plt.axes(projection="3d")
-            axes.set_xlabel("m")
-            axes.set_ylabel("m")
-            axes.set_zlabel("m")
-
-            x = []
-            y = []
-            z = []
-
-            scatter = axes.scatter(x, y, z)
-
-            fps = 30
-            samples_per_frame = int(sample_rate / fps)
-
-            def update(frame):
-                index = frame * samples_per_frame
-
-                axes.set_title("{:.3f}".format(timestamp[index]) + " s")
-
-                x.append(position[index, 0])
-                y.append(position[index, 1])
-                z.append(position[index, 2])
-
-                scatter._offsets3d = (x, y, z)
-
-                if (min(x) != max(x)) and (min(y) != max(y)) and (min(z) != max(z)):
-                    axes.set_xlim3d(min(x), max(x))
-                    axes.set_ylim3d(min(y), max(y))
-                    axes.set_zlim3d(min(z), max(z))
-
-                    axes.set_box_aspect((np.ptp(x), np.ptp(y), np.ptp(z)))
-
-                return scatter
-
-            anim = animation.FuncAnimation(figure, update,
-                                            frames=int(len(timestamp) / samples_per_frame),
-                                            interval=1000 / fps,
-                                            repeat=False)
-
-            anim.save("animation.gif", writer=animation.PillowWriter(fps))
-
-            plt.show()
 
 
