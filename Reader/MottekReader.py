@@ -10,11 +10,10 @@ import os
 from pyCGM2.Tools import btkTools
 from pyCGM2.ForcePlates import forceplates
 
-from Tools.ToolsFFT import TransformFourrier
+from Tools.ToolsFFT import TransformFourrier, VisuTransformFourrier
 
 
-
-def ReadMottekc3d(Path, mass):
+def ReadMottekc3d(Path, mass, graph = True):
     acq = btkTools.smartReader(Path)
     grwc = btkTools.getForcePlateWrench(acq)
 
@@ -23,19 +22,31 @@ def ReadMottekc3d(Path, mass):
     for it in items:
         forces.append(grwc.GetItem(it).GetForce().GetValues() / (mass * 9.81) * 100)
 
+    if graph == False:
+        seuil_vertical = 10000
+        seuil_antpost = 5000
+        seuil_mediolat = 1300
+    else :
+        seuil_vertical = VisuTransformFourrier(forces[1][:,2], 10000)
+        seuil_antpost = VisuTransformFourrier(forces[1][:,1], 5000)
+        seuil_mediolat = VisuTransformFourrier(forces[1][:,0] * -1, 1300)
+
     dataLeft = pd.DataFrame()
-    dataLeft["VerticalVGrf"] = TransformFourrier(forces[1][:,2], seuil=10000) 
+    dataLeft["VerticalVGrf"] = TransformFourrier(forces[1][:,2], seuil= seuil_vertical) 
     dataLeft["VerticalVGrf"][dataLeft["VerticalVGrf"] < 20] = 0
-    dataLeft["ApGrf"] = TransformFourrier(forces[1][:,1], seuil=5000)
-    dataLeft["MediolateralGrf"] = TransformFourrier(forces[1][:,0] * -1, seuil=1300)
+    dataLeft["ApGrf"] = TransformFourrier(forces[1][:,1], seuil=seuil_antpost)
+    dataLeft["MediolateralGrf"] = TransformFourrier(forces[1][:,0] * -1, seuil=seuil_mediolat)
 
     dataRight = pd.DataFrame()
-    dataRight["VerticalVGrf"] = TransformFourrier(forces[0][:,2], seuil=10000) 
+    dataRight["VerticalVGrf"] = TransformFourrier(forces[0][:,2], seuil= seuil_vertical) 
     dataRight["VerticalVGrf"][dataRight["VerticalVGrf"] < 20] = 0
-    dataRight["ApGrf"] = TransformFourrier(forces[0][:,1], seuil=5000)
-    dataRight["MediolateralGrf"] = TransformFourrier(forces[0][:,0], seuil=1300)
+    dataRight["ApGrf"] = TransformFourrier(forces[0][:,1], seuil=seuil_antpost)
+    dataRight["MediolateralGrf"] = TransformFourrier(forces[0][:,0], seuil=seuil_mediolat)
 
     return dataLeft, dataRight
+
+
+
 
 
 
