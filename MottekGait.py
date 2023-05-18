@@ -49,7 +49,6 @@ for path, name in zip(list_path, list_name):
     walking.setRightLegSole(SoleInstanceRight)
 
 
-
     """ Début des procédure (cf nom de la procédure et documentation) """
 
     from Walking.WalkingFilters import WalkingKinematicsFilter
