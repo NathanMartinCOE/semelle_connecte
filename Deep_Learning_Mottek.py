@@ -63,22 +63,30 @@ for it in items:
 
 dataLeft = pd.DataFrame()
 dataLeft["VerticalVGrf"] = forces[1][:,2]
-dataLeft["VerticalVGrf"][dataLeft["VerticalVGrf"] < 30] = 0
+dataLeft["VerticalVGrf"][dataLeft["VerticalVGrf"] < 40] = 0
 dataLeft["ApGrf"] = forces[1][:,1]
 dataLeft["MediolateralGrf"] = forces[1][:,0] * -1
 
 dataRight = pd.DataFrame()
 dataRight["VerticalVGrf"] = forces[0][:,2]
-dataRight["VerticalVGrf"][dataRight["VerticalVGrf"] < 30] = 0
+dataRight["VerticalVGrf"][dataRight["VerticalVGrf"] < 40] = 0
 dataRight["ApGrf"] = forces[0][:,1]
 dataRight["MediolateralGrf"] = forces[0][:,0]
 
 walking = Procedures(dataLeft, dataRight)
 
-data_noised = pd.DataFrame()
+data_noised_df = pd.DataFrame()
 for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
     if sum(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]) > 1:
-        data_noised[f"{step}"] = walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]
+        data_noised_df[f"{step}"] = walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]
+
+
+data_noised = np.zeros((len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]), 1000))
+for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
+    if np.sum(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]) > 1:
+        data_noised[step, :] = walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]
+
+    
 
 # ========================================================== Donnée database = data_clean
 
@@ -111,17 +119,20 @@ dataRight = dataRight * 100 # permets de travailler avec des forces de réaction
 
 walking = Procedures(dataLeft, dataRight)
 
-data_clean = pd.DataFrame()
+data_clean_df  = pd.DataFrame()
 for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
     if sum(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]) > 1:
-        data_clean[f"{step}"] = walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]
+        data_clean_df[f"{step}"] = walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]
+data_clean_df = data_clean_df.iloc[ : , : 52]
 
-data_clean = data_clean.iloc[ : , : 52]
+data_clean = np.zeros((len(data_noised), 1000))
+for step in np.arange(len(data_noised)):
+    if np.sum(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]) > 1:
+        data_clean[step, :] = walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]
 
 
 # =============================================================  AE
-
-def ModeleAutoEncoder():
+def ModeleAutoEncoder(data_noised, data_clean):
     import tensorflow as tf
     from tensorflow import keras
     from sklearn.model_selection import train_test_split
@@ -181,6 +192,87 @@ def ModeleAutoEncoder():
     plt.plot(data_noised["40"], label="Noised", c="r")
     plt.plot(denoised_df["40"], label="Denoised", c="g")
     plt.legend()
+
+    plt.figure()
+    plt.plot(data_noised.mean(axis=1), label="Noised", c="r")
+    plt.plot(denoised_df.mean(axis=1), label="Denoised", c="g")
+    plt.legend()
     plt.show()
 
-ModeleAutoEncoder()
+# ModeleAutoEncoder(data_noised=data_noised_df, data_clean=data_clean_df)
+
+
+def ModeleAutoEncoder_2():
+    import tensorflow as tf
+    from tensorflow import keras
+    import matplotlib.pyplot as plt
+
+    # Créer l'encodeur
+    input_shape = (1000, 1)
+
+    encoder_input = keras.Input(shape=input_shape)
+    encoder = keras.layers.Conv1D(32, 3, activation='relu', padding='same')(encoder_input)
+    encoder = keras.layers.MaxPooling1D(2, padding='same')(encoder)
+    encoder = keras.layers.Conv1D(64, 3, activation='relu', padding='same')(encoder)
+    encoder = keras.layers.MaxPooling1D(2, padding='same')(encoder)
+    encoder = keras.layers.Flatten()(encoder)
+    latent_dim = 10  # Dimension latente
+    latent_vector = keras.layers.Dense(latent_dim)(encoder)
+
+    encoder_model = keras.Model(encoder_input, latent_vector)
+
+    # Créer le décodeur
+    decoder_input = keras.Input(shape=(latent_dim,))
+    decoder = keras.layers.Dense(250, activation='relu')(decoder_input)
+    decoder = keras.layers.Reshape((250, 1))(decoder)
+    decoder = keras.layers.Conv1DTranspose(64, 3, activation='relu', padding='same')(decoder)
+    decoder = keras.layers.UpSampling1D(2)(decoder)
+    decoder = keras.layers.Conv1DTranspose(32, 3, activation='relu', padding='same')(decoder)
+    decoder = keras.layers.UpSampling1D(2)(decoder)
+    decoder_output = keras.layers.Conv1DTranspose(1, 3, activation='linear', padding='same')(decoder)
+
+    decoder_model = keras.Model(decoder_input, decoder_output)
+
+    # Créer l'autoencodeur en combinant l'encodeur et le décodeur
+    autoencoder_input = keras.Input(shape=input_shape)
+    latent_representation = encoder_model(autoencoder_input)
+    decoded_output = decoder_model(latent_representation)
+
+    autoencoder_model = keras.Model(autoencoder_input, decoded_output)
+
+    # Compiler l'autoencodeur
+    autoencoder_model.compile(optimizer='adam', loss='mse')
+
+    # Entraîner l'autoencodeur
+    history = autoencoder_model.fit(data_noised, data_clean, epochs=100, batch_size=32, validation_split=0.2)
+
+    # Afficher la courbe d'apprentissage (perte)
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Courbe d\'apprentissage')
+    plt.xlabel('Époque')
+    plt.ylabel('Perte')
+    plt.legend(['Entraînement', 'Validation'])
+    plt.show()
+
+    # Utiliser l'autoencodeur pour débruiter les données
+    denoised_data = autoencoder_model.predict(data_noised)
+
+    # Afficher les données bruitées et débruitées pour certaines courbes
+    plt.figure(figsize=(10, 6))
+
+    # Indice des courbes à afficher
+    indices = [0, 10, 20, 30, 40]
+
+    for idx in indices:
+        plt.subplot(len(indices), 2, 2*indices.index(idx)+1)
+        plt.plot(data_noised[idx], label='Bruitée', color='red')
+        plt.title(f'Courbe {idx} - Bruitée')
+        plt.subplot(len(indices), 2, 2*indices.index(idx)+2)
+        plt.plot(denoised_data[idx], label='Débruitée', color='green')
+        plt.title(f'Courbe {idx} - Débruitée')
+
+    plt.tight_layout()
+    plt.show()
+
+ModeleAutoEncoder_2()
