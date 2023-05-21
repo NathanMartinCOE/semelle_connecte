@@ -155,6 +155,6 @@ class Walking():
         """ Add a DataFrame with the dynamic function of assymetry.
         
         Args:
-            FunctionDynamicAssym gets by (Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure)
+            FunctionDynamicAssym gets by (Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure)
         """
         self.m_FunctionDynamicAssym = FunctionDynamicAssym     
