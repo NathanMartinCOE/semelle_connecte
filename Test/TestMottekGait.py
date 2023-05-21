@@ -18,6 +18,8 @@
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Graphics::test_PlotTwoStepProcedure
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Graphics::test_PlotDynamicSymetryFunctionNormalisedProcedure
 
+# pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Writer::test_Writer_h5
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -242,3 +244,12 @@ class Test_Graphics:
 
         procedure = PlotDynamicSymetryFunctionNormalisedProcedure()
         WalkingGraphicsFilter(walking, procedure).run()
+
+
+# class Test_Writer:
+
+#     def test_Writer(self):
+#         from Writer.Writer import Writer
+#         StoragePath = 'C:\\Users\\Nathan\\Desktop\\Recherche\\Github\\semelle_connecte\\Test\\Dataset_test\\'
+#         Writer(walking = walking, path = StoragePath, file_name = 'walking_test_Writer').writeh5()
+
