@@ -1,6 +1,7 @@
 # pytest -q --disable-pytest-warnings  TestMottekGait.py
 
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_reader::test_ReadMottekc3d
+# pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_reader::test_readh5
 
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Walking::test_Initialisation_Walking
 
@@ -18,7 +19,7 @@
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Graphics::test_PlotTwoStepProcedure
 # pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Graphics::test_PlotDynamicSymetryFunctionNormalisedProcedure
 
-# pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Writer::test_Writer_h5
+# pytest -s --disable-pytest-warnings  TestMottekGait.py::Test_Writer::test_Writer
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -37,9 +38,19 @@ DataPath = 'C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\grf\\'
 Path = DataPath + 'gait_test4.c3d'
 
 class Test_reader():
+
     def test_ReadMottekc3d(self):
         from Reader.MottekReader import ReadMottekc3d
         dataLeft, dataRight = ReadMottekc3d(Path, mass=60)
+
+    def test_readh5(self):
+        from Reader.Reader import Reader
+        DataSet_testPath = 'C:\\Users\\Nathan\\Desktop\\Recherche\\Github\\semelle_connecte\\Test\\Dataset_test\\'
+        DataPath = os.path.join(DataSet_testPath, 'walking_test_Writer.hdf5')
+        walking = Reader(DataPath).readh5()
+        DataPath = os.path.join(DataSet_testPath, 'walking_test_Incomplete_Writer.hdf5')
+        walking_not_full = Reader(DataPath).readh5()
+
 
 acq = btkTools.smartReader(Path)
 grwc = btkTools.getForcePlateWrench(acq)
@@ -246,10 +257,37 @@ class Test_Graphics:
         WalkingGraphicsFilter(walking, procedure).run()
 
 
-# class Test_Writer:
+class Test_Writer:
 
-#     def test_Writer(self):
-#         from Writer.Writer import Writer
-#         StoragePath = 'C:\\Users\\Nathan\\Desktop\\Recherche\\Github\\semelle_connecte\\Test\\Dataset_test\\'
-#         Writer(walking = walking, path = StoragePath, file_name = 'walking_test_Writer').writeh5()
+    def test_Writer(self):
+        def RunSomeProcedure(GRFKP = True, DSFCP = True, CDPP = True):
+            if GRFKP == True:
+                from Walking.WalkingFilters import WalkingKinematicsFilter
+                from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+                procedure = GroundReactionForceKinematicsProcedure()
+                WalkingKinematicsFilter(walking, procedure).run()
+            if DSFCP == True:
+                from Walking.WalkingFilters import WalkingDataProcessingFilter
+                from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+                procedure = NormalisationProcedure()
+                WalkingDataProcessingFilter(walking, procedure).run()
+                from Walking.WalkingFilters import WalkingKinematicsFilter
+                from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+                procedure = DynamicSymetryFunctionComputeProcedure()
+                WalkingKinematicsFilter(walking, procedure).run()
+            if CDPP == True:
+                from Walking.WalkingFilters import WalkingDataProcessingFilter
+                from Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
+                procedure = CutDataProcessingProcedure()
+                procedure.setCutNumber(n_cut=3)
+                WalkingDataProcessingFilter(walking, procedure).run()
+
+        RunSomeProcedure(GRFKP = True, DSFCP = True, CDPP = True)
+        from Writer.Writer import Writer
+        StoragePath = 'C:\\Users\\Nathan\\Desktop\\Recherche\\Github\\semelle_connecte\\Test\\Dataset_test\\'
+        Writer(walking = walking, path = StoragePath, file_name = 'walking_test_Writer.hdf5').writeh5()
+        
+        RunSomeProcedure(GRFKP = False, DSFCP = False, CDPP = False) # do a h5 file without all data
+        Writer(walking = walking, path = StoragePath, file_name = 'walking_test_Incomplete_Writer.hdf5').writeh5()
+
 
