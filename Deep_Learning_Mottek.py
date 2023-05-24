@@ -123,7 +123,7 @@ data_clean_df  = pd.DataFrame()
 for step in np.arange(len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"])):
     if sum(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]) > 1:
         data_clean_df[f"{step}"] = walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step]
-data_clean_df = data_clean_df.iloc[ : , : 52]
+data_clean_df = data_clean_df.iloc[ : , : 51]
 
 data_clean = np.zeros((len(data_noised), 1000))
 for step in np.arange(len(data_noised)):
@@ -199,7 +199,7 @@ def ModeleAutoEncoder(data_noised, data_clean):
     plt.legend()
     plt.show()
 
-# ModeleAutoEncoder(data_noised=data_noised_df, data_clean=data_clean_df)
+ModeleAutoEncoder(data_noised=data_noised_df, data_clean=data_clean_df)
 
 
 def ModeleAutoEncoder_2():
@@ -275,4 +275,4 @@ def ModeleAutoEncoder_2():
     plt.tight_layout()
     plt.show()
 
-ModeleAutoEncoder_2()
+# ModeleAutoEncoder_2()
