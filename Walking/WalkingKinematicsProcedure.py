@@ -245,22 +245,34 @@ class TwoStepProcedure(AbstractWalkingKinematicsProcedure):
         RightLeft_df = a DataFrame of the sum of ground reaction force for each Right and Left step     
     """
 
-    def __init__(self):
+    def __init__(self, firts_step):
         super(TwoStepProcedure, self).__init__()
+        if firts_step == "right":
+            self.m_firts_step = firts_step
+        if firts_step == "left":
+            self.m_firts_step = firts_step
 
     def run(self, walking):
         from Tools.ToolsGetStepEvent import GetStepEvent
         from Tools.ToolsInterpolationGrf import Interpolation
 
-        Left = walking.m_sole["LeftLeg"].data["VerticalGrf"]
-        Right = walking.m_sole["RightLeg"].data["VerticalGrf"]
-        Sum = walking.m_sole["LeftLeg"].data["VerticalGrf"] + walking.m_sole["RightLeg"].data["VerticalGrf"]
+        if len(walking.m_sole["LeftLeg"].data["VerticalGrf"]) < len(walking.m_sole["RightLeg"].data["VerticalGrf"]):
+            end = len(walking.m_sole["LeftLeg"].data["VerticalGrf"])
+            print("Caution : Len of data right and left are not the same")
+        if len(walking.m_sole["LeftLeg"].data["VerticalGrf"]) > len(walking.m_sole["RightLeg"].data["VerticalGrf"]):
+            end = len(walking.m_sole["RightLeg"].data["VerticalGrf"])
+            print("Caution : Len of data right and left are not the same")
+        if len(walking.m_sole["LeftLeg"].data["VerticalGrf"]) == len(walking.m_sole["RightLeg"].data["VerticalGrf"]):
+            end = len(walking.m_sole["RightLeg"].data["VerticalGrf"])
+
+        Left = walking.m_sole["LeftLeg"].data["VerticalGrf"][ : end]
+        Right = walking.m_sole["RightLeg"].data["VerticalGrf"][ : end]
+        Sum = walking.m_sole["LeftLeg"].data["VerticalGrf"][ : end] + walking.m_sole["RightLeg"].data["VerticalGrf"][ : end]
 
         HeelStrikeLeft, ToeOffLeft = GetStepEvent(Left)
         HeelStrikeRight, ToeOffRight = GetStepEvent(Right)
 
-        # firts_step = "right"
-        firts_step = "left"
+        firts_step = self.m_firts_step
         LeftRight = []
         RightLeft = []
 
