@@ -1,6 +1,7 @@
 # pytest -q --disable-pytest-warnings  TestFeetme.py
 
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_reader::test_readFeetMeCsv
+# pytest -s --disable-pytest-warnings  TestFeetme.py::Test_reader::test_readFeetMeMultipleCsv
 
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Kinematics::test_GroundReactionForceKinematicsProcedure
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Kinematics::test_DynamicSymetryFunctionComputeProcedure
@@ -40,7 +41,15 @@ class Test_reader():
 
     def test_readFeetMeCsv(self):
         from SOLE.FeetMe import readFeetMeCsv
-        SoleInstanceRight, SoleInstanceLeft = readFeetMeCsv(fullfilename = DataPath, freq = 10)
+        SoleInstanceRight, SoleInstanceLeft = readFeetMeCsv(fullfilename = DataPath, freq = 110)
+
+    def test_readFeetMeMultipleCsv(self):
+        from SOLE.FeetMe import readFeetMeMultipleCsv
+        file_names = ["nathan_TDM_1.csv", "nathan_TDM_2.csv", "nathan_TDM_3.csv", "nathan_TDM_4.csv"]
+        fullfilenames = []
+        for file_name in file_names:
+            fullfilenames.append(os.path.join(StoragePath, file_name))
+        SoleInstanceRight, SoleInstanceLeft = readFeetMeMultipleCsv(fullfilenames = fullfilenames, freq = 110)
 
 
 from SOLE.FeetMe import readFeetMeCsv
