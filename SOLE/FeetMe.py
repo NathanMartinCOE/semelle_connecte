@@ -232,36 +232,6 @@ def readFeetMeMultipleCsv(fullfilenames,freq, show_graph = True, expert=False):
 
         return data
 
-    def GetIndex_SAVE(data):
-        def update_curseurs(val):
-            start = int(start_slider.val)
-            end = int(end_slider.val)
-            start_line.set_xdata(start)
-            end_line.set_xdata(end)
-            fig.canvas.draw_idle()  
-
-        fig, ax = plt.subplots()
-        ax.plot(data)
-        ax.set_xlim(data.index[0], data.index[data.shape[0] - 1])
-        ax.set_ylim(min(data), max(data))
-        start_slider_ax = plt.axes([0.1, 0.05, 0.8, 0.03])
-        end_slider_ax = plt.axes([0.1, 0.02, 0.8, 0.03])
-        # start_slider = Slider(start_slider_ax, 'Début', 0, len(data) - 1, valinit= 0, valstep=1)
-        # end_slider = Slider(end_slider_ax, 'Fin', 0, len(data) - 1, valinit= len(data) - 1, valstep=1)
-        start_slider = Slider(start_slider_ax, 'Début', 0, data.index[data.shape[0] - 1], valinit= data.index[0], valstep=1)
-        end_slider = Slider(end_slider_ax, 'Fin', 0, data.index[data.shape[0] - 1], valinit= data.index[data.shape[0] - 1], valstep=1)
-        start_line = ax.axvline(x=0, color='g', linestyle='--', linewidth=2)
-        # end_line = ax.axvline(x=len(data) - 1, color='r', linestyle='--', linewidth=2)
-        end_line = ax.axvline(x= data.index[data.shape[0] - 1], color='r', linestyle='--', linewidth=2)
-        start_slider.on_changed(update_curseurs)
-        end_slider.on_changed(update_curseurs)
-        plt.show()
-
-        start_index = int(start_slider.val)
-        end_index = int(end_slider.val)
-
-        return start_index, end_index
-
     def GetIndex(data):
         def update_curseurs(val):
             start = int(start_slider.val)
@@ -272,12 +242,12 @@ def readFeetMeMultipleCsv(fullfilenames,freq, show_graph = True, expert=False):
 
         def on_key(event):
             step = 1
-            if event.key == 'left':
+            if event.key == 'down':
                 if event.inaxes == start_slider_ax:
                     start_slider.set_val(start_slider.val - step)
                 elif event.inaxes == end_slider_ax:
                     end_slider.set_val(end_slider.val - step)
-            elif event.key == 'right':
+            elif event.key == 'up':
                 if event.inaxes == start_slider_ax:
                     start_slider.set_val(start_slider.val + step)
                 elif event.inaxes == end_slider_ax:
