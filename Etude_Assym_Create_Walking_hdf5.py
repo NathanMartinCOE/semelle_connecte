@@ -9,8 +9,8 @@ This file is used for save walking object proceded for one or more patient.
 Details of Processing for each patient and each condition:
     walking having been instantiated with the reaction forces given by the Feetme soles (readFeetmeCsv or readFeetmeMultipleCsv)
     3 procedures: GroundReactionForceKinematicsProcedure   (for more informations please read procedure documentation)
-                    StandardisationProcedure                (for more informations please read procedure documentation)
-                    DynamicSymetryFunctionComputeProcedure  (for more informations please read procedure documentation)
+                  StandardisationProcedure                (for more informations please read procedure documentation)
+                  DynamicSymetryFunctionComputeProcedure  (for more informations please read procedure documentation)
 
 Args :
     ID the id of the patient (int)
