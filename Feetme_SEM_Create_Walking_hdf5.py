@@ -32,8 +32,11 @@ from Walking.Walking import Walking
 from SOLE.FeetMe import readFeetMeMultipleCsv
 
 
-list_num = [4,5,6]
-list_mass = [60,60,60]
+# list_num = range(1,28)
+# list_mass = [60] * 27
+list_num = [7]
+list_mass = [60]
+
 
 for num, mass in zip(list_num, list_mass):
     print(f" ================================================ Open new test ({num}) ================================================")
