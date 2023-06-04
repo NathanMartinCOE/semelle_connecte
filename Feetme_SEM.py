@@ -22,14 +22,17 @@ hdf5 file (walking):
         walking_{name}_test{X}.hdf5 // in PathMSE
 
 Output:
-This outputs a plot with 2 sublopts for each leg : 
+------> A pdf file with :
+--> Plots for each condition with 2 sublopts for each leg : 
     Left plot for left leg // Right plot for right leg
-    For each subplot the MSE for the leg is write in the title.
-Legend :
-    Red   : mean ground reaction force of Left leg 
-    Blue  : mean ground reaction force of Right leg
-    Black : standard error of measurement at each time
-    Dashed gray : all ground reaction force for the corresponding leg
+    For each subplot the SEM for the leg is write in the title.
+    Legend :
+        Red   : mean ground reaction force of Left leg 
+        Blue  : mean ground reaction force of Right leg
+        Black : standard error of measurement at each time
+        Dashed gray : all ground reaction force for the corresponding leg
+--> Table of SEM for each condition for each metrics 
+------> A csv file with all data of metrics for stat in R
 """
 
 import pandas as pd
@@ -38,95 +41,151 @@ import matplotlib.pyplot as plt
 import os
 import re
 
-from math import sqrt
+from matplotlib.backends.backend_pdf import PdfPages
 from Reader.Reader import Reader
+from Tools.RichardBacker_SEM import RichardBacker_SEM
 
-PathMSE = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\"
-
-files = os.listdir(PathMSE)
-hdf5_files = [file for file in files if file.endswith(".hdf5")]
-
-### =============== For DataRaw ================
-frames = ["Frame_" + str(i) for i in range(1000)]
-columns_names = ["id", "test", "leg"] + frames
-data = []
-
-for file in hdf5_files:
-    PathHDF5 = PathMSE
-    NameFileHDF5 = str(file)
-    DataPathHDF5 = os.path.join(PathHDF5, NameFileHDF5)
-    walking = Reader(DataPathHDF5).readh5()
-
-    ### ======== look for the name of participant ===========
-    find_name = re.search(r"walking_(.*?)_test", NameFileHDF5)
-    if find_name:
-        name = find_name.group(1)
-    else:
-        print("No name find. ----------- Please be sure to name the hdf5 as walking_name_testX.hdf5 ")
-    ### ======== look for the number of the test session =====
-    find_N_test = re.search(r"test(.*?).hdf5", NameFileHDF5)
-    if find_N_test:
-        N_test = find_N_test.group(1)
-    else:
-        print("Number of test not find. ----------- Please be sure to name the hdf5 as walking_name_testX.hdf5 ")
-
-    ### == Instanciated one row_data witch contain "name", "test number", "leg side", GRF value for 0-1000 =====
-    DataMeanGrf = pd.DataFrame()
-    for leg in ["LeftLeg", "RightLeg"]:
-        DataStepGrfValue = pd.DataFrame()
-        for step in np.arange(0, len(walking.m_StepGrfValue[leg]["VerticalGrf"])):
-            DataStepGrfValue[f"step{step}"] = walking.m_StepGrfValue[leg]["VerticalGrf"][step]
-        DataMeanGrf[leg] = DataStepGrfValue.mean(axis=1, skipna=True)
-        row_data = [name, N_test, leg]
-        row_data = row_data + DataMeanGrf[leg].values.tolist()
-        ### == Add row_data to data for the DataFrame DataRaw ==
-        data.append(row_data)
+pd.options.mode.chained_assignment = None # Caution this disable the warning of indexing pandas
 
 
-### ======= Compute Standard Deviation of each subject beetween all they test for Right and Left leg ================
-DataRaw = pd.DataFrame(data, columns= columns_names)
-DataRawRight = DataRaw[DataRaw["leg"]=="RightLeg"]
-DataRawLeft = DataRaw[DataRaw["leg"]=="LeftLeg"]
-DataSdRight = DataRawRight.drop("test", axis='columns').groupby([DataRawRight["id"]]).std()
-DataSdLeft = DataRawLeft.drop("test", axis='columns').groupby([DataRawLeft["id"]]).std()
+conditions = ["normal_ground", "mottek_vL12_vR12", "mottek_vL12_vR14", "mottek_vL12_vR16", "mottek_vL12_vR18", "mottek_vL14_vR12", "mottek_vL16_vR12", "mottek_vL18_vR12"]
 
-### ======= Compute the Root Mean Squared Avarage for Right and Left leg ============================================
-def RMSA(DataSd):
-    DataSdSquared = DataSd**2
-    SEM = []
-    for col in DataSdSquared.columns:
-        SEM.append(sqrt(DataSdSquared[col].sum()/DataSdSquared.shape[0]))
-    DataSEM = pd.DataFrame()
-    DataSEM["SEM"] = SEM
-    return DataSEM.T
+pdf = PdfPages("C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\Graphiques_SEM_GRF.pdf")
+row_data_result_SEM = []
+row_data_result_value = []
+all_data_metric = []
 
-DataSEMRight = RMSA(DataSdRight)
-DataSEMLeft = RMSA(DataSdLeft)
+for condition in conditions:
+    PathMSE = f"C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\{condition}\\"
+    
+    files = os.listdir(PathMSE)
+    csv_files = [file for file in files if file.endswith(".csv")]
+    hdf5_files = [file for file in files if file.endswith(".hdf5")]
 
-### =============================== Compute SEM for Right and Left leg ===============================================
-SEM_right = DataSEMRight.mean(axis="columns").values[0]
-print(f"The standard error of measurement for right is -------------------- {round(SEM_right,4)}")
-SEM_left = DataSEMLeft.mean(axis="columns").values[0]
-print(f"The standard error of measurement for left is -------------------- {round(SEM_left,4)}")
+    ### =============== Pressure ==================
+    frames = ["Frame_" + str(i) for i in range(1000)]
+    columns_names_pressure = ["id", "test", "leg"] + frames
+    data_pressure = []
 
+    for file in hdf5_files:
+        PathHDF5 = PathMSE
+        NameFileHDF5 = str(file)
+        DataPathHDF5 = os.path.join(PathHDF5, NameFileHDF5)
+        walking = Reader(DataPathHDF5).readh5()
 
+        ### ======== look for the name of participant ===========
+        find_name = re.search(r"walking_(.*?)_test", NameFileHDF5)
+        if find_name:
+            name = find_name.group(1)
+        else:
+            print("No name find. ----------- Please be sure to name the hdf5 as walking_name_testX.hdf5 ")
+        ### ======== look for the number of the test session =====
+        find_N_test = re.search(r"test(.*?).hdf5", NameFileHDF5)
+        if find_N_test:
+            N_test = find_N_test.group(1)
+        else:
+            print("Number of test not find. ----------- Please be sure to name the hdf5 as walking_name_testX.hdf5 ")
 
-MeanValueGrfRight = DataRawRight.drop(["test", "id", "leg"], axis='columns').mean(axis=0).values
-MeanValueGrfLeft = DataRawLeft.drop(["test", "id", "leg"], axis='columns').mean(axis=0).values
+        ### == Instanciated one row_data witch contain "name", "test number", "leg side", GRF value for 0-1000 =====
+        DataMeanGrf = pd.DataFrame()
+        for leg in ["LeftLeg", "RightLeg"]:
+            DataStepGrfValue = pd.DataFrame()
+            for step in np.arange(0, len(walking.m_StepGrfValue[leg]["VerticalGrf"])):
+                DataStepGrfValue[f"step{step}"] = walking.m_StepGrfValue[leg]["VerticalGrf"][step]
+            DataMeanGrf[leg] = DataStepGrfValue.mean(axis=1, skipna=True)
+            row_data = [name, N_test, leg]
+            row_data = row_data + DataMeanGrf[leg].values.tolist()
+            data_pressure.append(row_data)
 
-plt.figure()
-plt.subplot(1,2,1)
-plt.title(f"Left Leg --- SEM = {round(SEM_left,4)}")
-plt.plot(MeanValueGrfLeft, label='Left Leg', c='r')
-plt.plot(DataSEMLeft.T.values, label="SEM", c="black")
-for grf in DataRawLeft.drop(["test", "id", "leg"], axis='columns').values:
-    plt.plot(grf, c='grey', ls="--")
-plt.legend()
-plt.subplot(1,2,2)
-plt.title(f"Right Leg --- SEM = {round(SEM_right,4)}")
-plt.plot(MeanValueGrfRight, label='Right Leg', c='b')
-plt.plot(DataSEMRight.T.values, label="SEM", c="black")
-for grf in DataRawRight.drop(["test", "id", "leg"], axis='columns').values:
-    plt.plot(grf, c='grey', ls="--")
-plt.legend()
-plt.show()
+    Score_SEM_Left, Score_SEM_Right = RichardBacker_SEM(data = data_pressure,
+                                                        columns_names = columns_names_pressure, 
+                                                        condition = condition, 
+                                                        pdf = pdf, 
+                                                        plot_graph = True)
+    
+    row_data_result_SEM.append([condition, "Left", "Vertical Ground Reaction", round(Score_SEM_Left,4)])
+    row_data_result_SEM.append([condition, "Right", "Vertical Ground Reaction", round(Score_SEM_Right,4)])
+
+    ### =============== Metric ==================
+    metrics = ["stanceDuration (ms)", "singleSupportDuration (ms)", "doubleSupportDuration (ms)", "swingDuration (ms)"]
+    for metric in metrics:
+
+        ### =============== Metric ==================
+        columns_names_metric = ["id", "test", "leg", metric]
+        data_metric = []
+            
+        for file in csv_files:
+            Path_csv = PathMSE
+            NameFile_csv = str(file)
+            DataPath_csv = os.path.join(Path_csv, NameFile_csv)
+
+            ### ======== look for the number of the test session =====
+            find_N_test = re.search(r"test(.*?).csv", NameFile_csv)
+            if find_N_test:
+                N_test = find_N_test.group(1)
+            else:
+                print("Number of test not find. ----------- Please be sure to name the csv as testX.csv ")
+
+            Feetme_metrics = pd.read_csv(DataPath_csv, header=1)
+            Feetme_metric = Feetme_metrics.loc[:, ["side", metric]]
+            Feetme_metric["side"][Feetme_metric["side"] == "left"] = "LeftLeg"
+            Feetme_metric["side"][Feetme_metric["side"] == "right"] = "RightLeg"
+
+            ### == Instanciated one row_data witch contain "name", "test number", "leg side", metric =====
+            for side in ["LeftLeg", "RightLeg"]:
+                row_data = [name, N_test, side]
+                row_data = row_data + Feetme_metric[Feetme_metric["side"] == side].mean(axis=0, skipna=True).values.tolist()
+                ### ============ Add row_data to data for the DataFrame DataRaw ===========================
+                data_metric.append(row_data)
+                row_data_result_value.append([condition, side, metric, Feetme_metric[Feetme_metric["side"] == side].mean(axis=0, skipna=True).values[0], Feetme_metric[Feetme_metric["side"] == side].std(axis=0, skipna=True).values[0]])
+                ### ============ Add value of each step for all metric ====================================
+                row_data_all_metric = [name, N_test, condition, side, metric]
+                row_data_all_metric = row_data_all_metric + Feetme_metric[metric][Feetme_metric["side"] == side].values.tolist()
+                all_data_metric.append(row_data_all_metric)
+                
+        Score_SEM_Left, Score_SEM_Right = RichardBacker_SEM(data = data_metric, 
+                                                            columns_names = columns_names_metric, 
+                                                            condition = condition, 
+                                                            pdf = pdf, 
+                                                            plot_graph = False)
+        
+        row_data_result_SEM.append([condition, "Left", metric, round(Score_SEM_Left,4)])
+        row_data_result_SEM.append([condition, "Right", metric, round(Score_SEM_Right,4)])
+      
+        
+### ================================ Raw Result SEM ==========================================
+
+Result_SEM = pd.DataFrame(row_data_result_SEM, columns=["Condition", "Leg", "Parametre", "SEM"])
+
+### ================================ Prety table SEM ==========================================
+Prety_Result_SEM = pd.DataFrame()
+
+Prety_Result_SEM["Parametre"] = Result_SEM[Result_SEM["Condition"]== "normal_ground"]["Parametre"].values
+Prety_Result_SEM["Side"] = ["Left", "Right"] * 5
+Prety_Result_SEM["normal_ground"]    = Result_SEM[Result_SEM["Condition"]== "normal_ground"]["SEM"].values
+Prety_Result_SEM["mottek_vL12_vR12"] = Result_SEM[Result_SEM["Condition"]== "mottek_vL12_vR12"]["SEM"].values
+Prety_Result_SEM["mottek_vL12_vR14"] = Result_SEM[Result_SEM["Condition"]== "mottek_vL12_vR14"]["SEM"].values
+Prety_Result_SEM["mottek_vL12_vR16"] = Result_SEM[Result_SEM["Condition"]== "mottek_vL12_vR16"]["SEM"].values
+Prety_Result_SEM["mottek_vL12_vR18"] = Result_SEM[Result_SEM["Condition"]== "mottek_vL12_vR18"]["SEM"].values
+Prety_Result_SEM["mottek_vL14_vR12"] = Result_SEM[Result_SEM["Condition"]== "mottek_vL14_vR12"]["SEM"].values
+Prety_Result_SEM["mottek_vL16_vR12"] = Result_SEM[Result_SEM["Condition"]== "mottek_vL16_vR12"]["SEM"].values
+Prety_Result_SEM["mottek_vL18_vR12"] = Result_SEM[Result_SEM["Condition"]== "mottek_vL18_vR12"]["SEM"].values
+
+fig_Prety_Result_SEM, ax = plt.subplots(figsize=(12,4))
+ax.axis('tight')
+ax.axis('off')
+the_table = ax.table(cellText=Prety_Result_SEM.values,colLabels=Prety_Result_SEM.columns,loc='center')
+pdf.savefig(fig_Prety_Result_SEM, bbox_inches='tight')
+
+pdf.close() ### Close pdf file
+
+### =============================== Save DatFrame with all metrics in a csv ======================================
+
+max_length = max(len(values) for values in all_data_metric)                                     # Find max step  
+Steps = ["Step_" + str(i) for i in range(max_length-5)]                                         # Create col names  
+columns_names_all_metric = ["Name", "N_test", "Condition", "Leg", "Metric"] + Steps             # Create col names
+DatFrame_all_metric = pd.DataFrame(data = all_data_metric, columns = columns_names_all_metric)  # Create DataFrame
+
+PathSaveData = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\"
+DatFrame_all_metric.to_csv(os.path.join(PathSaveData, "DatFrame_all_metric.csv"))
+
