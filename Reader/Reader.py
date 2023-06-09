@@ -84,10 +84,13 @@ class Reader(object):
                 print(f'No value for ["dict"]["FunctionDynamicAssym"][{axe}]')
         walking.setDictOfDataFrameCutGrf(DictOfDataFrameCutGrf)
         walking.setFunctionDynamicAssym(FunctionDynamicAssym)
-
+        
         walking.setDataFrameLeftRight(pd.DataFrame(f["DataFrame"]["DataFrameLeftRight"][:]))
         walking.setDataFrameRightLeft(pd.DataFrame(f["DataFrame"]["DataFrameRightLeft"][:]))
         walking.setDataFrameDynamicSymetryScore(pd.DataFrame(f["DataFrame"]["DataFrameDynamicSymetryScore"][:]))
+        Columns_Names = ["stanceDuration (ms)", "singleSupportDuration (ms)", "doubleSupportDuration (ms)", "swingDuration (ms)", "stancePercentage (%)", "singleSupportPercentage (%)", "doubleSupportPercentage (%)", "swingPercentage (%)"]
+        walking.setDataFrameSpatioTemporal_Left(pd.DataFrame(columns=Columns_Names, data = f["DataFrame"]["DataFrameSpatioTemporal_Left"][:]))
+        walking.setDataFrameSpatioTemporal_Right(pd.DataFrame(columns=Columns_Names, data = f["DataFrame"]["DataFrameSpatioTemporal_Right"][:]))
 
         f.close()
 

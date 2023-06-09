@@ -293,26 +293,26 @@ def readFeetMeMultipleCsv(fullfilenames,freq, show_graph = True, expert=False):
     data["pressures"] = df.iloc[ : ,3:21].sum(axis=1)
     data["side"] = df[21]
 
-    dataRight = data[data["side"]=="right"]
+    dataRight = data[data["side"]=="right"] * 10
     dataRight["index"] = np.arange(0, len(dataRight))
     dataRight["index_feetme"] = dataRight.index
     dataRight["Ap"] = np.nan * dataRight.shape[0]
     dataRight["Mediolateral"] = np.nan * dataRight.shape[0]
     dataRight = dataRight.set_index(dataRight["index"])
-    dataRight = SetZero(dataRight, seuil_initial=4)
+    dataRight = SetZero(dataRight, seuil_initial=40)
     if expert == False:
         start_row_right, end_row_right = SetIndex(dataRight)
     elif expert == True:
         start_row_right = AdjustIndex(dataRight, 362)
         end_row_right = AdjustIndex(dataRight, 7150)
 
-    dataLeft = data[data["side"]=="left"]
+    dataLeft = data[data["side"]=="left"] * 10
     dataLeft["index"] = np.arange(0, len(dataLeft))
     dataLeft["index_feetme"] = dataLeft.index
     dataLeft["Ap"] = np.nan * dataLeft.shape[0]
     dataLeft["Mediolateral"] = np.nan * dataLeft.shape[0]
     dataLeft = dataLeft.set_index(dataLeft["index"])
-    dataLeft = SetZero(dataLeft, seuil_initial=4)
+    dataLeft = SetZero(dataLeft, seuil_initial=40)
     if expert == False:
         start_row_left, end_row_left = SetIndex(dataLeft)
     elif expert == True:
@@ -339,3 +339,13 @@ def readFeetMeMultipleCsv(fullfilenames,freq, show_graph = True, expert=False):
     SoleInstanceLeft.constructTimeseries()
     
     return SoleInstanceRight, SoleInstanceLeft
+
+
+def ReadSpatioTemporalCsv(fullfilenames):
+    DataFrameSpatioTemporal = pd.read_csv(fullfilenames, header=1)
+    DataFrameSpatioTemporal = DataFrameSpatioTemporal.loc[: ,["side", "stanceDuration (ms)", "singleSupportDuration (ms)", "doubleSupportDuration (ms)", "swingDuration (ms)", "stancePercentage (%)", "singleSupportPercentage (%)", "doubleSupportPercentage (%)", "swingPercentage (%)"]]
+    
+    DataFrameSpatioTemporal_Left = DataFrameSpatioTemporal[DataFrameSpatioTemporal["side"] == "left"].drop(columns=["side"])
+    DataFrameSpatioTemporal_Right = DataFrameSpatioTemporal[DataFrameSpatioTemporal["side"] == "right"].drop(columns=["side"])
+
+    return DataFrameSpatioTemporal_Left, DataFrameSpatioTemporal_Right

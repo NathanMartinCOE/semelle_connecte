@@ -84,7 +84,9 @@ class Writer(object):
         grp_DataFrame.create_dataset("DataFrameLeftRight" ,shape= None ,dtype = None, data = walking.m_DataFrameLeftRight)
         grp_DataFrame.create_dataset("DataFrameRightLeft" ,shape= None ,dtype = None, data = walking.m_DataFrameRightLeft)
         grp_DataFrame.create_dataset("DataFrameDynamicSymetryScore" ,shape= None ,dtype = None, data = walking.m_DataFrameDynamicSymetryScore)
-
+        grp_DataFrame.create_dataset("DataFrameSpatioTemporal_Left" ,shape= None ,dtype = None, data = walking.m_DataFrameSpatioTemporal_Left)
+        grp_DataFrame.create_dataset("DataFrameSpatioTemporal_Right" ,shape= None ,dtype = None, data = walking.m_DataFrameSpatioTemporal_Right)
+            
         f.close()
 
 
