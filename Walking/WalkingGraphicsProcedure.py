@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from math import nan
+import os
 
 from Tools.ToolsInterpolationGrf import InterpolationGrf
 from Walking.WalkingFilters import WalkingDataProcessingFilter, WalkingKinematicsFilter
@@ -15,8 +16,11 @@ from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProc
 
 class AbstractWalkingGraphicsProcedure(object):
     """abstract procedure """
-    def __init__(self):
-        pass
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        self.m_show_graph = show_graph
+        self.m_save_graph = save_graph
+        self.m_StoragePath = StoragePath
+
     def run(self):
         pass
 
@@ -35,8 +39,8 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
         plot of dynamic symetry function for Medio-lateral Ground Reaction Force
     """
 
-    def __init__(self):
-        super(PlotDynamicSymetryFunctionNormalisedProcedure, self).__init__()
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotDynamicSymetryFunctionNormalisedProcedure, self).__init__(show_graph, save_graph, StoragePath)
 
     def run(self, walking):
 
@@ -92,7 +96,13 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
             plt.fill_between(x = range(0,DataFrameGrf.shape[0]), y1 = Thresfold, y2 = DataFrameGrf['FunctionDynamicAssym'], where = conditionfillpositive, alpha = 0.2, color = 'r')
             plt.fill_between(x = range(0,DataFrameGrf.shape[0]), y1 = -Thresfold, y2 = DataFrameGrf['FunctionDynamicAssym'], where = conditionfillnegative, alpha = 0.2, color = 'r') 
             plt.legend()
-            plt.show()
+            if self.m_save_graph == True:
+                try :
+                    plt.savefig(os.path.join(self.m_StoragePath,f'Assym{axe}.png'))
+                except :
+                    print(f"Can't save plot to {self.m_StoragePath} { f'Assym{axe}.png'}")
+            if self.m_show_graph == True:
+                plt.show()
 
 
         from Tools.ToolsGetStepEvent import GetStepEvent
@@ -148,8 +158,8 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
         "n" plot with mean Medio-lateral Ground Reaction Force
     """
 
-    def __init__(self):
-        super(PlotCutGroundReactionForceProcedure, self).__init__()
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotCutGroundReactionForceProcedure, self).__init__(show_graph, save_graph, StoragePath)
 
     def run(self, walking):
         # from semelle_connecte.Tools.ToolsMakeDictStep import MakeDictStep
@@ -203,7 +213,13 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
             plt.legend(ncol = 4,
                     loc = "center",
                     bbox_to_anchor = (((-0.61 * ((MeanGrfDataframeCut.columns.shape[0]//2)-2)) - 0.11), -0.14))
-            plt.show()
+            if self.m_save_graph == True:
+                try :
+                    plt.savefig(os.path.join(self.m_StoragePath,f'CutDataGrf.png'))
+                except :
+                    print(f"Can't save plot to {self.m_StoragePath} CutDataGrf.png")
+            if self.m_show_graph == True:
+                plt.show()
 
         MeanGrfDataframeCut = MeanCutDataGrf(walking.m_DictOfDataFrameCutGrf["VerticalGrf"])
         PlotCutDataGrf(MeanGrfDataframeCut)
@@ -227,8 +243,8 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
     9 : TotalVerticalGrfImpulse 
     """
 
-    def __init__(self):
-        super(PlotMaxAndMinAsymetryProcedure, self).__init__()
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotMaxAndMinAsymetryProcedure, self).__init__(show_graph, save_graph, StoragePath)
 
     def run(self, walking):
 
@@ -266,7 +282,13 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
                     plt.hlines(y= - thresfold10, xmin=0, xmax=LenStep, colors='red', ls='--')
                     plt.scatter(x= StepAsymMax, y= walking.m_DataFrameDynamicSymetryScore[name][StepAsymMax], c='r')
                     plt.legend()
-                    plt.show()
+                    if self.m_save_graph == True:
+                        try :
+                            plt.savefig(os.path.join(self.m_StoragePath,f'{name}_MaxAssym.png'))
+                        except :
+                            print(f"Can't save plot to {self.m_StoragePath} {name}_MaxAssym.png'")
+                    if self.m_show_graph == True:
+                            plt.show()
 
                     StepAsymMin = np.nanargmin(np.asarray([abs(val) ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]))
 
@@ -287,7 +309,13 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
                     plt.hlines(y= - thresfold10, xmin=0, xmax=LenStep, colors='red', ls='--')
                     plt.scatter(x= StepAsymMin, y= walking.m_DataFrameDynamicSymetryScore[name][StepAsymMin], c='r')
                     plt.legend()
-                    plt.show()
+                    if self.m_save_graph == True:
+                        try :
+                            plt.savefig(os.path.join(self.m_StoragePath,f'{name}_MinAssym.png'))
+                        except :
+                            print(f"Can't save plot to {self.m_StoragePath} {name}_MinAssym.png'")
+                    if self.m_show_graph == True:
+                            plt.show()
 
                 except :
                     print(f" ================================ All value for {name} = NaN ================================")
@@ -318,8 +346,8 @@ class PlotWorthAndBestStepProcedure(AbstractWalkingGraphicsProcedure):
             - Minimal asymetry for AntPost Grf parameter (the best step in AntPost Grf)
     """
 
-    def __init__(self):
-        super(PlotWorthAndBestStepProcedure, self).__init__()
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotWorthAndBestStepProcedure, self).__init__(show_graph, save_graph, StoragePath)
 
     def run(self, walking):
         if len(walking.m_DataFrameDynamicSymetryScore)==0:
@@ -355,7 +383,13 @@ class PlotWorthAndBestStepProcedure(AbstractWalkingGraphicsProcedure):
             plt.subplot(1,2,2)
             plt.plot(walking.m_StepGrfValue["LeftLeg"]["ApGrf"][step], c='r', label='Left')
             plt.plot(walking.m_StepGrfValue["RightLeg"]["ApGrf"][step], c='blue', label='Right')
-            plt.show()
+            if self.m_save_graph == True:
+                try :
+                    plt.savefig(os.path.join(self.m_StoragePath,f'{title}.png'))
+                except :
+                    print(f"Can't save plot to {self.m_StoragePath} {title}.png'")
+            if self.m_show_graph == True:
+                    plt.show()
 
 class PlotTwoStepProcedure(AbstractWalkingGraphicsProcedure):
     """
@@ -371,8 +405,8 @@ class PlotTwoStepProcedure(AbstractWalkingGraphicsProcedure):
             - Sum of vertical ground reaction force of mean Right-Left step +- std
     """
 
-    def __init__(self):
-        super(PlotTwoStepProcedure, self).__init__()
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotTwoStepProcedure, self).__init__(show_graph , save_graph, StoragePath)
 
     def run(self, walking):
         DataFrameLeftRight = walking.m_DataFrameLeftRight
@@ -397,4 +431,10 @@ class PlotTwoStepProcedure(AbstractWalkingGraphicsProcedure):
         plt.plot(DataFrameRightLeft["Mean + Std"], c="grey")
         plt.plot(DataFrameRightLeft["Mean - Std"], c="grey")
         plt.xticks([])
-        plt.show()
+        if self.m_save_graph == True:
+            try :
+                plt.savefig(os.path.join(self.m_StoragePath,'TwoStep.png'))
+            except :
+                print(f"Can't save plot to {self.m_StoragePath} TwoStep.png'")
+        if self.m_show_graph == True:
+                plt.show()
