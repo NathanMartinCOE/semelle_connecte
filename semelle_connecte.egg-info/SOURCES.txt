@@ -3,4 +3,7 @@ semelle_connecte.egg-info/PKG-INFO
 semelle_connecte.egg-info/SOURCES.txt
 semelle_connecte.egg-info/dependency_links.txt
 semelle_connecte.egg-info/top_level.txt
-test/TestGuttenbergDataBase.py
+test/TestFeetme.py
+test/TestForcePlate.py
+test/TestGuttembergGaitDataBase.py
+test/TestMottekGait.py
