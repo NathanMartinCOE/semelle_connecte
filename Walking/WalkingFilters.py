@@ -56,3 +56,22 @@ class WalkingDataProcessingFilter(object):
         """run the filter
         """
         self.m_procedure.run(self.m_walking)
+
+
+class WalkingSpatioTemporalFilter(object):
+    """Filter to calculate walking patient Spatio Temporal
+
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance
+        procedure (semelle_connecte.Walking.AbstractWalkingSpatioTemporalProcedure): a walking SpatioTemporal procedure instance
+    """
+
+    def __init__(self, walking, procedure):
+        self.m_walking = walking
+        self.m_procedure = procedure
+
+
+    def run(self):
+        """run the filter
+        """
+        self.m_procedure.run(self.m_walking)
