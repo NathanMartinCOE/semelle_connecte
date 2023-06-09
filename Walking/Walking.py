@@ -21,6 +21,8 @@ class Walking():
         self.m_DataFrameLeftRight = pd.DataFrame()
         self.m_DataFrameRightLeft = pd.DataFrame()
         self.m_FunctionDynamicAssym = dict()
+        self.m_DataFrameSpatioTemporal_Left= pd.DataFrame()
+        self.m_DataFrameSpatioTemporal_Right = pd.DataFrame()
     
     def SetAnthropometric(self, RightLegSize, LeftLegSize, RightArmSize, LeftArmSize, Size):
         """ all anthropometric data are in (m) """
@@ -157,4 +159,20 @@ class Walking():
         Args:
             FunctionDynamicAssym gets by (Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure)
         """
-        self.m_FunctionDynamicAssym = FunctionDynamicAssym     
+        self.m_FunctionDynamicAssym = FunctionDynamicAssym  
+
+    def setDataFrameSpatioTemporal_Left(self, DataFrameSpatioTemporal_Left):
+        """ Add a DataFrame with Spatio Temporal Data of the insole.
+        
+        Args:
+            DataFrameSpatioTemporal_Left gets by (SOLE.FeetMe.ReadSpatioTemporalCsv)
+        """
+        self.m_DataFrameSpatioTemporal_Left = DataFrameSpatioTemporal_Left
+    
+    def setDataFrameSpatioTemporal_Right(self, DataFrameSpatioTemporal_Right):
+        """ Add a DataFrame with Spatio Temporal Data of the insole.
+        
+        Args:
+            DataFrameSpatioTemporal_Right gets by (SOLE.FeetMe.ReadSpatioTemporalCsv)
+        """
+        self.m_DataFrameSpatioTemporal_Right = DataFrameSpatioTemporal_Right
