@@ -2,10 +2,13 @@
 
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_reader::test_readFeetMeCsv
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_reader::test_readFeetMeMultipleCsv
+# pytest -s --disable-pytest-warnings  TestFeetme.py::Test_reader::test_ReadSpatioTemporalCsv
 
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Kinematics::test_GroundReactionForceKinematicsProcedure
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Kinematics::test_DynamicSymetryFunctionComputeProcedure
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Kinematics::test_TwoStepProcedure
+
+####### pytest -s --disable-pytest-warnings  TestFeetme.py::Test_SpatioTemporal::test_SpatioTemporalGaitCycle
 
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_DataProcessing::test_NormalisationProcedure
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_DataProcessing::test_CutDataProcessingProcedure
@@ -50,6 +53,12 @@ class Test_reader():
         for file_name in file_names:
             fullfilenames.append(os.path.join(StoragePath, file_name))
         SoleInstanceRight, SoleInstanceLeft = readFeetMeMultipleCsv(fullfilenames = fullfilenames, freq = 110)
+    
+    def test_ReadSpatioTemporalCsv(self):
+        from SOLE.FeetMe import ReadSpatioTemporalCsv
+        file_name = "Nathan_R_metrics.csv"
+        fullfilename = os.path.join(StoragePath, file_name) 
+        DataFrameSpatioTemporal = ReadSpatioTemporalCsv(fullfilename)
 
 
 from SOLE.FeetMe import readFeetMeCsv
@@ -85,6 +94,24 @@ class Test_Kinematics:
 
         procedure = TwoStepProcedure(firts_step="left")
         WalkingKinematicsFilter(walking, procedure).run()
+
+
+
+from SOLE.FeetMe import ReadSpatioTemporalCsv
+DataFrameSpatioTemporal_Left, DataFrameSpatioTemporal_Right = ReadSpatioTemporalCsv(os.path.join(StoragePath, "Nathan_R_metrics.csv") )
+
+walking.setDataFrameSpatioTemporal_Left(DataFrameSpatioTemporal_Left)
+walking.setDataFrameSpatioTemporal_Right(DataFrameSpatioTemporal_Right)
+
+
+class Test_SpatioTemporal:
+
+    def test_SpatioTemporalGaitCycle(self):
+        from Walking.WalkingSpatioTemporalProcedure import SpatioTemporalGaitCycleProcedure
+        from Walking.WalkingFilters import WalkingSpatioTemporalFilter
+        procedure = SpatioTemporalGaitCycleProcedure()
+        WalkingSpatioTemporalFilter(walking, procedure).run() 
+
 
 
 class Test_DataProcessing:
@@ -134,7 +161,7 @@ class Test_Graphics:
         from Walking.WalkingGraphicsProcedure import PlotMaxAndMinAsymetryProcedure
         from Walking.WalkingFilters import WalkingGraphicsFilter
 
-        procedure = PlotMaxAndMinAsymetryProcedure()
+        procedure = PlotMaxAndMinAsymetryProcedure(show_graph = False)
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotWorthAndBestStepProcedure(self):
@@ -156,7 +183,7 @@ class Test_Graphics:
 
         from Walking.WalkingFilters import WalkingGraphicsFilter
         from Walking.WalkingGraphicsProcedure import PlotWorthAndBestStepProcedure
-        procedure = PlotWorthAndBestStepProcedure()
+        procedure = PlotWorthAndBestStepProcedure(show_graph = False)
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotCutGroundReactionForceProcedure(self):
@@ -170,7 +197,7 @@ class Test_Graphics:
         from Walking.WalkingFilters import WalkingGraphicsFilter
         from Walking.WalkingGraphicsProcedure import PlotCutGroundReactionForceProcedure
         
-        procedure = PlotCutGroundReactionForceProcedure()
+        procedure = PlotCutGroundReactionForceProcedure(show_graph = False)
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotTwoStepProcedure(self):
@@ -181,7 +208,7 @@ class Test_Graphics:
 
         from Walking.WalkingFilters import WalkingGraphicsFilter
         from Walking.WalkingGraphicsProcedure import PlotTwoStepProcedure
-        procedure = PlotTwoStepProcedure()
+        procedure = PlotTwoStepProcedure(show_graph = False)
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotDynamicSymetryFunctionNormalisedProcedure(self):
@@ -198,7 +225,7 @@ class Test_Graphics:
         from Walking.WalkingFilters import WalkingGraphicsFilter
         from Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
 
-        procedure = PlotDynamicSymetryFunctionNormalisedProcedure()
+        procedure = PlotDynamicSymetryFunctionNormalisedProcedure(show_graph = False)
         WalkingGraphicsFilter(walking, procedure).run()
 
 
