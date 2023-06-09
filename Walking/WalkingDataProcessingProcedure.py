@@ -181,7 +181,9 @@ class DeleteStepProcedure(AbstractWalkingDataProcessingProcedure):
         FrameRate = 10
         ##### if the event are not at the good index it may be explain by the use of normalisation procedure before this procedure
 
-        for step in np.arange(LEN):
+        from tqdm import tqdm
+
+        for step in tqdm(np.arange(LEN)):
             plt.figure()
             plt.subplot(1,2,1)
             plt.title("Left Step")
@@ -229,15 +231,29 @@ class DeleteStepProcedure(AbstractWalkingDataProcessingProcedure):
                 if key == "n":
                     break
                 elif key == "l":
-                    walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step])
+                    try:
+                        walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step])
+                    except:
+                        pass
                     break
                 elif key == "r":
-                    walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step])
+                    try:
+                        walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step])
+                    except:
+                        pass
                     break
                 elif key == "lr":
-                     walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step])
-                     walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step])
-                     break
+                    try:
+                        walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][step])
+                    except:
+                        pass
+                    try:
+                        walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step] = [np.nan] * len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][step])
+                    except:
+                        pass
+                    break
+                elif key == "exist-e":
+                    exit()
                 
 
 
