@@ -6,6 +6,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from math import nan
 import os
 
@@ -103,6 +104,7 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
                     print(f"Can't save plot to {self.m_StoragePath} { f'Assym{axe}.png'}")
             if self.m_show_graph == True:
                 plt.show()
+            plt.close()
 
 
         from Tools.ToolsGetStepEvent import GetStepEvent
@@ -185,7 +187,10 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
                 VerticalGrfStep[len(VerticalGrfStep) - 1] = np.concatenate((VerticalGrfStep[len(VerticalGrfStep) - 1], ListNa40))
                 VerticalGrfStepDataFrame = pd.DataFrame()
                 for i in range(0, len(VerticalGrfStep)-1):
-                    x, VerticalGrfStepDataFrame[f"Step{i}"] = Interpolation(VerticalGrfStep[i], xnew_num= 1000)
+                    try:
+                        x, VerticalGrfStepDataFrame[f"Step{i}"] = Interpolation(VerticalGrfStep[i], xnew_num= 1000)
+                    except:
+                        VerticalGrfStepDataFrame[f"Step{i}"] = [np.nan] * 1000
                 MeanCutDataGrf[f"Mean{colname}"] = VerticalGrfStepDataFrame.mean(axis = 1, skipna=True)
 
             return MeanCutDataGrf
@@ -220,6 +225,7 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
                     print(f"Can't save plot to {self.m_StoragePath} CutDataGrf.png")
             if self.m_show_graph == True:
                 plt.show()
+            plt.close()
 
         MeanGrfDataframeCut = MeanCutDataGrf(walking.m_DictOfDataFrameCutGrf["VerticalGrf"])
         PlotCutDataGrf(MeanGrfDataframeCut)
@@ -289,6 +295,7 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
                             print(f"Can't save plot to {self.m_StoragePath} {name}_MaxAssym.png'")
                     if self.m_show_graph == True:
                             plt.show()
+                    plt.close()
 
                     StepAsymMin = np.nanargmin(np.asarray([abs(val) ** 2 for val in walking.m_DataFrameDynamicSymetryScore[name]]))
 
@@ -316,6 +323,7 @@ class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
                             print(f"Can't save plot to {self.m_StoragePath} {name}_MinAssym.png'")
                     if self.m_show_graph == True:
                             plt.show()
+                    plt.close()
 
                 except :
                     print(f" ================================ All value for {name} = NaN ================================")
@@ -390,6 +398,7 @@ class PlotWorthAndBestStepProcedure(AbstractWalkingGraphicsProcedure):
                     print(f"Can't save plot to {self.m_StoragePath} {title}.png'")
             if self.m_show_graph == True:
                     plt.show()
+            plt.close()
 
 class PlotTwoStepProcedure(AbstractWalkingGraphicsProcedure):
     """
@@ -438,3 +447,97 @@ class PlotTwoStepProcedure(AbstractWalkingGraphicsProcedure):
                 print(f"Can't save plot to {self.m_StoragePath} TwoStep.png'")
         if self.m_show_graph == True:
                 plt.show()
+        plt.close()
+
+
+
+class PlotSpatioTemporalParametersEvolutionProcedure(AbstractWalkingGraphicsProcedure):
+    """
+    This procedure plot the evolution of single stance duration, double stance duration and swing duration during the test.
+    
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance  
+    
+    Outputs :
+        On plot with 4 subplot :
+            - Evolution of the single stance duration for right and left leg during the test
+            - Evolution of the double stance duration for right and left leg during the test
+            - Evolution of the stance duration for right and left leg during the test
+            - Evolution of the swing duration for right and left leg during the test
+    """
+
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotSpatioTemporalParametersEvolutionProcedure, self).__init__(show_graph , save_graph, StoragePath)
+
+    def run(self, walking):
+
+        DataFrameSpatioTemporal_Left = walking.m_DataFrameSpatioTemporal_Left
+        DataFrameSpatioTemporal_Right = walking.m_DataFrameSpatioTemporal_Right
+        
+        Parameters = ["singleSupportDuration (ms)", "doubleSupportDuration (ms)", "stanceDuration (ms)", "swingDuration (ms)"]
+        list_n_plot = range(1,len(Parameters)+1)
+
+        plt.figure(figsize=(10,10))
+        for parameter, n_plot in zip(Parameters, list_n_plot):
+            plt.subplot(len(Parameters)//2, len(Parameters)//2, n_plot)
+            plt.plot(DataFrameSpatioTemporal_Left[parameter], label="Left Leg", ls="--", c="r")
+            plt.plot(DataFrameSpatioTemporal_Right[parameter], label="Right Leg", ls="--", c="b")
+            plt.ylabel(parameter)
+        plt.legend(ncol=2, loc="upper center", bbox_to_anchor=(0, -0.1))        
+        if self.m_save_graph == True:
+            try :
+                plt.savefig(os.path.join(self.m_StoragePath,'SpatioTemporalParametersEvolution.png'))
+            except :
+                print(f"Can't save plot to {self.m_StoragePath} SpatioTemporalParametersEvolution.png'")
+        if self.m_show_graph == True:
+                plt.show()
+        plt.close()
+
+
+
+class PlotSpatioTemporalParametersBoxplotProcedure(AbstractWalkingGraphicsProcedure):
+    """
+    This procedure plot boxplot of single stance duration, double stance duration, stance duration and swing duration
+    for each legs to look at assymetry.
+    
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance  
+    
+    Outputs :
+        Boxplots of single stance duration, double stance duration, stance duration and swing duration group by leg
+    """
+
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotSpatioTemporalParametersBoxplotProcedure, self).__init__(show_graph , save_graph, StoragePath)
+
+    def run(self, walking):
+
+        DataFrameSpatioTemporal_Left = walking.m_DataFrameSpatioTemporal_Left
+        if DataFrameSpatioTemporal_Left.shape[0] == 0:
+            DataFrameSpatioTemporal_Left.loc[0] = np.nan
+        DataFrameSpatioTemporal_Left["leg"] = ["Left"] * DataFrameSpatioTemporal_Left.shape[0]
+        DataFrameSpatioTemporal_Right = walking.m_DataFrameSpatioTemporal_Right
+        if DataFrameSpatioTemporal_Right.shape[0] == 0:
+            DataFrameSpatioTemporal_Right.loc[0] = np.nan
+        DataFrameSpatioTemporal_Right["leg"] = ["Right"] * DataFrameSpatioTemporal_Right.shape[0]
+
+        DataFrameSpatioTemporal = pd.concat([DataFrameSpatioTemporal_Left, DataFrameSpatioTemporal_Right], ignore_index=True)
+
+        Parameters = ["singleSupportDuration (ms)", "doubleSupportDuration (ms)", "stanceDuration (ms)", "swingDuration (ms)"]
+        list_n_plot = range(1,len(Parameters)+1)
+
+        plt.figure(figsize=(10,10))
+        for parameter, n_plot in zip(Parameters, list_n_plot):
+            plt.subplot(len(Parameters)//2, len(Parameters)//2, n_plot)
+            sns.boxplot(x="leg", y=parameter,
+                        hue="leg", palette=["r", "b"],
+                        data=DataFrameSpatioTemporal)
+        if self.m_save_graph == True:
+            try :
+                plt.savefig(os.path.join(self.m_StoragePath,'SpatioTemporalParametersBoxplot.png'))
+            except :
+                print(f"Can't save plot to {self.m_StoragePath} SpatioTemporalParametersBoxplot.png'")
+        if self.m_show_graph == True:
+                plt.show()
+        plt.close()
+
