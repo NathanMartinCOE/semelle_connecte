@@ -12,6 +12,8 @@ class Writer(object):
 
     Args:
         Walking (semelle_connecte.Walking.Walking): a walking patient instance
+        path: the path to save the h5 file
+        file_name(str): the name for the h5 file
     """
 
     def __init__(self, walking, path, file_name):
@@ -30,11 +32,11 @@ class Writer(object):
         StorageDataPath = self.m_path
         f = h5py.File(os.path.join(StorageDataPath, self.m_file_name), "w")
 
-        # Unique Value
+        # Save the Unique Value
         grp_UniqueValue = f.create_group("UniqueValue")
         grp_UniqueValue.create_dataset("mass", shape= None ,dtype = None, data = walking.m_mass)
 
-        # Dict
+        # Save the Dictionary
         grp_dict = f.create_group("dict")
 
         grp_sole = grp_dict.create_group("sole")
@@ -79,7 +81,7 @@ class Writer(object):
             except:
                 print(f"No value in walking.m_FunctionDynamicAssym[{axe}]")
 
-        # DataFrame
+        # Save the DataFrame
         grp_DataFrame = f.create_group("DataFrame")
         grp_DataFrame.create_dataset("DataFrameLeftRight" ,shape= None ,dtype = None, data = walking.m_DataFrameLeftRight)
         grp_DataFrame.create_dataset("DataFrameRightLeft" ,shape= None ,dtype = None, data = walking.m_DataFrameRightLeft)

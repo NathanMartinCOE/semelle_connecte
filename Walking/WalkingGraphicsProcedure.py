@@ -16,7 +16,17 @@ from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
 from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure, GroundReactionForceKinematicsProcedure
 
 class AbstractWalkingGraphicsProcedure(object):
-    """abstract procedure """
+    """abstract procedure 
+    
+    Args:
+        show_graph (Bolean):
+            True (defaut) = plot the graph
+            False = don't plot the graph
+        save_graph (Bolean):
+            True = save the graph in StoragePath{name}.jpg 
+            False (defaut) = don't save the graph
+        StoragePath(str): defaut is None use this argument's if you choose save_graph == True
+    """
     def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
         self.m_show_graph = show_graph
         self.m_save_graph = save_graph
@@ -46,8 +56,19 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
     def run(self, walking):
 
         def PlotDynamicSymetryFunction(GrfRight, GrfLeft):
+            """
+            This function compute and plot the Dynamic Symetry Function based on Winiarski's article:
+            Winiarski S, Rutkowska-Kucharska A, Kowal M. Symmetry function An effective tool for evaluating the gait symmetry 
+            of trans-femoral amputees. Gait & Posture. oct 2021;90:9-15. 
 
-            # Rajoute des 0 après le pas le plus court en temps
+            Args: 
+                GrfRight: Ground Reaction Force of the Right leg
+                GrfLeft:  Ground Reaction Force of the Left  leg
+
+            Outputs:
+                plot the data of the right and left leg and the Dynamic Symetry Function
+            """
+            # If the two steps are not the same size, add zeros after the shorter step.
             if GrfRight.shape[0] > GrfLeft.shape[0]:
                 AddZero = [0] * (GrfRight.shape[0]-GrfLeft.shape[0])
                 GrfLeft = np.concatenate((GrfLeft, AddZero))
@@ -55,19 +76,19 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
                 AddZero = [0] * (GrfLeft.shape[0]-GrfRight.shape[0])
                 GrfRight = np.concatenate((GrfRight, AddZero))
 
-            # Definition d'un thresfold de 5% et de -5% pour la FSD
+            # Definition of a thresfold of 5% and -5% for the Dynamic Symetry Function
             Thresfold = 5
             ThresfoldPositive = [Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
             ThresfoldNegative = [-Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
 
-            # Création d'un DataFrame contenant les forces de réactions au sol de la jambe droite et gauche
-                    # et des Thresfold positif et négatif
+            # Creation of a DataFrame containing the left and right leg ground reaction forces
+                    # and the positive and negative Thresfold
             DataFrameGrf = pd.DataFrame({'yRight': GrfRight,
                                          'yLeft': GrfLeft,
                                          'ThresfoldPositive': ThresfoldPositive,
                                          'ThresfoldNegative' : ThresfoldNegative})
             
-            # Calcul de la fonction de symetrie dynamique
+            # Compute Dynamic Symetry Function
             FunctionDynamicAssym = []
             conditionfillpositive = []
             conditionfillnegative = []
@@ -80,12 +101,12 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
                 conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameGrf['ThresfoldPositive'][grf])
                 conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameGrf['ThresfoldNegative'][grf])
             
-            # Ajout de la FunctionDynamicAssym et des conditions fill au DataFrame
+            # Addition of the FunctionDynamicAssym and fill conditions to the DataFrame
             DataFrameGrf['FunctionDynamicAssym'] = FunctionDynamicAssym
             DataFrameGrf['conditionfillpositive'] = conditionfillpositive
             DataFrameGrf['conditionfillnegative'] = conditionfillnegative
 
-            # Procédure Graphique
+            # Graphic's Procedure
             plt.figure(figsize=(15,8))
             plt.plot(DataFrameGrf['yLeft'], c='red', ls='--', label='Jambe gauche')
             plt.plot(DataFrameGrf['yRight'], c='blue', ls='--', label='Jambe droite')
@@ -110,7 +131,7 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
         from Tools.ToolsGetStepEvent import GetStepEvent
         HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
 
-        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"] # MediolateralGrf peut entrainer des bug
+        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"]
 
         if len(HeelStrike) == 1 :
             for axe in axis :
@@ -156,17 +177,13 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
 
     Outputs:
         "n" plot with mean Vertical Ground Reaction Force
-        "n" plot with mean Antero-posterior Ground Reaction Force
-        "n" plot with mean Medio-lateral Ground Reaction Force
     """
 
     def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
         super(PlotCutGroundReactionForceProcedure, self).__init__(show_graph, save_graph, StoragePath)
 
     def run(self, walking):
-        # from semelle_connecte.Tools.ToolsMakeDictStep import MakeDictStep
         from Tools.ToolsMakeDictStep import MakeDictStep
-        # from Tools.ToolsMakeDictStep import MakeDictStepForCut
 
         def MeanCutDataGrf(GrfDataframeCut):
             from Tools.ToolsInterpolationGrf import Interpolation
@@ -233,10 +250,11 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
         
 class PlotMaxAndMinAsymetryProcedure(AbstractWalkingGraphicsProcedure):
     """
-    1) Faits un plots de l'asymétrie d'un des paramètres de ground reaction force au cours du temps 
-    2) Recherche le pas ou l'asymétrie sur ce paramètre est la plus importante et le plot
-    3) Recherche le pas ou l'asymétrie sur ce paramètre est la moins importante et le plot
-    Args name and num :
+    1) Plot the asymmetry of one of the ground reaction force parameters over time. 
+    2) Find the step where the asymmetry on this parameter is the greatest (furthest from zero) and plot this step.
+    3) Find the step where the asymmetry on this parameter is the least important (closest to zero) and plot this step.
+    Number corresponds to each parameter:
+    Vertical Axis                                   Antero Posterior Axis
     0 : FirtPeak                                    10 : BrakingPeak
     1 : MidstanceValley                             11 : PropulsivePeak
     2 : SecondPeak                                  12 : BrakePhaseDuration
@@ -399,6 +417,8 @@ class PlotWorthAndBestStepProcedure(AbstractWalkingGraphicsProcedure):
             if self.m_show_graph == True:
                     plt.show()
             plt.close()
+
+
 
 class PlotTwoStepProcedure(AbstractWalkingGraphicsProcedure):
     """

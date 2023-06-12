@@ -1,3 +1,9 @@
+"""
+This code is not a function. It is a code for converting files from the Gutenberg Gait Database into HDF5 files.
+Available at : 
+https://springernature.figshare.com/collections/Gutenberg_Gait_Database_A_ground_reaction_force_database_of_level_overground_walking_in_healthy_individuals/5311538
+"""
+
 import h5py
 import pandas as pd
 import numpy as np

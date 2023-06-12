@@ -13,10 +13,17 @@ Details of Processing for each patient and each condition:
                   DynamicSymetryFunctionComputeProcedure  (for more informations please read procedure documentation)
 
 Args :
-    ID the id of the patient (int)
-    mass the mass of the patient (int)
-    PathSEM_pressure: the path to the folder containing all the csv files (pressures).
-    StoragePathHDF5_SEM: the path to the folder where walking_{name}_test{N}.hdf5 while be saved
+    list_num(int): The list of test numbers
+    list_mass(int): The list of each patient's mass for each test
+    PathSEM_pressure: The path to the folder containing all the csv files (pressures).
+    StoragePathHDF5_SEM: The path to the folder where walking_{name}_test{N}.hdf5 while be saved
+
+Process:
+    Create Walking instance (readFeetMeMultipleCsv)
+    GroundReactionForceKinematicsProcedure
+    NormalisationProcedure
+    DynamicSymetryFunctionComputeProcedure
+    Save Walking instance (Writer().writeh5())
 
 Output :
     And hdf5 file with the walking object.
@@ -31,11 +38,8 @@ import re
 from Walking.Walking import Walking
 from SOLE.FeetMe import readFeetMeMultipleCsv
 
-
-# list_num = range(1,28)
-# list_mass = [60] * 27
-list_num = [7]
-list_mass = [60]
+list_num = range(1,28)
+list_mass = [60] * 27
 
 
 for num, mass in zip(list_num, list_mass):
@@ -47,17 +51,17 @@ for num, mass in zip(list_num, list_mass):
     csv_files = [file for file in files if file.endswith(".csv")]
     fullfilenames = []
 
-    ### Cette boucle doit pas boucler avec autre chose
+    ### This loop must not loop with anything else
     for file_name in csv_files:
         fullfilenames.append(os.path.join(PathSRU_pressure, file_name))
 
-    ### ======== look for the name of participant ===========
+    ### ======== Look for the name of participant ===========
     find_name = re.search(r"(.*?)_test", file_name) 
     if find_name:
         name = find_name.group(1)
     else:
         print("Name of participant not find. ----------- Please be sure to name the csv as name_testX_X.hdf5 ")
-    ### ======== look for the number of the test session =====
+    ### ======== Look for the number of the test session =====
     find_N_test = re.search(r"test(.*?)_", file_name)
     if find_N_test:
         N_test = find_N_test.group(1)

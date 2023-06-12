@@ -18,10 +18,8 @@ class SpatioTemporalGaitCycleProcedure(AbstractWalkingSpatioTemporalProcedure):
         super(SpatioTemporalGaitCycleProcedure, self).__init__()
 
     def run(self, walking):
-        try :
-            DataFrameSpatioTemporal = walking.m_DataFrameSpatioTemporal
-        except :
-            exit()
-        
-        ## The plot is not possible because indexing is false
+        pass
+
+        ### I want to compute a DataFrame for plot the same graph as FeetMe but better with right and left   
+        ### But The plot is not possible because indexing is false
 

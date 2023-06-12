@@ -59,7 +59,7 @@ class WalkingDataProcessingFilter(object):
 
 
 class WalkingSpatioTemporalFilter(object):
-    """Filter to calculate walking patient Spatio Temporal
+    """Filter to calculate walking patient Spatio Temporal parameters
 
     Args:
         Walking (semelle_connecte.Walking.Walking): a walking patient instance

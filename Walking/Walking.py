@@ -17,10 +17,10 @@ class Walking():
         self.m_GroundReactionForces = dict()
         self.m_StepGrfValue = dict()
         self.m_DictOfDataFrameCutGrf = dict()
+        self.m_FunctionDynamicAssym = dict()
         self.m_DataFrameDynamicSymetryScore = pd.DataFrame()
         self.m_DataFrameLeftRight = pd.DataFrame()
         self.m_DataFrameRightLeft = pd.DataFrame()
-        self.m_FunctionDynamicAssym = dict()
         self.m_DataFrameSpatioTemporal_Left= pd.DataFrame()
         self.m_DataFrameSpatioTemporal_Right = pd.DataFrame()
     
@@ -36,7 +36,7 @@ class Walking():
         """place an Sole to the left leg
 
         Args:
-            SoleInstance (semelle_connecte.SOLE.sole) : an Semelle instance
+            SoleInstance (semelle_connecte.SOLE.sole) : an insole instance
         """
         SoleInstance.constructTimeseries()
         self.m_sole["LeftLeg"] = SoleInstance.m_timeseries
@@ -45,7 +45,7 @@ class Walking():
         """place an Sole to the right leg
 
         Args:
-            SoleInstance (semelle_connecte.SOLE.sole) : an Semelle instance
+            SoleInstance (semelle_connecte.SOLE.sole) : an insole instance
         """
         SoleInstance.constructTimeseries()
         self.m_sole["RightLeg"] = SoleInstance.m_timeseries

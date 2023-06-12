@@ -12,11 +12,16 @@ def MakeDictStep(VerticalGrf, ApGrf, MedioLatGrf):
     anteroposterior axes with each step in index. Use a rolling median with a step size of 30 
     to smooth out data loss.
 
-    Inputs: support phase vertical ground reaction force, support phase
-        anteroposterior ground reaction force
+    Args: 
+        VerticalGrf: vertical ground reaction force
+        ApGrf: antero-posterior ground reaction force
+        MedioLatGrf: medio-lateral ground reaction force
 
-    Outputs: Dictionnary of the vertical ground reaction force of each step, 
-    Dictionnary of the anteroposterior ground reaction force of each step  
+    Outputs:
+        GrfStep: Dictionnary of 3 dictionnary -> "VerticalGrfStep", "ApGrfStep", "MedioLatGrfStep"
+            VerticalGrfStep: Dictionnary of the vertical ground reaction force of each step
+            ApGrfStep: Dictionnary of the antero-posterior ground reaction force of each step
+            MedioLatGrfStep: Dictionnary of the medio-lateral ground reaction force of each step 
     """
     from Tools.ToolsGetStepEvent import GetStepEvent
     

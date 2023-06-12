@@ -5,6 +5,24 @@ from math import sqrt
 
 
 def RichardBacker_SEM(data, columns_names, condition, pdf, plot_graph = False):
+    """
+    A function for compute an plot the SEM (standard error of measure) as described by richard backer.
+    For more info please see : https://wwrichard.net/introduction-to-the-sem/
+
+    Args:
+        data (pd.Series) : in each row -> "id", "test", "leg", "value_0" to "value_n" 
+            (a single value for the space-time parameters, 1000 for the vertical reaction force)
+        columns_names (list) : names to use for creat the pd.DataFrame
+        condition (str) : condition name  
+        pdf (matplotlib.backends.backend_pdf.PdfPages) 
+        plot_graph (Boolean) by defaut is False
+            True  -> For use when you want to represent the value of the SEM over a gait cycle 
+            False -> Don't plot the value of the SEM
+    Outputs:
+        when plot_graph == True -> save the fig in the pdf
+        SEM_left  (int) -> value of the SEM for the left  leg
+        SEM_right (int) -> value of the SEM for the right leg
+    """
 
     ### ======= Compute Standard Deviation of each subject beetween all they test for Right and Left leg ================
     DataRaw = pd.DataFrame(data, columns= columns_names)

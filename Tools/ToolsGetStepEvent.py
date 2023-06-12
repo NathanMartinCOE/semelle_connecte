@@ -6,11 +6,12 @@ def GetStepEvent(VerticalGrf):
     """
     This function make two list with the index of HeelStrike time and ToeOff time.
 
-    Inputs: support phase vertical ground reaction force of all step.
+    Args:
+        VerticalGrf: vertical ground reaction force of all step.
 
     Outputs: 
-        HeelStrike : index of the heel strike for each step. 
-        ToeOff : index of the toe of for each step.
+        HeelStrike (list) : index of the heel strike for each step. 
+        ToeOff (list)     : index of the toe of for each step.
     """
     if min(VerticalGrf) != 0 :
         thresfold = min(VerticalGrf) + 10 / 100 * min(VerticalGrf)

@@ -20,6 +20,13 @@ Args :
     StoragePathHDF5_SRU: the path to the folder where patient_{id}_SRU_walking.hdf5 while be saved
     StoragePathHDF5_TDM: the path to the folder where patient_{id}_TDM_walking.hdf5 while be saved
 
+Process:
+    Create Walking instance (readFeetMeMultipleCsv)
+    GroundReactionForceKinematicsProcedure
+    NormalisationProcedure
+    DynamicSymetryFunctionComputeProcedure
+    Save the Walking instance (Writer().writeh5())
+
 Output :
     And hdf5 file with the walking object.
 

@@ -1,4 +1,43 @@
-# test APA
+"""
+Coding : utf8
+Author : Nathan Martin
+Create : 12/06/2023
+
+=========================================================  Documentation =========================================================
+
+This file is used to create automatic report after walk tests.
+
+Input :
+    ID(int): patient ID 
+    mass(int): patient mass in kg
+    tests(list): name of folders in which pressure and metric folders are stored
+    DataPath(path): path where all the files are located
+
+If the walking.hdf5 file don't exist create this file please see: Create walking.hdf5 and process
+Else if the file exist use the walking.hdf5 for process directly.
+    
+Create walking.hdf5:
+    Create an walking instance with the ground reaction forces of the right and left insoles and the metric data.
+    Run this procedures:
+                        GroundReactionForceKinematicsProcedure
+                        DeleteStepProcedure
+                        NormalisationProcedure
+    Save the walking instance in a walking.hdf5 file
+
+Process:
+    Kinetic gait parameters:
+        PlotDynamicSymetryFunctionNormalisedProcedure
+        CutDataProcessingProcedure
+    Spatio-Temporal:
+        PlotSpatioTemporalParametersEvolutionProcedure
+        PlotSpatioTemporalParametersBoxplotProcedure
+    Table:
+        Create a summary table for Kinetic and spatio-temporal parameters
+
+Output:
+    A report saved as a word file
+"""
+
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,13 +58,14 @@ ID = 161095
 mass = 60
 tests = ["Parcours_1", "Parcours_2", "Haie", "Salom", "doubleTache", "bande", "Back"]
 
+DataPath = f"C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\APA\\{ID}\\{test}\\"
+
+
 document = Document()
 
 for test in tests:
 
     document.add_heading(f'Condition : {test}', 0)
-    
-    DataPath = f"C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\APA\\{ID}\\{test}\\"
 
     files = os.listdir(DataPath)
     fullfilename_walking = []
@@ -74,6 +114,8 @@ for test in tests:
         StoragePathHDF5 = DataPath
         Writer(walking = walking, path = StoragePathHDF5, file_name = f"walking_{ID}_{test}.hdf5").writeh5()
 
+
+    ### ======================================== Kinetic gait parameters ================================================
     document.add_heading('Kinetic gait parameters', level=1)
 
     ### Assymetry of the Vertical Ground Reaction Force
@@ -205,4 +247,3 @@ for test in tests:
         print("Don't find ImageForReport ----> SI_Formule.jpg")
     
 document.save(f"C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\APA\\{ID}\\Report.docx")
-import ipdb; ipdb.set_trace()

@@ -63,6 +63,10 @@ class CutDataProcessingProcedure(AbstractWalkingDataProcessingProcedure):
         self.m_CutNumber = int
     
     def setCutNumber(self, n_cut):
+        """ To choose the number of cut
+        Args: 
+            n_cut(int) : the number for cut the data
+        """
         self.m_CutNumber = n_cut
 
     def run(self, walking):
@@ -110,9 +114,10 @@ class CutDataProcessingProcedure(AbstractWalkingDataProcessingProcedure):
 
 
 class NormalisationProcedure(AbstractWalkingDataProcessingProcedure):
-    """ This procedure normalized Ground Reaction in % of cycle for all step in 
-    walking.m_StepGrfValue. Note that if walking.m_StepGrfValue is empty this procedure
-    run GroundReactionForceKinematicsProcedure() for get the Ground Reaction Force of each step.
+    """ This procedure normalized Ground Reaction in % of cycle for all step in walking.m_StepGrfValue. 
+
+    /!\ Note that if walking.m_StepGrfValue is empty this procedure run GroundReactionForceKinematicsProcedure() for 
+    get the Ground Reaction Force of each step. /!\ 
     
     Args:
         Walking (semelle_connecte.Walking.Walking): a walking patient instance  
@@ -154,6 +159,9 @@ class DeleteStepProcedure(AbstractWalkingDataProcessingProcedure):
     """ This procedure show you each Right and Left step of walkingm_StepGrfValue and 
     if you find that one of this step is poor du to data filtered and random noise you can
     delete it.
+
+    Use 'l' for delete Left ; 'r' for delete Right ; 'lr' for delete both and 'n' for next figure.
+    If you want to interrupt the code you can type: 'exit-e'.
     
     Args:
         Walking (semelle_connecte.Walking.Walking): a walking patient instance  
@@ -252,7 +260,7 @@ class DeleteStepProcedure(AbstractWalkingDataProcessingProcedure):
                     except:
                         pass
                     break
-                elif key == "exist-e":
+                elif key == "exit-e":
                     exit()
                 
 

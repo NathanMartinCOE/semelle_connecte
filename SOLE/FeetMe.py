@@ -36,7 +36,23 @@ class FeetMe(sole.Sole):
         self.m_timeseries.data["MediolateralGrf"] = self.m_GroundReactionForce["Mediolateral"]
 
 def readFeetMeCsv(fullfilename,freq, show_graph = True, expert=False):
+    """
+    A reader function for csv pressures give by FeetMe insole. The use of this reader is not recommended, as FeetMe produces 
+    several files, so it's better to use the readFeetMeMultipleCsv.
 
+    Args:
+        fullfilename = path of the csv pressure file
+        freq = acquisition frequency in hz
+        show_graph (boolean) = defaut is True
+            True  -> show the graph of the data after selecting the data range and applying the threshold
+            False -> (not recommended) don't show the graph 
+        expert (boolean) = defaut is False
+            True  -> (not recommended) use for test the function without choose on plot
+            False -> does the same thing as if true were selected, but uses the values selected graphically
+    Outputs:
+        SoleInstanceRight -> an insole instance (semelle_connecte.SOLE.FeetMe.FeetMe)
+        SoleInstanceLeft  -> an insole instance (semelle_connecte.SOLE.FeetMe.FeetMe)
+    """
 
     def GetSeuilZero(data, seuil_initial):
 
@@ -146,7 +162,7 @@ def readFeetMeCsv(fullfilename,freq, show_graph = True, expert=False):
         start_row_right, end_row_right = SetIndex(dataRight)
     elif expert == True:
         start_row_right = AdjustIndex(dataRight, 362)
-        end_row_right = AdjustIndex(dataRight, 7150)
+        end_row_right  = AdjustIndex(dataRight, 7150)
 
     dataLeft = data[data["side"]=="left"]
     dataLeft["index"] = np.arange(0, len(dataLeft))
@@ -184,6 +200,24 @@ def readFeetMeCsv(fullfilename,freq, show_graph = True, expert=False):
 
 
 def readFeetMeMultipleCsv(fullfilenames,freq, show_graph = True, expert=False):
+    """
+    A reader function for csv pressures give by FeetMe insole. The use of this reader is recommended, as FeetMe produces 
+    several files.
+
+    Args:
+        fullfilenames = a list with all the path of the csv pressure files 
+            PLEASE ---> Be careful to give the files in the order given by feetme
+        freq = acquisition frequency in hz
+        show_graph (boolean) = defaut is True
+            True  -> show the graph of the data after selecting the data range and applying the threshold
+            False -> (not recommended) don't show the graph 
+        expert (boolean) = defaut is False
+            True  -> (not recommended) use for test the function without choose on plot
+            False -> does the same thing as if true were selected, but uses the values selected graphically
+    Outputs:
+        SoleInstanceRight -> an insole instance (semelle_connecte.SOLE.FeetMe.FeetMe)
+        SoleInstanceLeft  -> an insole instance (semelle_connecte.SOLE.FeetMe.FeetMe)
+    """
 
     def AdjustIndex(data, index):
         try :
@@ -342,6 +376,16 @@ def readFeetMeMultipleCsv(fullfilenames,freq, show_graph = True, expert=False):
 
 
 def ReadSpatioTemporalCsv(fullfilenames):
+    """
+    A reader function for csv metrics give by FeetMe insole.
+
+    Args:
+        fullfilenames = the path of the csv metric
+    Outputs:
+        DataFrameSpatioTemporal_Left  = pd.DataFrame() with Spatio-Temporal Parameters
+        DataFrameSpatioTemporal_Right = pd.DataFrame() with Spatio-Temporal Parameters
+    """
+
     DataFrameSpatioTemporal = pd.read_csv(fullfilenames, header=1)
     DataFrameSpatioTemporal = DataFrameSpatioTemporal.loc[: ,["side", "stanceDuration (ms)", "singleSupportDuration (ms)", "doubleSupportDuration (ms)", "swingDuration (ms)", "stancePercentage (%)", "singleSupportPercentage (%)", "doubleSupportPercentage (%)", "swingPercentage (%)"]]
     

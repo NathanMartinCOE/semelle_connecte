@@ -52,7 +52,6 @@ class GroundReactionForceKinematicsProcedure(AbstractWalkingKinematicsProcedure)
         super(GroundReactionForceKinematicsProcedure, self).__init__()
 
     def run(self, walking):
-        # from semelle_connecte.Tools.ToolsMakeDictStep import MakeDictStep
         from Tools.ToolsMakeDictStep import MakeDictStep
         from Tools.ToolsGrf import grf
 
@@ -84,7 +83,6 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
 
     Args:
         walking.m_GroundReactionForces get by (semelle_connecte.Walking.WalkingKinematicsProcedure.GroundReactionForceKinematicsProcedure)
-
 
     Outputs:
         DataFrameDynamicSymetryScore a DataFrame of the Dynamic Symetry Function for each values of vertical and anteroposterior 
@@ -143,9 +141,9 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
 
             walking.setDataFrameDynamicSymetryScore(DataFrameDynamicSymetryScore)
 
-        
+
+        # !!!!!! CAUTION this code is used in graphic procedures: make it a function !!!!!!!!!!!
         def DynamicSymetryFunction(GrfRight, GrfLeft):
-            # Rajoute des 0 après le pas le plus court en temps
             if GrfRight.shape[0] > GrfLeft.shape[0]:
                 AddZero = [0] * (GrfRight.shape[0]-GrfLeft.shape[0])
                 GrfLeft = np.concatenate((GrfLeft, AddZero))
@@ -153,19 +151,15 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
                 AddZero = [0] * (GrfLeft.shape[0]-GrfRight.shape[0])
                 GrfRight = np.concatenate((GrfRight, AddZero))
 
-            # Definition d'un thresfold de 5% et de -5% pour la FSD
             Thresfold = 5
             ThresfoldPositive = [Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
             ThresfoldNegative = [-Thresfold] * max([GrfRight.shape[0], GrfLeft.shape[0]])
 
-            # Création d'un DataFrame contenant les forces de réactions au sol de la jambe droite et gauche
-                    # et des Thresfold positif et négatif
             DataFrameGrf = pd.DataFrame({'yRight': GrfRight,
                                             'yLeft': GrfLeft,
                                             'ThresfoldPositive': ThresfoldPositive,
                                             'ThresfoldNegative' : ThresfoldNegative})
             
-            # Calcul de la fonction de symetrie dynamique
             FunctionDynamicAssym = []
             conditionfillpositive = []
             conditionfillnegative = []
@@ -178,7 +172,6 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
                 conditionfillpositive.append(FunctionDynamicAssym[grf] >= DataFrameGrf['ThresfoldPositive'][grf])
                 conditionfillnegative.append(FunctionDynamicAssym[grf] <= DataFrameGrf['ThresfoldNegative'][grf])
             
-            # Ajout de la FunctionDynamicAssym et des conditions fill au DataFrame
             DataFrameGrf['FunctionDynamicAssym'] = FunctionDynamicAssym
             DataFrameGrf['conditionfillpositive'] = conditionfillpositive
             DataFrameGrf['conditionfillnegative'] = conditionfillnegative
@@ -188,7 +181,7 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
         from Tools.ToolsGetStepEvent import GetStepEvent
         HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
 
-        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"] # MakeDictStep ne prend pas ML
+        axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"]
         DictFunctionDynamicAssym = dict()
 
         if len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][0]) != len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][0]):

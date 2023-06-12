@@ -14,6 +14,19 @@ from Tools.ToolsFFT import TransformFourrier, VisuTransformFourrier
 
 
 def ReadMottekc3d(Path, mass, graph = True):
+    """
+    A reader function for read c3d give when you use M-Gait (Motek)
+
+    Args:
+        Path = path of the c3d file
+        mass = mass of the subject in kg
+        graph (boolean) = defaut is True 
+            True  -> run VisuTransformFourrier (interactive graphic for selecting thresholds)
+            False -> CAUTION (all thresholds will be selected by default)
+    Outputs:
+        dataLeft  = pd.DataFrame() with VerticalVGrf ; ApGrf ; MediolateralGrf for Ground Reaction Force in each axis
+        dataRight = pd.DataFrame() with VerticalVGrf ; ApGrf ; MediolateralGrf for Ground Reaction Force in each axis
+    """
     acq = btkTools.smartReader(Path)
     grwc = btkTools.getForcePlateWrench(acq)
 

@@ -61,11 +61,11 @@ for PathCondition, name in zip(PathConditions, Names):
     swingDuration = []
     VerticalGrf = []
 
-    # Filtrer les fichiers en fonction de leurs types
+    # Filter files by type
     csv_files = [file for file in files if file.endswith(".csv")]
     hdf5_files = [file for file in files if file.endswith(".hdf5")]
 
-    # Utilisation des csv (calcul de l'asymétrie des métrics moyennes)
+    # Use of csv (calculation of the asymmetry of average metrics)
     for file in csv_files:
         PathMetric = PathCondition
         NameFileMetric = str(file)
@@ -79,7 +79,7 @@ for PathCondition, name in zip(PathConditions, Names):
         doubleSupportDuration.append(DynamicSymetryScoreTotal.mean(axis=0)["doubleSupportDuration"])
         swingDuration.append(DynamicSymetryScoreTotal.mean(axis=0)["swingDuration"])
 
-    # Utilisation des hdf5 (calcul de l'asymétrie de la force de réaction moyenne)
+    # Use of hdf5 (calculation of the asymmetry of the average reaction force)
     for file in hdf5_files:
         from Reader.Reader import Reader
         PathHDF5 = PathCondition

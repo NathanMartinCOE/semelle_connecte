@@ -9,8 +9,6 @@ from Walking.Walking import Walking
 from SOLE.FeetMe import FeetMe
 
 
-
-
 class Reader(object):
     """ Class to read h5 file
 

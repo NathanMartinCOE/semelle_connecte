@@ -15,8 +15,10 @@ def grf(VerticalGrf,ApGrf,FrameRate = 10):
             is positive, the anteroposterior braking force is negative, the anteroposterior 
             propulsive force is positive.
 
-            Inputs: support phase vertical ground reaction force, support phase
-                anteroposterior ground reaction force, frame rate
+            Inputs: 
+                VerticalGrf: vertical ground reaction force
+                ApGrf: anteroposterior ground reaction force
+                FrameRate (int): FrameRate for get the correct index
 
             Outputs: 
                 (VERTICAL GRF) :
@@ -29,8 +31,9 @@ def grf(VerticalGrf,ApGrf,FrameRate = 10):
                     Time to : BrakePhaseTimeTo,
                     Impulse : PropulsivePhaseTimeTo, BrakingImpulse, PropulsiveImpulse
             """
-            # Function for change dtype to list
+            
             def ToList(data):
+                """ Function for change dtype to list """
                 if type(data) == list:
                     pass
                 elif type(data) == np.ndarray:
@@ -113,7 +116,7 @@ def grf(VerticalGrf,ApGrf,FrameRate = 10):
                 TotalVerticalGrfImpulse = np.nan
 
             """
-            ----------- ANTEROPOSTERIOR GRFS -----------
+            ----------- ANTEROPOSTERIOR GRF -----------
             """
 
             #Index
