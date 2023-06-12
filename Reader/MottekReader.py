@@ -14,8 +14,7 @@ from Tools.ToolsFFT import TransformFourrier, VisuTransformFourrier
 
 
 def ReadMottekc3d(Path, mass, graph = True):
-    """
-    A reader function for read c3d give when you use M-Gait (Motek)
+    """A reader function for read c3d give when you use M-Gait (Motek)
 
     Args:
         Path = path of the c3d file
