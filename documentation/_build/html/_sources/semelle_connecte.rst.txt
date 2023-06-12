@@ -1,0 +1,69 @@
+semelle\_connecte package
+=========================
+
+Submodules
+----------
+
+semelle\_connecte.APA module
+----------------------------
+
+.. automodule:: semelle_connecte.APA
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+semelle\_connecte.Etude\_Assym\_Compute\_R\_dataset module
+----------------------------------------------------------
+
+.. automodule:: semelle_connecte.Etude_Assym_Compute_R_dataset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+semelle\_connecte.Etude\_Assym\_Create\_Walking\_hdf5 module
+------------------------------------------------------------
+
+.. automodule:: semelle_connecte.Etude_Assym_Create_Walking_hdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+semelle\_connecte.False\_result module
+--------------------------------------
+
+.. automodule:: semelle_connecte.False_result
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+semelle\_connecte.Feetme\_SEM module
+------------------------------------
+
+.. automodule:: semelle_connecte.Feetme_SEM
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+semelle\_connecte.Feetme\_SEM\_Create\_Walking\_hdf5 module
+-----------------------------------------------------------
+
+.. automodule:: semelle_connecte.Feetme_SEM_Create_Walking_hdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+semelle\_connecte.setup module
+------------------------------
+
+.. automodule:: semelle_connecte.setup
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: semelle_connecte
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+WalkingGraphicsProcedure module
+===============================
+
+.. automodule:: WalkingGraphicsProcedure
+   :members:
+   :undoc-members:
+   :show-inheritance:

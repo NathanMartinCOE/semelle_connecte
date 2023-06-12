@@ -1,0 +1,7 @@
+WalkingSpatioTemporalProcedure module
+=====================================
+
+.. automodule:: WalkingSpatioTemporalProcedure
+   :members:
+   :undoc-members:
+   :show-inheritance:

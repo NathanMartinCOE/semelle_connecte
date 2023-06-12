@@ -1,0 +1,7 @@
+WalkingDataProcessingProcedure module
+=====================================
+
+.. automodule:: WalkingDataProcessingProcedure
+   :members:
+   :undoc-members:
+   :show-inheritance:

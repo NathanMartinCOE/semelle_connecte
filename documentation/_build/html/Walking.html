@@ -1,0 +1,1193 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Study" href="Study.html" /><link rel="prev" title="Tools" href="Tools.html" />
+
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>Walking - Connected Insole 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Connected Insole 1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Connected Insole 1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Reader</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Reader.html">Reader</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#sole">SOLE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="SOLE.html">SOLE</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#test">Test</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#tools">Tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tools.html">Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html#walking">Walking</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Walking</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#study">Study</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Study.html">Study</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#writer">Writer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Writer.html">Writer</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="walking">
+<h1>Walking<a class="headerlink" href="#walking" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-Walking.Walking">
+<span id="walking-walking-module"></span><h2>Walking.Walking module<a class="headerlink" href="#module-Walking.Walking" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.Walking.Walking">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.Walking.</span></span><span class="sig-name descname"><span class="pre">Walking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to define a walking patient</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.SetAnthropometric">
+<span class="sig-name descname"><span class="pre">SetAnthropometric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RightLegSize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LeftLegSize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RightArmSize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LeftArmSize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.SetAnthropometric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.SetAnthropometric" title="Permalink to this definition">#</a></dt>
+<dd><p>all anthropometric data are in (m)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setDataFrameDynamicSymetryScore">
+<span class="sig-name descname"><span class="pre">setDataFrameDynamicSymetryScore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataFrameDynamicSymetryScore</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setDataFrameDynamicSymetryScore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setDataFrameDynamicSymetryScore" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a DataFrame with the dynamic symetry function for all value
+in walking.m_GroundReactionForces</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>DataFrameDynamicSymetryScore get</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setDataFrameLeftRight">
+<span class="sig-name descname"><span class="pre">setDataFrameLeftRight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataFrameLeftRight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setDataFrameLeftRight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setDataFrameLeftRight" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a DataFrame with the total vertical ground reaction force for each Left-Right steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>DataFrameLeftRight get</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setDataFrameRightLeft">
+<span class="sig-name descname"><span class="pre">setDataFrameRightLeft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataFrameRightLeft</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setDataFrameRightLeft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setDataFrameRightLeft" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a DataFrame with the total vertical ground reaction force for each Right-Left steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>DataFrameRightLeft get</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setDataFrameSpatioTemporal_Left">
+<span class="sig-name descname"><span class="pre">setDataFrameSpatioTemporal_Left</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataFrameSpatioTemporal_Left</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setDataFrameSpatioTemporal_Left"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setDataFrameSpatioTemporal_Left" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a DataFrame with Spatio Temporal Data of the insole.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>DataFrameSpatioTemporal_Left gets</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setDataFrameSpatioTemporal_Right">
+<span class="sig-name descname"><span class="pre">setDataFrameSpatioTemporal_Right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataFrameSpatioTemporal_Right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setDataFrameSpatioTemporal_Right"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setDataFrameSpatioTemporal_Right" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a DataFrame with Spatio Temporal Data of the insole.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>DataFrameSpatioTemporal_Right gets</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setDictOfDataFrameCutGrf">
+<span class="sig-name descname"><span class="pre">setDictOfDataFrameCutGrf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DictOfDataFrameCutGrf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setDictOfDataFrameCutGrf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setDictOfDataFrameCutGrf" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a dict with 3 dataframe (one for each axis) of the data of Ground Reaction Forces cut in “x” parts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>DataFrameCutGrf get</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setFunctionDynamicAssym">
+<span class="sig-name descname"><span class="pre">setFunctionDynamicAssym</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FunctionDynamicAssym</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setFunctionDynamicAssym"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setFunctionDynamicAssym" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a DataFrame with the dynamic function of assymetry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>FunctionDynamicAssym gets</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setGroundReactionForces">
+<span class="sig-name descname"><span class="pre">setGroundReactionForces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">GroundReactionForces</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setGroundReactionForces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setGroundReactionForces" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a dict with GroundReactionForces to Walking patient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>GroundReactionForces get</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setLeftArmIMU">
+<span class="sig-name descname"><span class="pre">setLeftArmIMU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imuInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setLeftArmIMU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setLeftArmIMU" title="Permalink to this definition">#</a></dt>
+<dd><p>attach an IMU to the left arm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>imuInstance</strong> (<em>pyCGM2.IMU.imu.Imu</em>) – an IMU instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setLeftLegIMU">
+<span class="sig-name descname"><span class="pre">setLeftLegIMU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imuInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setLeftLegIMU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setLeftLegIMU" title="Permalink to this definition">#</a></dt>
+<dd><p>attach an IMU to the left leg</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>imuInstance</strong> (<em>pyCGM2.IMU.imu.Imu</em>) – an IMU instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setLeftLegSole">
+<span class="sig-name descname"><span class="pre">setLeftLegSole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SoleInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setLeftLegSole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setLeftLegSole" title="Permalink to this definition">#</a></dt>
+<dd><p>place an Sole to the left leg</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>SoleInstance</strong> (<em>semelle_connecte.SOLE.sole</em>) – an insole instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setPelvisIMU">
+<span class="sig-name descname"><span class="pre">setPelvisIMU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imuInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setPelvisIMU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setPelvisIMU" title="Permalink to this definition">#</a></dt>
+<dd><p>attach an IMU to the pelvis (S2)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>imuInstance</strong> (<em>pyCGM2.IMU.imu.Imu</em>) – an IMU instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setRightArmIMU">
+<span class="sig-name descname"><span class="pre">setRightArmIMU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imuInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setRightArmIMU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setRightArmIMU" title="Permalink to this definition">#</a></dt>
+<dd><p>attach an IMU to the right arm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>imuInstance</strong> (<em>pyCGM2.IMU.imu.Imu</em>) – an IMU instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setRightLegIMU">
+<span class="sig-name descname"><span class="pre">setRightLegIMU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imuInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setRightLegIMU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setRightLegIMU" title="Permalink to this definition">#</a></dt>
+<dd><p>attach an IMU to the right leg</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>imuInstance</strong> (<em>pyCGM2.IMU.imu.Imu</em>) – an IMU instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setRightLegSole">
+<span class="sig-name descname"><span class="pre">setRightLegSole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SoleInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setRightLegSole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setRightLegSole" title="Permalink to this definition">#</a></dt>
+<dd><p>place an Sole to the right leg</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>SoleInstance</strong> (<em>semelle_connecte.SOLE.sole</em>) – an insole instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setStepGrfValue">
+<span class="sig-name descname"><span class="pre">setStepGrfValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">StepGrfValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setStepGrfValue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setStepGrfValue" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a dict with StepGrfValue to Walking patient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>StepGrfValue get</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.Walking.Walking.setThoraxIMU">
+<span class="sig-name descname"><span class="pre">setThoraxIMU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imuInstance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/Walking.html#Walking.setThoraxIMU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.Walking.Walking.setThoraxIMU" title="Permalink to this definition">#</a></dt>
+<dd><p>attach an IMU to the Thorax (Sternum or T6-T8)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>imuInstance</strong> (<em>pyCGM2.IMU.imu.Imu</em>) – an IMU instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Walking.WalkingDataProcessingProcedure">
+<span id="walking-walkingdataprocessingprocedure-module"></span><h2>Walking.WalkingDataProcessingProcedure module<a class="headerlink" href="#module-Walking.WalkingDataProcessingProcedure" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingDataProcessingProcedure.</span></span><span class="sig-name descname"><span class="pre">AbstractWalkingDataProcessingProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#AbstractWalkingDataProcessingProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>abstract procedure</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#AbstractWalkingDataProcessingProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingDataProcessingProcedure.</span></span><span class="sig-name descname"><span class="pre">CutDataProcessingProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#CutDataProcessingProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure" title="Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingDataProcessingProcedure</span></code></a></p>
+<p>This procedure cut the complete records in a number of cut chosen by user and save all
+the Ground Reaction Force for each axes in each cut for the two legs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl>
+<dt>Outputs:</dt><dd><p>DictOfDataFrameCutGrf a dictionnary with 3 DataFrame of Ground Reaction Force one
+for each axes “VerticalGrf” “ApGrf” “MediolateralGrf”</p>
+<p>DictOfDataFrameCutGrf is save in walking.setDictOfDataFrameCutGrf</p>
+<dl class="simple">
+<dt>DictOfDataFrameCutGrf {</dt><dd><p>“VerticalGrf”       = DataFrame(Left(i), Right(i)),
+“ApGrf”             = DataFrame(Left(i), Right(i)),
+“MediolateralGrf”   = DataFrame(Left(i), Right(i))
+}</p>
+</dd>
+</dl>
+<p>for i in [1 : number of cut]
+Left(i) = all Ground Reaction Force value for the i part of records</p>
+</dd>
+<dt>Exemple :</dt><dd><p>Left VerticalGrf record = 0,1,2,3,4,5,6,7,8,9,10,11
+Right VerticalGrf record = a,b,c,d,e,f,g,h,i,j,k,l
+You want 3 portions for this records the procedure give you this :</p>
+<dl>
+<dt>DictOfDataFrameCutGrf {</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>“VerticalGrf” = pd.DatFrame(</dt><dd><p>Left1 = 0,1,2,3
+Right1 = a,b,c,d
+Left2 = 4,5,6,7
+Right2 = e,f,g,h
+Left3 = 8,9,10,11
+Right3 = i,j,k,l
+)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#CutDataProcessingProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure.setCutNumber">
+<span class="sig-name descname"><span class="pre">setCutNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_cut</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#CutDataProcessingProcedure.setCutNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure.setCutNumber" title="Permalink to this definition">#</a></dt>
+<dd><p>To choose the number of cut
+:param n_cut: the number for cut the data
+:type n_cut: int</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.DeleteStepProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingDataProcessingProcedure.</span></span><span class="sig-name descname"><span class="pre">DeleteStepProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#DeleteStepProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.DeleteStepProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure" title="Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingDataProcessingProcedure</span></code></a></p>
+<p>This procedure show you each Right and Left step of walkingm_StepGrfValue and
+if you find that one of this step is poor du to data filtered and random noise you can
+delete it.</p>
+<p>Use ‘l’ for delete Left ; ‘r’ for delete Right ; ‘lr’ for delete both and ‘n’ for next figure.
+If you want to interrupt the code you can type: ‘exit-e’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>update walking.m_StepGrfValue with nan in step you delete</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.DeleteStepProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#DeleteStepProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.DeleteStepProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.NormalisationProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingDataProcessingProcedure.</span></span><span class="sig-name descname"><span class="pre">NormalisationProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#NormalisationProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.NormalisationProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure" title="Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingDataProcessingProcedure</span></code></a></p>
+<p>This procedure normalized Ground Reaction in % of cycle for all step in walking.m_StepGrfValue.</p>
+<p>/!Note that if walking.m_StepGrfValue is empty this procedure run GroundReactionForceKinematicsProcedure() for
+get the Ground Reaction Force of each step. /!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>update walking.m_StepGrfValue with normalized value of Ground Reaction in % of cycle</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingDataProcessingProcedure.NormalisationProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingDataProcessingProcedure.html#NormalisationProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingDataProcessingProcedure.NormalisationProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Walking.WalkingFilters">
+<span id="walking-walkingfilters-module"></span><h2>Walking.WalkingFilters module<a class="headerlink" href="#module-Walking.WalkingFilters" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingDataProcessingFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingFilters.</span></span><span class="sig-name descname"><span class="pre">WalkingDataProcessingFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingDataProcessingFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingDataProcessingFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Filter to process the data of walking patient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p></li>
+<li><p><strong>procedure</strong> (<em>semelle_connecte.Walking.AbstractWalkingDataProcessingProcedure</em>) – a walking DataProcessing procedure instance</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingDataProcessingFilter.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingDataProcessingFilter.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingDataProcessingFilter.run" title="Permalink to this definition">#</a></dt>
+<dd><p>run the filter</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingGraphicsFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingFilters.</span></span><span class="sig-name descname"><span class="pre">WalkingGraphicsFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingGraphicsFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingGraphicsFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Filter to plot walking patient kinematics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p></li>
+<li><p><strong>procedure</strong> (<em>semelle_connecte.Walking.AbstractWalkingGraphicsProcedure</em>) – a walking Graphics procedure instance</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingGraphicsFilter.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingGraphicsFilter.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingGraphicsFilter.run" title="Permalink to this definition">#</a></dt>
+<dd><p>run the filter</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingKinematicsFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingFilters.</span></span><span class="sig-name descname"><span class="pre">WalkingKinematicsFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingKinematicsFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingKinematicsFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Filter to calculate walking patient kinematics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p></li>
+<li><p><strong>procedure</strong> (<em>semelle_connecte.Walking.AbstractKinematicsProcedure</em>) – a walking Kinematics procedure instance</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingKinematicsFilter.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingKinematicsFilter.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingKinematicsFilter.run" title="Permalink to this definition">#</a></dt>
+<dd><p>run the filter</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingSpatioTemporalFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingFilters.</span></span><span class="sig-name descname"><span class="pre">WalkingSpatioTemporalFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procedure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingSpatioTemporalFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingSpatioTemporalFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Filter to calculate walking patient Spatio Temporal parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p></li>
+<li><p><strong>procedure</strong> (<em>semelle_connecte.Walking.AbstractWalkingSpatioTemporalProcedure</em>) – a walking SpatioTemporal procedure instance</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingFilters.WalkingSpatioTemporalFilter.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingFilters.html#WalkingSpatioTemporalFilter.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingFilters.WalkingSpatioTemporalFilter.run" title="Permalink to this definition">#</a></dt>
+<dd><p>run the filter</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Walking.WalkingGraphicsProcedure">
+<span id="walking-walkinggraphicsprocedure-module"></span><h2>Walking.WalkingGraphicsProcedure module<a class="headerlink" href="#module-Walking.WalkingGraphicsProcedure" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">AbstractWalkingGraphicsProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#AbstractWalkingGraphicsProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>abstract procedure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show_graph</strong> (<em>Bolean</em>) – True (defaut) = plot the graph
+False = don’t plot the graph</p></li>
+<li><p><strong>save_graph</strong> (<em>Bolean</em>) – True = save the graph in StoragePath{name}.jpg
+False (defaut) = don’t save the graph</p></li>
+<li><p><strong>StoragePath</strong> (<em>str</em>) – defaut is None use this argument’s if you choose save_graph == True</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#AbstractWalkingGraphicsProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotCutGroundReactionForceProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotCutGroundReactionForceProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotCutGroundReactionForceProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotCutGroundReactionForceProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<p>This procedure create 3 subplot (one for each axis) in each subplot “n” plot for the number of cut
+each graph represente the mean Ground Reaction Force for an axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>“n” plot with mean Vertical Ground Reaction Force</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotCutGroundReactionForceProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotCutGroundReactionForceProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotCutGroundReactionForceProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotDynamicSymetryFunctionNormalisedProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotDynamicSymetryFunctionNormalisedProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<p>This procedure create 3 plot of dynamic symetry function of the mean ground reaction force
+during one step normalised by % of step cycle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>plot of dynamic symetry function for Vertical Ground Reaction Force
+plot of dynamic symetry function for Antero-posterior Ground Reaction Force
+plot of dynamic symetry function for Medio-lateral Ground Reaction Force</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotDynamicSymetryFunctionNormalisedProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotMaxAndMinAsymetryProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotMaxAndMinAsymetryProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotMaxAndMinAsymetryProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotMaxAndMinAsymetryProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<ol class="arabic simple">
+<li><p>Plot the asymmetry of one of the ground reaction force parameters over time.</p></li>
+<li><p>Find the step where the asymmetry on this parameter is the greatest (furthest from zero) and plot this step.</p></li>
+</ol>
+<p>3) Find the step where the asymmetry on this parameter is the least important (closest to zero) and plot this step.
+Number corresponds to each parameter:
+Vertical Axis                                   Antero Posterior Axis
+0 : FirtPeak                                    10 : BrakingPeak
+1 : MidstanceValley                             11 : PropulsivePeak
+2 : SecondPeak                                  12 : BrakePhaseDuration
+3 : FirtPeakTimeTo                              13 : PropulsivePhaseDuration
+4 : MidstanceValleyTimeTo                       14 : BrakePhaseTimeTo
+5 : SecondPeakTimeTo                            15 : PropulsivePhaseTimeTo
+6 : TimeFromMidstanceValleyToToeOff             16 : BrakingImpulse
+7 : FirtAndMidstanceImpulse                     17 : PropulsiveImpulse
+8 : SecondAndPreswingImpulse
+9 : TotalVerticalGrfImpulse</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotMaxAndMinAsymetryProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotMaxAndMinAsymetryProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotMaxAndMinAsymetryProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersBoxplotProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotSpatioTemporalParametersBoxplotProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotSpatioTemporalParametersBoxplotProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersBoxplotProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<p>This procedure plot boxplot of single stance duration, double stance duration, stance duration and swing duration
+for each legs to look at assymetry.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs :</dt><dd><p>Boxplots of single stance duration, double stance duration, stance duration and swing duration group by leg</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersBoxplotProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotSpatioTemporalParametersBoxplotProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersBoxplotProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersEvolutionProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotSpatioTemporalParametersEvolutionProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotSpatioTemporalParametersEvolutionProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersEvolutionProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<p>This procedure plot the evolution of single stance duration, double stance duration and swing duration during the test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs :</dt><dd><dl class="simple">
+<dt>On plot with 4 subplot :</dt><dd><ul class="simple">
+<li><p>Evolution of the single stance duration for right and left leg during the test</p></li>
+<li><p>Evolution of the double stance duration for right and left leg during the test</p></li>
+<li><p>Evolution of the stance duration for right and left leg during the test</p></li>
+<li><p>Evolution of the swing duration for right and left leg during the test</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersEvolutionProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotSpatioTemporalParametersEvolutionProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersEvolutionProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotTwoStepProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotTwoStepProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<p>This procedure plot the sum of vertical ground reaction force for right-left and left-right steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs :</dt><dd><dl class="simple">
+<dt>Return 3 plots :</dt><dd><ul class="simple">
+<li><p>Sum of vertical ground reaction force of mean Left-Right step and mean Right-Left step</p></li>
+<li><p>Sum of vertical ground reaction force of mean Left-Right step +- std</p></li>
+<li><p>Sum of vertical ground reaction force of mean Right-Left step +- std</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotTwoStepProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotWorthAndBestStepProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotWorthAndBestStepProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<p>This procedure find the step witch maximize or minimazie the asymetry for all parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs :</dt><dd><dl class="simple">
+<dt>Return 6 plots :</dt><dd><ul class="simple">
+<li><p>Maximal asymetry for all parameter (the worth step)</p></li>
+<li><p>Maximal asymetry for Vertical Grf parameter (the worth step in Vertical Grf)</p></li>
+<li><p>Maximal asymetry for AntPost Grf parameter (the worth step in AntPost Grf)</p></li>
+<li><p>Minimal asymetry for all parameter (the best step)</p></li>
+<li><p>Minimal asymetry for Vertical Grf parameter (the best step in Vertical Grf)</p></li>
+<li><p>Minimal asymetry for AntPost Grf parameter (the best step in AntPost Grf)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotWorthAndBestStepProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Walking.WalkingKinematicsProcedure">
+<span id="walking-walkingkinematicsprocedure-module"></span><h2>Walking.WalkingKinematicsProcedure module<a class="headerlink" href="#module-Walking.WalkingKinematicsProcedure" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingKinematicsProcedure.</span></span><span class="sig-name descname"><span class="pre">AbstractWalkingKinematicsProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#AbstractWalkingKinematicsProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>abstract procedure</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#AbstractWalkingKinematicsProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingKinematicsProcedure.</span></span><span class="sig-name descname"><span class="pre">DynamicSymetryFunctionComputeProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#DynamicSymetryFunctionComputeProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure" title="Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingKinematicsProcedure</span></code></a></p>
+<p>This function compute the dynamic symetry function for all value in walking.m_GroundReactionForces</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>by</strong> (<em>walking.m_GroundReactionForces get</em>) – </p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>DataFrameDynamicSymetryScore a DataFrame of the Dynamic Symetry Function for each values of vertical and anteroposterior
+ground reaction force of each step.</p>
+</dd>
+</dl>
+<p>Dynamic Symetry of :
+0 : FirtPeak                                    10 : BrakingPeak
+1 : MidstanceValley                             11 : PropulsivePeak
+2 : SecondPeak                                  12 : BrakePhaseDuration
+3 : FirtPeakTimeTo                              13 : PropulsivePhaseDuration
+4 : MidstanceValleyTimeTo                       14 : BrakePhaseTimeTo
+5 : SecondPeakTimeTo                            15 : PropulsivePhaseTimeTo
+6 : TimeFromMidstanceValleyToToeOff             16 : BrakingImpulse
+7 : FirtAndMidstanceImpulse                     17 : PropulsiveImpulse
+8 : SecondAndPreswingImpulse
+9 : TotalVerticalGrfImpulse</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#DynamicSymetryFunctionComputeProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.GroundReactionForceKinematicsProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingKinematicsProcedure.</span></span><span class="sig-name descname"><span class="pre">GroundReactionForceKinematicsProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#GroundReactionForceKinematicsProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.GroundReactionForceKinematicsProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure" title="Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingKinematicsProcedure</span></code></a></p>
+<p>Computation of the ground reaction force kinematics according Vaverka’s article :
+System of gait analysis based on ground reaction force assessment.
+Acta Gymnica. 31 déc 2015;45(4):187-93.</p>
+<p>This function make one dictionnary of the values of the ground reaction force in vertical axes and
+anteroposterior axes avec chaque pas en index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>GroundReactionForces a dictionnary of the values for each legs of vertical and anteroposterior
+ground reaction force of each step.</p>
+</dd>
+</dl>
+<p>0 : FirtPeak                                    10 : BrakingPeak
+1 : MidstanceValley                             11 : PropulsivePeak
+2 : SecondPeak                                  12 : BrakePhaseDuration
+3 : FirtPeakTimeTo                              13 : PropulsivePhaseDuration
+4 : MidstanceValleyTimeTo                       14 : BrakePhaseTimeTo
+5 : SecondPeakTimeTo                            15 : PropulsivePhaseTimeTo
+6 : TimeFromMidstanceValleyToToeOff             16 : BrakingImpulse
+7 : FirtAndMidstanceImpulse                     17 : PropulsiveImpulse
+8 : SecondAndPreswingImpulse
+9 : TotalVerticalGrfImpulse</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.GroundReactionForceKinematicsProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#GroundReactionForceKinematicsProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.GroundReactionForceKinematicsProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.TwoStepProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingKinematicsProcedure.</span></span><span class="sig-name descname"><span class="pre">TwoStepProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">firts_step</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#TwoStepProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.TwoStepProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure" title="Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingKinematicsProcedure</span></code></a></p>
+<p>This function make two DataFrame with total of ground reaction force (Left + Right).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>LeftRight_df = a DataFrame of the sum of ground reaction force for each Left and Right step
+RightLeft_df = a DataFrame of the sum of ground reaction force for each Right and Left step</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingKinematicsProcedure.TwoStepProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingKinematicsProcedure.html#TwoStepProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingKinematicsProcedure.TwoStepProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Walking.WalkingSpatioTemporalProcedure">
+<span id="walking-walkingspatiotemporalprocedure-module"></span><h2>Walking.WalkingSpatioTemporalProcedure module<a class="headerlink" href="#module-Walking.WalkingSpatioTemporalProcedure" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingSpatioTemporalProcedure.</span></span><span class="sig-name descname"><span class="pre">AbstractWalkingSpatioTemporalProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingSpatioTemporalProcedure.html#AbstractWalkingSpatioTemporalProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>abstract procedure</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingSpatioTemporalProcedure.html#AbstractWalkingSpatioTemporalProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingSpatioTemporalProcedure.SpatioTemporalGaitCycleProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingSpatioTemporalProcedure.</span></span><span class="sig-name descname"><span class="pre">SpatioTemporalGaitCycleProcedure</span></span><a class="reference internal" href="_modules/Walking/WalkingSpatioTemporalProcedure.html#SpatioTemporalGaitCycleProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingSpatioTemporalProcedure.SpatioTemporalGaitCycleProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure" title="Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingSpatioTemporalProcedure</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingSpatioTemporalProcedure.SpatioTemporalGaitCycleProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingSpatioTemporalProcedure.html#SpatioTemporalGaitCycleProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingSpatioTemporalProcedure.SpatioTemporalGaitCycleProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Walking">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Walking" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="Study.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Study</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="Tools.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Tools</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Nathan Martin
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Walking</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-Walking.Walking">Walking.Walking module</a><ul>
+<li><a class="reference internal" href="#Walking.Walking.Walking"><code class="docutils literal notranslate"><span class="pre">Walking</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.Walking.Walking.SetAnthropometric"><code class="docutils literal notranslate"><span class="pre">Walking.SetAnthropometric()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setDataFrameDynamicSymetryScore"><code class="docutils literal notranslate"><span class="pre">Walking.setDataFrameDynamicSymetryScore()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setDataFrameLeftRight"><code class="docutils literal notranslate"><span class="pre">Walking.setDataFrameLeftRight()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setDataFrameRightLeft"><code class="docutils literal notranslate"><span class="pre">Walking.setDataFrameRightLeft()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setDataFrameSpatioTemporal_Left"><code class="docutils literal notranslate"><span class="pre">Walking.setDataFrameSpatioTemporal_Left()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setDataFrameSpatioTemporal_Right"><code class="docutils literal notranslate"><span class="pre">Walking.setDataFrameSpatioTemporal_Right()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setDictOfDataFrameCutGrf"><code class="docutils literal notranslate"><span class="pre">Walking.setDictOfDataFrameCutGrf()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setFunctionDynamicAssym"><code class="docutils literal notranslate"><span class="pre">Walking.setFunctionDynamicAssym()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setGroundReactionForces"><code class="docutils literal notranslate"><span class="pre">Walking.setGroundReactionForces()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setLeftArmIMU"><code class="docutils literal notranslate"><span class="pre">Walking.setLeftArmIMU()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setLeftLegIMU"><code class="docutils literal notranslate"><span class="pre">Walking.setLeftLegIMU()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setLeftLegSole"><code class="docutils literal notranslate"><span class="pre">Walking.setLeftLegSole()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setPelvisIMU"><code class="docutils literal notranslate"><span class="pre">Walking.setPelvisIMU()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setRightArmIMU"><code class="docutils literal notranslate"><span class="pre">Walking.setRightArmIMU()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setRightLegIMU"><code class="docutils literal notranslate"><span class="pre">Walking.setRightLegIMU()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setRightLegSole"><code class="docutils literal notranslate"><span class="pre">Walking.setRightLegSole()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setStepGrfValue"><code class="docutils literal notranslate"><span class="pre">Walking.setStepGrfValue()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.Walking.Walking.setThoraxIMU"><code class="docutils literal notranslate"><span class="pre">Walking.setThoraxIMU()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Walking.WalkingDataProcessingProcedure">Walking.WalkingDataProcessingProcedure module</a><ul>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingDataProcessingProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.AbstractWalkingDataProcessingProcedure.run"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingDataProcessingProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure"><code class="docutils literal notranslate"><span class="pre">CutDataProcessingProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure.run"><code class="docutils literal notranslate"><span class="pre">CutDataProcessingProcedure.run()</span></code></a></li>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.CutDataProcessingProcedure.setCutNumber"><code class="docutils literal notranslate"><span class="pre">CutDataProcessingProcedure.setCutNumber()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.DeleteStepProcedure"><code class="docutils literal notranslate"><span class="pre">DeleteStepProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.DeleteStepProcedure.run"><code class="docutils literal notranslate"><span class="pre">DeleteStepProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.NormalisationProcedure"><code class="docutils literal notranslate"><span class="pre">NormalisationProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingDataProcessingProcedure.NormalisationProcedure.run"><code class="docutils literal notranslate"><span class="pre">NormalisationProcedure.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Walking.WalkingFilters">Walking.WalkingFilters module</a><ul>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingDataProcessingFilter"><code class="docutils literal notranslate"><span class="pre">WalkingDataProcessingFilter</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingDataProcessingFilter.run"><code class="docutils literal notranslate"><span class="pre">WalkingDataProcessingFilter.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingGraphicsFilter"><code class="docutils literal notranslate"><span class="pre">WalkingGraphicsFilter</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingGraphicsFilter.run"><code class="docutils literal notranslate"><span class="pre">WalkingGraphicsFilter.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingKinematicsFilter"><code class="docutils literal notranslate"><span class="pre">WalkingKinematicsFilter</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingKinematicsFilter.run"><code class="docutils literal notranslate"><span class="pre">WalkingKinematicsFilter.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingSpatioTemporalFilter"><code class="docutils literal notranslate"><span class="pre">WalkingSpatioTemporalFilter</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingFilters.WalkingSpatioTemporalFilter.run"><code class="docutils literal notranslate"><span class="pre">WalkingSpatioTemporalFilter.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Walking.WalkingGraphicsProcedure">Walking.WalkingGraphicsProcedure module</a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure.run"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotCutGroundReactionForceProcedure"><code class="docutils literal notranslate"><span class="pre">PlotCutGroundReactionForceProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotCutGroundReactionForceProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotCutGroundReactionForceProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure"><code class="docutils literal notranslate"><span class="pre">PlotDynamicSymetryFunctionNormalisedProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotDynamicSymetryFunctionNormalisedProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotDynamicSymetryFunctionNormalisedProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotMaxAndMinAsymetryProcedure"><code class="docutils literal notranslate"><span class="pre">PlotMaxAndMinAsymetryProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotMaxAndMinAsymetryProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotMaxAndMinAsymetryProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersBoxplotProcedure"><code class="docutils literal notranslate"><span class="pre">PlotSpatioTemporalParametersBoxplotProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersBoxplotProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotSpatioTemporalParametersBoxplotProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersEvolutionProcedure"><code class="docutils literal notranslate"><span class="pre">PlotSpatioTemporalParametersEvolutionProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotSpatioTemporalParametersEvolutionProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotSpatioTemporalParametersEvolutionProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure"><code class="docutils literal notranslate"><span class="pre">PlotTwoStepProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotTwoStepProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure"><code class="docutils literal notranslate"><span class="pre">PlotWorthAndBestStepProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotWorthAndBestStepProcedure.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Walking.WalkingKinematicsProcedure">Walking.WalkingKinematicsProcedure module</a><ul>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingKinematicsProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.AbstractWalkingKinematicsProcedure.run"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingKinematicsProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure"><code class="docutils literal notranslate"><span class="pre">DynamicSymetryFunctionComputeProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.DynamicSymetryFunctionComputeProcedure.run"><code class="docutils literal notranslate"><span class="pre">DynamicSymetryFunctionComputeProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.GroundReactionForceKinematicsProcedure"><code class="docutils literal notranslate"><span class="pre">GroundReactionForceKinematicsProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.GroundReactionForceKinematicsProcedure.run"><code class="docutils literal notranslate"><span class="pre">GroundReactionForceKinematicsProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.TwoStepProcedure"><code class="docutils literal notranslate"><span class="pre">TwoStepProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingKinematicsProcedure.TwoStepProcedure.run"><code class="docutils literal notranslate"><span class="pre">TwoStepProcedure.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Walking.WalkingSpatioTemporalProcedure">Walking.WalkingSpatioTemporalProcedure module</a><ul>
+<li><a class="reference internal" href="#Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingSpatioTemporalProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingSpatioTemporalProcedure.AbstractWalkingSpatioTemporalProcedure.run"><code class="docutils literal notranslate"><span class="pre">AbstractWalkingSpatioTemporalProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingSpatioTemporalProcedure.SpatioTemporalGaitCycleProcedure"><code class="docutils literal notranslate"><span class="pre">SpatioTemporalGaitCycleProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingSpatioTemporalProcedure.SpatioTemporalGaitCycleProcedure.run"><code class="docutils literal notranslate"><span class="pre">SpatioTemporalGaitCycleProcedure.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Walking">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>

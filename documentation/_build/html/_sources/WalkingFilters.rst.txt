@@ -1,0 +1,7 @@
+WalkingFilters module
+=====================
+
+.. automodule:: WalkingFilters
+   :members:
+   :undoc-members:
+   :show-inheritance:

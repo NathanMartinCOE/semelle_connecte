@@ -1,0 +1,7 @@
+MottekReader
+===================
+
+.. automodule:: MottekReader
+   :members:
+   :undoc-members:
+   :show-inheritance:

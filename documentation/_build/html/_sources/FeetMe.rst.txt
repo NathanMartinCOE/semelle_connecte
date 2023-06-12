@@ -1,0 +1,7 @@
+FeetMe module
+=============
+
+.. automodule:: FeetMe
+   :members:
+   :undoc-members:
+   :show-inheritance:
