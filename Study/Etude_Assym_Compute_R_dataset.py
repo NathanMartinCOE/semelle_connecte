@@ -73,7 +73,7 @@ def main():
             NameFileMetric = str(file)
             DataPathMetric = os.path.join(PathMetric, NameFileMetric)
 
-            from Tools.ToolsFeetmeDynamicSymetryScoreMetrics import FeetmeDynamicSymetryScoreMetrics
+            from semelle_connecte.Tools.ToolsFeetmeDynamicSymetryScoreMetrics import FeetmeDynamicSymetryScoreMetrics
             DynamicSymetryScoreTotal = FeetmeDynamicSymetryScoreMetrics(DataPathMetric)
 
             stanceDuration.append(DynamicSymetryScoreTotal.mean(axis=0)["stanceDuration"])
@@ -83,7 +83,7 @@ def main():
 
         # Use of hdf5 (calculation of the asymmetry of the average reaction force)
         for file in hdf5_files:
-            from Reader.Reader import Reader
+            from semelle_connecte.Reader.Reader import Reader
             PathHDF5 = PathCondition
             NameFileHDF5 = str(file)
             DataPathHDF5 = os.path.join(PathHDF5, NameFileHDF5)

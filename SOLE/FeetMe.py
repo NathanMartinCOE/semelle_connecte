@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
 from pyCGM2.External.ktk.kineticstoolkit import timeseries
-from SOLE import sole
+from semelle_connecte.SOLE import sole
 
 class FeetMe(sole.Sole):
     """

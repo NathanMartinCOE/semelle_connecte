@@ -48,11 +48,11 @@ from docx.shared import Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_ALIGN_VERTICAL
 
-from Walking.Walking import Walking
-from SOLE.FeetMe import readFeetMeMultipleCsv
-from SOLE.FeetMe import ReadSpatioTemporalCsv
-from Reader.Reader import Reader
-from Tools.ToolsSymetryIndex import SymetryIndex
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import readFeetMeMultipleCsv
+from semelle_connecte.SOLE.FeetMe import ReadSpatioTemporalCsv
+from semelle_connecte.Reader.Reader import Reader
+from semelle_connecte.Tools.ToolsSymetryIndex import SymetryIndex
 
 ID = 161095
 mass = 60
@@ -96,22 +96,22 @@ def main():
             walking.setDataFrameSpatioTemporal_Left(DataFrameSpatioTemporal_Left)
             walking.setDataFrameSpatioTemporal_Right(DataFrameSpatioTemporal_Right)
 
-            from Walking.WalkingFilters import WalkingKinematicsFilter
-            from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+            from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+            from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
             procedure = GroundReactionForceKinematicsProcedure()
             WalkingKinematicsFilter(walking, procedure).run()
 
-            from Walking.WalkingFilters import WalkingDataProcessingFilter
-            from Walking.WalkingDataProcessingProcedure import DeleteStepProcedure
+            from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+            from semelle_connecte.Walking.WalkingDataProcessingProcedure import DeleteStepProcedure
             procedure = DeleteStepProcedure()
             WalkingDataProcessingFilter(walking, procedure).run()
 
-            from Walking.WalkingFilters import WalkingDataProcessingFilter
-            from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+            from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+            from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
             procedure = NormalisationProcedure()
             WalkingDataProcessingFilter(walking, procedure).run()
 
-            from Writer.Writer import Writer
+            from semelle_connecte.Writer.Writer import Writer
             StoragePathHDF5 = DataPath
             Writer(walking = walking, path = StoragePathHDF5, file_name = f"walking_{ID}_{test}.hdf5").writeh5()
 
@@ -120,8 +120,8 @@ def main():
         document.add_heading('Kinetic gait parameters', level=1)
 
         ### Assymetry of the Vertical Ground Reaction Force
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
         procedure = PlotDynamicSymetryFunctionNormalisedProcedure(show_graph = False, save_graph = True, StoragePath = DataPath)
         WalkingGraphicsFilter(walking, procedure).run()
 
@@ -134,14 +134,14 @@ def main():
 
 
         ### Evolution of Vertical Ground Reaction Force during the test'
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
         procedure = CutDataProcessingProcedure()
         procedure.setCutNumber(n_cut=3)
         WalkingDataProcessingFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotCutGroundReactionForceProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotCutGroundReactionForceProcedure
         procedure = PlotCutGroundReactionForceProcedure(show_graph = False, save_graph = True, StoragePath = DataPath)
         WalkingGraphicsFilter(walking, procedure).run()
         
@@ -168,8 +168,8 @@ def main():
             p.add_run(f" {walking.m_DataFrameSpatioTemporal_Right.shape[0]} steps for Left Leg")
         
         ### Evolution of Spatio-temporal parameters
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotSpatioTemporalParametersEvolutionProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotSpatioTemporalParametersEvolutionProcedure
         procedure = PlotSpatioTemporalParametersEvolutionProcedure(show_graph = False, save_graph = True, StoragePath = DataPath)
         WalkingGraphicsFilter(walking, procedure).run()
 
@@ -181,8 +181,8 @@ def main():
             document.add_picture(FigPath, width = Inches(5.9))
 
         ### Comparaison of Spatio-temporal parameters Asymetry
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotSpatioTemporalParametersBoxplotProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotSpatioTemporalParametersBoxplotProcedure
         procedure = PlotSpatioTemporalParametersBoxplotProcedure(show_graph = False, save_graph = True, StoragePath = DataPath)
         WalkingGraphicsFilter(walking, procedure).run()
 

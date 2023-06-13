@@ -37,8 +37,8 @@ File storage:
 """
 
 import os
-from Walking.Walking import Walking
-from SOLE.FeetMe import readFeetMeMultipleCsv
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import readFeetMeMultipleCsv
 
 
 def main():
@@ -69,22 +69,22 @@ def main():
         print(f" =============================== Object Walking for {name} of patient {ID} create ===============================")
 
         ### Processing
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
         procedure = DynamicSymetryFunctionComputeProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
         print(f" =============================== Procedure for {name} of patient {ID} done ===============================")
 
         ### Storage in hdf5
-        from Writer.Writer import Writer
+        from semelle_connecte.Writer.Writer import Writer
         StoragePathHDF5_SRU = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\Etude_TDM_SRU\\SRU\\"
         StoragePathHDF5_TDM = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\Etude_TDM_SRU\\TDM\\"
         if name == "SRU":

@@ -6,9 +6,9 @@ import os
 from pyCGM2.Tools import btkTools
 from pyCGM2.ForcePlates import forceplates
 
-from SOLE.FeetMe import FeetMe
-from Walking.Walking import Walking
-from Tools.ToolsFFT import TransformFourrier
+from semelle_connecte.SOLE.FeetMe import FeetMe
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.Tools.ToolsFFT import TransformFourrier
 
 DataPath = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\"
 mass = 60 # en kg
@@ -74,20 +74,20 @@ if run_vicon == True:
     walking.setLeftLegSole(SoleInstanceLeft)
     walking.setRightLegSole(SoleInstanceRight)
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
     procedure = GroundReactionForceKinematicsProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
-    from Walking.WalkingFilters import WalkingDataProcessingFilter
-    from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+    from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
     procedure = NormalisationProcedure()
     WalkingDataProcessingFilter(walking, procedure).run()
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
     procedure = DynamicSymetryFunctionComputeProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
 
-    from Writer.Writer import Writer
+    from semelle_connecte.Writer.Writer import Writer
     StoragePathHDF5 = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\StorageH5Walking\\"
     Writer(walking = walking, path = StoragePathHDF5, file_name = "walking_vicon(feetme_vicon).hdf5").writeh5()
 
@@ -98,35 +98,35 @@ if run_feetme == True:
     file_name = "feetme_vicon.csv"
     Path = DataPath + file_name
 
-    from SOLE.FeetMe import readFeetMeCsv
+    from semelle_connecte.SOLE.FeetMe import readFeetMeCsv
     SoleInstanceRight, SoleInstanceLeft = readFeetMeCsv(fullfilename = Path, freq = 110)
 
     walking = Walking(mass)
     walking.setLeftLegSole(SoleInstanceLeft)
     walking.setRightLegSole(SoleInstanceRight)
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
     procedure = GroundReactionForceKinematicsProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
-    from Walking.WalkingFilters import WalkingDataProcessingFilter
-    from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+    from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
     procedure = NormalisationProcedure()
     WalkingDataProcessingFilter(walking, procedure).run()
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
     procedure = DynamicSymetryFunctionComputeProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
 
 
-    from Writer.Writer import Writer
+    from semelle_connecte.Writer.Writer import Writer
     StoragePathHDF5 = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\StorageH5Walking\\"
     Writer(walking = walking, path = StoragePathHDF5, file_name = "walking_feetme(feetme_vicon).hdf5").writeh5()
 
 
 
 
-from Reader.Reader import Reader
+from semelle_connecte.Reader.Reader import Reader
 StoragePathHDF5 = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\StorageH5Walking\\"
 DataPath_feetme = os.path.join(StoragePathHDF5, 'walking_feetme(feetme_vicon).hdf5')
 DataPath_vicon = os.path.join(StoragePathHDF5, 'walking_vicon(feetme_vicon).hdf5')

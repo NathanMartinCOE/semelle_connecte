@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 import os
 
-from Walking.Walking import Walking
-from SOLE.FeetMe import readFeetMeMultipleCsv
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import readFeetMeMultipleCsv
 
 
 StoragePath = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\test\\"
@@ -23,26 +23,26 @@ def WriteWalkingh5():
     walking.setLeftLegSole(SoleInstanceLeft)
     walking.setRightLegSole(SoleInstanceRight)
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
     procedure = GroundReactionForceKinematicsProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
-    from Walking.WalkingFilters import WalkingDataProcessingFilter
-    from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+    from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
     procedure = NormalisationProcedure()
     WalkingDataProcessingFilter(walking, procedure).run()
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
     procedure = DynamicSymetryFunctionComputeProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
 
-    from Writer.Writer import Writer
+    from semelle_connecte.Writer.Writer import Writer
     StoragePathHDF5 = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\StorageH5Walking\\"
     Writer(walking = walking, path = StoragePathHDF5, file_name = "walking_nathan_TDM.hdf5").writeh5()
     Writer(walking = walking, path = StoragePathHDF5, file_name = "walking_nathan_R.hdf5").writeh5()
 
 def ComputeAssymForEachStepOfTwoWalking():
-    from Reader.Reader import Reader
+    from semelle_connecte.Reader.Reader import Reader
     StoragePathHDF5 = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\StorageH5Walking\\"
     DataPath = os.path.join(StoragePathHDF5, 'walking_nathan_TDM.hdf5')
     walking_TDM = Reader(DataPath).readh5()
@@ -81,7 +81,7 @@ def ComputeAssymForEachStepOfTwoWalking():
     Assym.to_csv('C:\\Users\\Nathan\\Desktop\\Recherche\\R_studio\\assym_step.csv')
 
 def PlotAssym():
-    from Reader.Reader import Reader
+    from semelle_connecte.Reader.Reader import Reader
     StoragePathHDF5 = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\StorageH5Walking\\"
     DataPath = os.path.join(StoragePathHDF5, 'walking_nathan_TDM.hdf5')
     walking_TDM = Reader(DataPath).readh5()
@@ -89,18 +89,18 @@ def PlotAssym():
     walking_R = Reader(DataPath).readh5()
 
     for walking, name in zip([walking_TDM, walking_R], ["TDM", "SRU"]):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
         procedure = PlotDynamicSymetryFunctionNormalisedProcedure()
         WalkingGraphicsFilter(walking, procedure).run()
 

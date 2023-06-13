@@ -6,9 +6,9 @@ import os
 from pyCGM2.Tools import btkTools
 from pyCGM2.ForcePlates import forceplates
 
-from SOLE.FeetMe import FeetMe
-from Walking.Walking import Walking
-from Tools.ToolsFFT import TransformFourrier
+from semelle_connecte.SOLE.FeetMe import FeetMe
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.Tools.ToolsFFT import TransformFourrier
 
 DataPath = 'C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\grf\\'
 
@@ -80,21 +80,21 @@ for path, name in zip(list_path, list_name):
 
     """ Début des procédure (cf nom de la procédure et documentation) """
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
     procedure = GroundReactionForceKinematicsProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
     print("GroundReactionForceKinematicsProcedure --------------- done")
 
-    from Walking.WalkingFilters import WalkingDataProcessingFilter
-    from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+    from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
     procedure = NormalisationProcedure()
     WalkingDataProcessingFilter(walking, procedure).run()
     print("NormalisationProcedure --------------- done")
 
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
     procedure = DynamicSymetryFunctionComputeProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
     print("DynamicSymetryFunctionComputeProcedure --------------- done")
@@ -106,15 +106,15 @@ for path, name in zip(list_path, list_name):
     Labels.append(labels)
 
 
-    from Walking.WalkingFilters import WalkingDataProcessingFilter
-    from Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+    from semelle_connecte.Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
 
     procedure = CutDataProcessingProcedure()
     procedure.setCutNumber(n_cut=3)
     WalkingDataProcessingFilter(walking, procedure).run()
 
-    from Walking.WalkingFilters import WalkingGraphicsFilter
-    from Walking.WalkingGraphicsProcedure import PlotCutGroundReactionForceProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+    from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotCutGroundReactionForceProcedure
     
     procedure = PlotCutGroundReactionForceProcedure()
     WalkingGraphicsFilter(walking, procedure).run()

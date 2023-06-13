@@ -23,9 +23,9 @@ import os
 from pyCGM2.Tools import btkTools
 from pyCGM2.ForcePlates import forceplates
 
-from SOLE.FeetMe import FeetMe
-from Walking.Walking import Walking
-from Tools.ToolsFFT import TransformFourrier
+from semelle_connecte.SOLE.FeetMe import FeetMe
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.Tools.ToolsFFT import TransformFourrier
 
 
 DataPath = 'C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\grf\\'
@@ -114,15 +114,15 @@ walking.setRightLegSole(SoleInstanceRight)
 class Test_Kinematics:
 
     def test_GroundReactionForceKinematicsProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
 
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
     def test_DynamicSymetryFunctionComputeProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
 
         procedure = DynamicSymetryFunctionComputeProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
@@ -138,8 +138,8 @@ class Test_Kinematics:
 class Test_DataProcessing:
 
     def test_NormalisationProcedure(self):
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
 
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
@@ -223,18 +223,18 @@ class Test_Graphics:
     #     WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotDynamicSymetryFunctionNormalisedProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
     
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
 
         procedure = PlotDynamicSymetryFunctionNormalisedProcedure()
         WalkingGraphicsFilter(walking, procedure).run()

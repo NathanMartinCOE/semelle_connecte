@@ -5,8 +5,8 @@ import h5py
 import numpy as np
 import pandas as pd
 
-from Walking.Walking import Walking
-from SOLE.FeetMe import FeetMe
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import FeetMe
 
 
 class Reader(object):
@@ -87,8 +87,14 @@ class Reader(object):
         walking.setDataFrameRightLeft(pd.DataFrame(f["DataFrame"]["DataFrameRightLeft"][:]))
         walking.setDataFrameDynamicSymetryScore(pd.DataFrame(f["DataFrame"]["DataFrameDynamicSymetryScore"][:]))
         Columns_Names = ["stanceDuration (ms)", "singleSupportDuration (ms)", "doubleSupportDuration (ms)", "swingDuration (ms)", "stancePercentage (%)", "singleSupportPercentage (%)", "doubleSupportPercentage (%)", "swingPercentage (%)"]
-        walking.setDataFrameSpatioTemporal_Left(pd.DataFrame(columns=Columns_Names, data = f["DataFrame"]["DataFrameSpatioTemporal_Left"][:]))
-        walking.setDataFrameSpatioTemporal_Right(pd.DataFrame(columns=Columns_Names, data = f["DataFrame"]["DataFrameSpatioTemporal_Right"][:]))
+        try:
+            walking.setDataFrameSpatioTemporal_Left(pd.DataFrame(columns=Columns_Names, data = f["DataFrame"]["DataFrameSpatioTemporal_Left"][:]))
+        except:
+            print('No value for ["DataFrame"]["DataFrameSpatioTemporal_Left"]')
+        try:
+            walking.setDataFrameSpatioTemporal_Right(pd.DataFrame(columns=Columns_Names, data = f["DataFrame"]["DataFrameSpatioTemporal_Right"][:]))
+        except:
+            print('No value for ["DataFrame"]["DataFrameSpatioTemporal_Right"]')
 
         f.close()
 

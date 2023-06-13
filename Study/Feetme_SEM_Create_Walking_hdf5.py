@@ -35,8 +35,8 @@ File storage:
 
 import os
 import re
-from Walking.Walking import Walking
-from SOLE.FeetMe import readFeetMeMultipleCsv
+from semelle_connecte.Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import readFeetMeMultipleCsv
 
 
 def main():
@@ -80,22 +80,22 @@ def main():
         print(f" =============================== Object Walking for {name} test {N_test} create ===============================")
 
         ### Processing
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
         procedure = DynamicSymetryFunctionComputeProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
         print(f" =============================== Procedure for {name} test {N_test} done ===============================")
 
         ### Storage in hdf5
-        from Writer.Writer import Writer
+        from semelle_connecte.Writer.Writer import Writer
         StoragePathHDF5_SEM = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\"
         Writer(walking = walking, path = StoragePathHDF5_SEM, file_name = f"walking_{name}_test{N_test}.hdf5").writeh5()
         print(f" =============================== Walking for for {name} test {N_test} store ===============================")

@@ -42,8 +42,8 @@ import os
 import re
 
 from matplotlib.backends.backend_pdf import PdfPages
-from Reader.Reader import Reader
-from Tools.RichardBacker_SEM import RichardBacker_SEM
+from semelle_connecte.Reader.Reader import Reader
+from semelle_connecte.Tools.RichardBacker_SEM import RichardBacker_SEM
 
 
 def main():

@@ -7,8 +7,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Tools.ToolsInterpolationGrf import InterpolationGrf
-from Tools.ToolsInterpolationGrf import Interpolation
+from semelle_connecte.Tools.ToolsInterpolationGrf import InterpolationGrf
+from semelle_connecte.Tools.ToolsInterpolationGrf import Interpolation
 
 
 class AbstractWalkingDataProcessingProcedure(object):
@@ -72,8 +72,8 @@ class CutDataProcessingProcedure(AbstractWalkingDataProcessingProcedure):
     def run(self, walking):
         n_cut = self.m_CutNumber
         def CutDataGrf(GrfLeft, GrfRight, n_cut):
-            from Tools.ToolsGetStepEvent import GetStepEvent
-            from Tools.ToolsInterpolationGrf import Interpolation
+            from semelle_connecte.Tools.ToolsGetStepEvent import GetStepEvent
+            from semelle_connecte.Tools.ToolsInterpolationGrf import Interpolation
 
             GrfDataframeCut = pd.DataFrame()
             if n_cut != 0 : 
@@ -175,8 +175,8 @@ class DeleteStepProcedure(AbstractWalkingDataProcessingProcedure):
     
     def run(self, walking):
         if len(walking.m_StepGrfValue)==0 :
-            from Walking.WalkingFilters import WalkingKinematicsFilter
-            from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+            from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+            from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
 
             procedure = GroundReactionForceKinematicsProcedure()
             WalkingKinematicsFilter(walking, procedure).run()

@@ -52,8 +52,8 @@ class GroundReactionForceKinematicsProcedure(AbstractWalkingKinematicsProcedure)
         super(GroundReactionForceKinematicsProcedure, self).__init__()
 
     def run(self, walking):
-        from Tools.ToolsMakeDictStep import MakeDictStep
-        from Tools.ToolsGrf import grf
+        from semelle_connecte.Tools.ToolsMakeDictStep import MakeDictStep
+        from semelle_connecte.Tools.ToolsGrf import grf
 
         GroundReactionForces = dict()
         StepGrfValue = dict()
@@ -178,15 +178,15 @@ class DynamicSymetryFunctionComputeProcedure(AbstractWalkingKinematicsProcedure)
 
             return DataFrameGrf['FunctionDynamicAssym']
 
-        from Tools.ToolsGetStepEvent import GetStepEvent
+        from semelle_connecte.Tools.ToolsGetStepEvent import GetStepEvent
         HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
 
         axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"]
         DictFunctionDynamicAssym = dict()
 
         if len(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"][0]) != len(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"][0]):
-            from Walking.WalkingFilters import WalkingDataProcessingFilter
-            from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+            from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+            from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
             procedure = NormalisationProcedure()
             WalkingDataProcessingFilter(walking, procedure).run()
 
@@ -249,8 +249,8 @@ class TwoStepProcedure(AbstractWalkingKinematicsProcedure):
             self.m_firts_step = firts_step
 
     def run(self, walking):
-        from Tools.ToolsGetStepEvent import GetStepEvent
-        from Tools.ToolsInterpolationGrf import Interpolation
+        from semelle_connecte.Tools.ToolsGetStepEvent import GetStepEvent
+        from semelle_connecte.Tools.ToolsInterpolationGrf import Interpolation
 
         if len(walking.m_sole["LeftLeg"].data["VerticalGrf"]) < len(walking.m_sole["RightLeg"].data["VerticalGrf"]):
             end = len(walking.m_sole["LeftLeg"].data["VerticalGrf"])

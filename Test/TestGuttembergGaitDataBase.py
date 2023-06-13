@@ -41,8 +41,8 @@ MediolateralGrfRight = GuttembergGaitDatabase[f"{ID}"]["MediolateralGrfRight"]
 
 
 """ Création et implémentation de l'objet Walking avec des semelles """
-from SOLE.FeetMe import FeetMe
-from Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import FeetMe
+from semelle_connecte.Walking.Walking import Walking
 
 dataLeft = pd.DataFrame()
 dataLeft["VerticalVGrf"] = VerticalGrfLeft
@@ -97,25 +97,25 @@ walking.setRightLegSole(SoleInstanceRight)
 class Test_Kinematics:
 
     def test_GroundReactionForceKinematicsProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
     def test_DynamicSymetryFunctionComputeProcedure(self):
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
         procedure = DynamicSymetryFunctionComputeProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
     
     def test_TwoStepProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter, WalkingGraphicsFilter
-        from Walking.WalkingKinematicsProcedure import TwoStepProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter, WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import TwoStepProcedure
 
         procedure = TwoStepProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
@@ -124,29 +124,29 @@ class Test_Kinematics:
 class Test_DataProcessing:
 
     def test_NormalisationProcedure(self):
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
 
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
 
     def test_CutDataProcessingProcedure(self):
 
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
 
         procedure = CutDataProcessingProcedure()
         procedure.setCutNumber(n_cut=3)
         WalkingDataProcessingFilter(walking, procedure).run()
     
     def test_DeleteStepProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import DeleteStepProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import DeleteStepProcedure
         procedure = DeleteStepProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
 
@@ -154,83 +154,83 @@ class Test_DataProcessing:
 class Test_Graphics:
 
     def test_PlotMaxAndMinAsymetryProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
 
         procedure = DynamicSymetryFunctionComputeProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingGraphicsProcedure import PlotMaxAndMinAsymetryProcedure
-        from Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotMaxAndMinAsymetryProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
 
         procedure = PlotMaxAndMinAsymetryProcedure()
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotWorthAndBestStepProcedure(self):
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
 
         procedure = DynamicSymetryFunctionComputeProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotWorthAndBestStepProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotWorthAndBestStepProcedure
         procedure = PlotWorthAndBestStepProcedure()
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotCutGroundReactionForceProcedure(self):
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import CutDataProcessingProcedure
 
         procedure = CutDataProcessingProcedure()
         procedure.setCutNumber(n_cut=3)
         WalkingDataProcessingFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotCutGroundReactionForceProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotCutGroundReactionForceProcedure
         
         procedure = PlotCutGroundReactionForceProcedure()
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotTwoStepProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter, WalkingGraphicsFilter
-        from Walking.WalkingKinematicsProcedure import TwoStepProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter, WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import TwoStepProcedure
         procedure = TwoStepProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotTwoStepProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotTwoStepProcedure
         procedure = PlotTwoStepProcedure()
         WalkingGraphicsFilter(walking, procedure).run()
 
     def test_PlotDynamicSymetryFunctionNormalisedProcedure(self):
-        from Walking.WalkingFilters import WalkingKinematicsFilter
-        from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
         procedure = GroundReactionForceKinematicsProcedure()
         WalkingKinematicsFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingDataProcessingFilter
-        from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
         procedure = NormalisationProcedure()
         WalkingDataProcessingFilter(walking, procedure).run()
 
-        from Walking.WalkingFilters import WalkingGraphicsFilter
-        from Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotDynamicSymetryFunctionNormalisedProcedure
 
         procedure = PlotDynamicSymetryFunctionNormalisedProcedure()
         WalkingGraphicsFilter(walking, procedure).run()

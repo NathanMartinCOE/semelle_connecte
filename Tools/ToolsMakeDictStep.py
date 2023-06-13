@@ -23,7 +23,7 @@ def MakeDictStep(VerticalGrf, ApGrf, MedioLatGrf):
             ApGrfStep: Dictionnary of the antero-posterior ground reaction force of each step
             MedioLatGrfStep: Dictionnary of the medio-lateral ground reaction force of each step 
     """
-    from Tools.ToolsGetStepEvent import GetStepEvent
+    from semelle_connecte.Tools.ToolsGetStepEvent import GetStepEvent
     
     def RollingMedian(VerticalGrf, RollingMedianStep = 30):
         RollingMedianGrf = [abs(value) for value in VerticalGrf]

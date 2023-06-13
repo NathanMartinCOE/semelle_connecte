@@ -10,10 +10,10 @@ import seaborn as sns
 from math import nan
 import os
 
-from Tools.ToolsInterpolationGrf import InterpolationGrf
-from Walking.WalkingFilters import WalkingDataProcessingFilter, WalkingKinematicsFilter
-from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
-from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure, GroundReactionForceKinematicsProcedure
+from semelle_connecte.Tools.ToolsInterpolationGrf import InterpolationGrf
+from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter, WalkingKinematicsFilter
+from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure, GroundReactionForceKinematicsProcedure
 
 class AbstractWalkingGraphicsProcedure(object):
     """abstract procedure 
@@ -128,7 +128,7 @@ class PlotDynamicSymetryFunctionNormalisedProcedure(AbstractWalkingGraphicsProce
             plt.close()
 
 
-        from Tools.ToolsGetStepEvent import GetStepEvent
+        from semelle_connecte.Tools.ToolsGetStepEvent import GetStepEvent
         HeelStrike, ToeOff = GetStepEvent(walking.m_sole["LeftLeg"].data["VerticalGrf"])
 
         axis = ["VerticalGrf", "ApGrf", "MediolateralGrf"]
@@ -183,10 +183,10 @@ class PlotCutGroundReactionForceProcedure(AbstractWalkingGraphicsProcedure):
         super(PlotCutGroundReactionForceProcedure, self).__init__(show_graph, save_graph, StoragePath)
 
     def run(self, walking):
-        from Tools.ToolsMakeDictStep import MakeDictStep
+        from semelle_connecte.Tools.ToolsMakeDictStep import MakeDictStep
 
         def MeanCutDataGrf(GrfDataframeCut):
-            from Tools.ToolsInterpolationGrf import Interpolation
+            from semelle_connecte.Tools.ToolsInterpolationGrf import Interpolation
             antGrf = walking.m_sole["LeftLeg"].data["ApGrf"]
             MedioLatGrf = walking.m_sole["LeftLeg"].data["MediolateralGrf"]
             MeanCutDataGrf = pd.DataFrame()

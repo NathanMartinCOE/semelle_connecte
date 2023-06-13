@@ -6,11 +6,11 @@ import os
 from pyCGM2.Tools import btkTools
 from pyCGM2.ForcePlates import forceplates
 
-from SOLE.FeetMe import FeetMe
-from Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import FeetMe
+from semelle_connecte.Walking.Walking import Walking
 
-from Tools.ToolsFFT import TransformFourrier, VisuTransformFourrier
-from Tools.ToolsGetStepEvent import GetStepEvent
+from semelle_connecte.Tools.ToolsFFT import TransformFourrier, VisuTransformFourrier
+from semelle_connecte.Tools.ToolsGetStepEvent import GetStepEvent
 
 # =========================================================  Fonction pour instancier Walking et construire le dataset
 
@@ -33,14 +33,14 @@ def Procedures(dataLeft, dataRight):
     walking.setRightLegSole(SoleInstanceRight)
 
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
     procedure = GroundReactionForceKinematicsProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
     print("GroundReactionForceKinematicsProcedure --------------- done")
 
-    from Walking.WalkingFilters import WalkingDataProcessingFilter
-    from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+    from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
     procedure = NormalisationProcedure()
     WalkingDataProcessingFilter(walking, procedure).run()
     print("NormalisationProcedure ------------------------------- done")
@@ -102,8 +102,8 @@ VerticalGrfRight = GuttembergGaitDatabase[f"{ID}"]["VerticalGrfRight"]
 ApGrfRight = GuttembergGaitDatabase[f"{ID}"]["ApGrfRight"]
 MediolateralGrfRight = GuttembergGaitDatabase[f"{ID}"]["MediolateralGrfRight"]
 
-from SOLE.FeetMe import FeetMe
-from Walking.Walking import Walking
+from semelle_connecte.SOLE.FeetMe import FeetMe
+from semelle_connecte.Walking.Walking import Walking
 
 dataLeft = pd.DataFrame()
 dataLeft["VerticalVGrf"] = VerticalGrfLeft

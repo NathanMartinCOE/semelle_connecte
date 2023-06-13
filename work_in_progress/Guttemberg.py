@@ -20,8 +20,8 @@ for ID in tqdm(np.arange(1,350)):
 
 
     """ Création et implémentation de l'objet Walking avec des semelles """
-    from SOLE.FeetMe import FeetMe
-    from Walking.Walking import Walking
+    from semelle_connecte.SOLE.FeetMe import FeetMe
+    from semelle_connecte.Walking.Walking import Walking
 
     dataLeft = pd.DataFrame()
     dataLeft["VerticalVGrf"] = VerticalGrfLeft
@@ -52,18 +52,18 @@ for ID in tqdm(np.arange(1,350)):
     walking.setRightLegSole(SoleInstanceRight)
 
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
     procedure = GroundReactionForceKinematicsProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
 
-    from Walking.WalkingFilters import WalkingDataProcessingFilter
-    from Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+    from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
     procedure = NormalisationProcedure()
     WalkingDataProcessingFilter(walking, procedure).run()
 
-    from Walking.WalkingFilters import WalkingKinematicsFilter
-    from Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
+    from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+    from semelle_connecte.Walking.WalkingKinematicsProcedure import DynamicSymetryFunctionComputeProcedure
     procedure = DynamicSymetryFunctionComputeProcedure()
     WalkingKinematicsFilter(walking, procedure).run()
     

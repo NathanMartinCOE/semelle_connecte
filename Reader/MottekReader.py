@@ -10,7 +10,7 @@ import os
 from pyCGM2.Tools import btkTools
 from pyCGM2.ForcePlates import forceplates
 
-from Tools.ToolsFFT import TransformFourrier, VisuTransformFourrier
+from semelle_connecte.Tools.ToolsFFT import TransformFourrier, VisuTransformFourrier
 
 
 def ReadMottekc3d(Path, mass, graph = True):
