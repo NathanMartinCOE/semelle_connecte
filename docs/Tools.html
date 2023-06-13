@@ -1,65 +1,237 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Walking package" href="Walking.html" /><link rel="prev" title="Test" href="Test.html" />
 
-<!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Tools &#8212; Connected Insole 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    <!-- Generated with Sphinx 5.3.0 and Furo 2023.03.27 -->
+        <title>Tools - Connected Insole 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
     
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Walking" href="Walking.html" />
-    <link rel="prev" title="Test" href="Test.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="Walking.html" title="Walking"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="Test.html" title="Test"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Connected Insole 1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Reader</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Tools</a></li> 
-      </ul>
-    </div>  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <section id="tools">
-<h1>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h1>
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Connected Insole 1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Connected Insole 1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Reader</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Reader.html">Reader</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#sole">SOLE</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="SOLE.html">SOLE</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#test">Test</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html#tools">Tools</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#walking">Walking</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Walking.html">Walking package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#study">Study</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Study.html">Study package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#writer">Writer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Writer.html">Writer package</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="tools">
+<h1>Tools<a class="headerlink" href="#tools" title="Permalink to this heading">#</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-Tools.RichardBacker_SEM">
-<span id="tools-richardbacker-sem-module"></span><h2>Tools.RichardBacker_SEM module<a class="headerlink" href="#module-Tools.RichardBacker_SEM" title="Permalink to this headline">¶</a></h2>
+<span id="tools-richardbacker-sem-module"></span><h2>Tools.RichardBacker_SEM module<a class="headerlink" href="#module-Tools.RichardBacker_SEM" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.RichardBacker_SEM.RichardBacker_SEM">
-<span class="sig-prename descclassname"><span class="pre">Tools.RichardBacker_SEM.</span></span><span class="sig-name descname"><span class="pre">RichardBacker_SEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/RichardBacker_SEM.html#RichardBacker_SEM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.RichardBacker_SEM.RichardBacker_SEM" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.RichardBacker_SEM.</span></span><span class="sig-name descname"><span class="pre">RichardBacker_SEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/RichardBacker_SEM.html#RichardBacker_SEM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.RichardBacker_SEM.RichardBacker_SEM" title="Permalink to this definition">#</a></dt>
 <dd><p>A function for compute an plot the SEM (standard error of measure) as described by richard backer.
 For more info please see : <a class="reference external" href="https://wwrichard.net/introduction-to-the-sem/">https://wwrichard.net/introduction-to-the-sem/</a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>pd.Series</em>) – in each row -&gt; “id”, “test”, “leg”, “value_0” to “value_n”
 (a single value for the space-time parameters, 1000 for the vertical reaction force)</p></li>
@@ -81,13 +253,13 @@ SEM_right (int) -&gt; value of the SEM for the right leg</p>
 
 </section>
 <section id="module-Tools.ToolsFFT">
-<span id="tools-toolsfft-module"></span><h2>Tools.ToolsFFT module<a class="headerlink" href="#module-Tools.ToolsFFT" title="Permalink to this headline">¶</a></h2>
+<span id="tools-toolsfft-module"></span><h2>Tools.ToolsFFT module<a class="headerlink" href="#module-Tools.ToolsFFT" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsFFT.TransformFourrier">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsFFT.</span></span><span class="sig-name descname"><span class="pre">TransformFourrier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seuil</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsFFT.html#TransformFourrier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsFFT.TransformFourrier" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsFFT.</span></span><span class="sig-name descname"><span class="pre">TransformFourrier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seuil</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsFFT.html#TransformFourrier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsFFT.TransformFourrier" title="Permalink to this definition">#</a></dt>
 <dd><p>This function can be used to process noise in the signal using the Fourier Transform.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – the data to be processed</p></li>
 <li><p><strong>seuil</strong> – frequency threshold below which noise is suppressed</p></li>
@@ -102,10 +274,10 @@ SEM_right (int) -&gt; value of the SEM for the right leg</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsFFT.VisuTransformFourrier">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsFFT.</span></span><span class="sig-name descname"><span class="pre">VisuTransformFourrier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seuil_initial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsFFT.html#VisuTransformFourrier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsFFT.VisuTransformFourrier" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsFFT.</span></span><span class="sig-name descname"><span class="pre">VisuTransformFourrier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seuil_initial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsFFT.html#VisuTransformFourrier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsFFT.VisuTransformFourrier" title="Permalink to this definition">#</a></dt>
 <dd><p>This function shows the impact of the threshold used on signal processing.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – the data to be processed</p></li>
 <li><p><strong>seuil_initial</strong> – initial frequency threshold</p></li>
@@ -120,10 +292,10 @@ SEM_right (int) -&gt; value of the SEM for the right leg</p>
 
 </section>
 <section id="module-Tools.ToolsFeetmeDynamicSymetryScoreMetrics">
-<span id="tools-toolsfeetmedynamicsymetryscoremetrics-module"></span><h2>Tools.ToolsFeetmeDynamicSymetryScoreMetrics module<a class="headerlink" href="#module-Tools.ToolsFeetmeDynamicSymetryScoreMetrics" title="Permalink to this headline">¶</a></h2>
+<span id="tools-toolsfeetmedynamicsymetryscoremetrics-module"></span><h2>Tools.ToolsFeetmeDynamicSymetryScoreMetrics module<a class="headerlink" href="#module-Tools.ToolsFeetmeDynamicSymetryScoreMetrics" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsFeetmeDynamicSymetryScoreMetrics.FeetmeDynamicSymetryScoreMetrics">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsFeetmeDynamicSymetryScoreMetrics.</span></span><span class="sig-name descname"><span class="pre">FeetmeDynamicSymetryScoreMetrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsFeetmeDynamicSymetryScoreMetrics.html#FeetmeDynamicSymetryScoreMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsFeetmeDynamicSymetryScoreMetrics.FeetmeDynamicSymetryScoreMetrics" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsFeetmeDynamicSymetryScoreMetrics.</span></span><span class="sig-name descname"><span class="pre">FeetmeDynamicSymetryScoreMetrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsFeetmeDynamicSymetryScoreMetrics.html#FeetmeDynamicSymetryScoreMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsFeetmeDynamicSymetryScoreMetrics.FeetmeDynamicSymetryScoreMetrics" title="Permalink to this definition">#</a></dt>
 <dd><p>This function compute the Dynamic Symetry Score for spatio-temporal parametre of each step.</p>
 <dl class="simple">
 <dt>Args :</dt><dd><p>DataPath (the DataPath of the file metric get with Feetme)</p>
@@ -141,13 +313,13 @@ SEM_right (int) -&gt; value of the SEM for the right leg</p>
 
 </section>
 <section id="module-Tools.ToolsGetStepEvent">
-<span id="tools-toolsgetstepevent-module"></span><h2>Tools.ToolsGetStepEvent module<a class="headerlink" href="#module-Tools.ToolsGetStepEvent" title="Permalink to this headline">¶</a></h2>
+<span id="tools-toolsgetstepevent-module"></span><h2>Tools.ToolsGetStepEvent module<a class="headerlink" href="#module-Tools.ToolsGetStepEvent" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsGetStepEvent.GetStepEvent">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsGetStepEvent.</span></span><span class="sig-name descname"><span class="pre">GetStepEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VerticalGrf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsGetStepEvent.html#GetStepEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsGetStepEvent.GetStepEvent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsGetStepEvent.</span></span><span class="sig-name descname"><span class="pre">GetStepEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VerticalGrf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsGetStepEvent.html#GetStepEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsGetStepEvent.GetStepEvent" title="Permalink to this definition">#</a></dt>
 <dd><p>This function make two list with the index of HeelStrike time and ToeOff time.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>VerticalGrf</strong> – vertical ground reaction force of all step.</p>
 </dd>
 </dl>
@@ -160,10 +332,10 @@ ToeOff (list)     : index of the toe of for each step.</p>
 
 </section>
 <section id="module-Tools.ToolsGrf">
-<span id="tools-toolsgrf-module"></span><h2>Tools.ToolsGrf module<a class="headerlink" href="#module-Tools.ToolsGrf" title="Permalink to this headline">¶</a></h2>
+<span id="tools-toolsgrf-module"></span><h2>Tools.ToolsGrf module<a class="headerlink" href="#module-Tools.ToolsGrf" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsGrf.grf">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsGrf.</span></span><span class="sig-name descname"><span class="pre">grf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VerticalGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ApGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FrameRate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsGrf.html#grf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsGrf.grf" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsGrf.</span></span><span class="sig-name descname"><span class="pre">grf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VerticalGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ApGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FrameRate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsGrf.html#grf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsGrf.grf" title="Permalink to this definition">#</a></dt>
 <dd><p>This function quantifies variables related to vertical and anteroposterior
 ground reaction forces during walking. Impulses are found by integrating the
 force curve with respect to time. This script assumes that the vertical force
@@ -191,10 +363,10 @@ Impulse : PropulsivePhaseTimeTo, BrakingImpulse, PropulsiveImpulse</p>
 
 </section>
 <section id="module-Tools.ToolsInterpolationGrf">
-<span id="tools-toolsinterpolationgrf-module"></span><h2>Tools.ToolsInterpolationGrf module<a class="headerlink" href="#module-Tools.ToolsInterpolationGrf" title="Permalink to this headline">¶</a></h2>
+<span id="tools-toolsinterpolationgrf-module"></span><h2>Tools.ToolsInterpolationGrf module<a class="headerlink" href="#module-Tools.ToolsInterpolationGrf" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsInterpolationGrf.Interpolation">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsInterpolationGrf.</span></span><span class="sig-name descname"><span class="pre">Interpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xnew_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsInterpolationGrf.html#Interpolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsInterpolationGrf.Interpolation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsInterpolationGrf.</span></span><span class="sig-name descname"><span class="pre">Interpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xnew_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsInterpolationGrf.html#Interpolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsInterpolationGrf.Interpolation" title="Permalink to this definition">#</a></dt>
 <dd><p>This function normalized Ground Reaction force step in % of cycle by
 interpolated</p>
 <dl class="simple">
@@ -209,7 +381,7 @@ ynew: new Ground Reaction force normalised in % of cycle</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsInterpolationGrf.InterpolationGrf">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsInterpolationGrf.</span></span><span class="sig-name descname"><span class="pre">InterpolationGrf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Grf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsInterpolationGrf.html#InterpolationGrf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsInterpolationGrf.InterpolationGrf" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsInterpolationGrf.</span></span><span class="sig-name descname"><span class="pre">InterpolationGrf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Grf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsInterpolationGrf.html#InterpolationGrf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsInterpolationGrf.InterpolationGrf" title="Permalink to this definition">#</a></dt>
 <dd><p>This function normalized Ground Reaction force step in % of cycle by
 interpolated</p>
 <dl class="simple">
@@ -223,15 +395,15 @@ ynew: new Ground Reaction force normalised in % of cycle</p>
 
 </section>
 <section id="module-Tools.ToolsMakeDictStep">
-<span id="tools-toolsmakedictstep-module"></span><h2>Tools.ToolsMakeDictStep module<a class="headerlink" href="#module-Tools.ToolsMakeDictStep" title="Permalink to this headline">¶</a></h2>
+<span id="tools-toolsmakedictstep-module"></span><h2>Tools.ToolsMakeDictStep module<a class="headerlink" href="#module-Tools.ToolsMakeDictStep" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsMakeDictStep.MakeDictStep">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsMakeDictStep.</span></span><span class="sig-name descname"><span class="pre">MakeDictStep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VerticalGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ApGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MedioLatGrf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsMakeDictStep.html#MakeDictStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsMakeDictStep.MakeDictStep" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsMakeDictStep.</span></span><span class="sig-name descname"><span class="pre">MakeDictStep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VerticalGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ApGrf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MedioLatGrf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsMakeDictStep.html#MakeDictStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsMakeDictStep.MakeDictStep" title="Permalink to this definition">#</a></dt>
 <dd><p>This function make two dictionnary of the ground reaction force in vertical axes and
 anteroposterior axes with each step in index. Use a rolling median with a step size of 30
 to smooth out data loss.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>VerticalGrf</strong> – vertical ground reaction force</p></li>
 <li><p><strong>ApGrf</strong> – antero-posterior ground reaction force</p></li>
@@ -252,15 +424,15 @@ MedioLatGrfStep: Dictionnary of the medio-lateral ground reaction force of each 
 
 </section>
 <section id="module-Tools.ToolsSymetryIndex">
-<span id="tools-toolssymetryindex-module"></span><h2>Tools.ToolsSymetryIndex module<a class="headerlink" href="#module-Tools.ToolsSymetryIndex" title="Permalink to this headline">¶</a></h2>
+<span id="tools-toolssymetryindex-module"></span><h2>Tools.ToolsSymetryIndex module<a class="headerlink" href="#module-Tools.ToolsSymetryIndex" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="Tools.ToolsSymetryIndex.SymetryIndex">
-<span class="sig-prename descclassname"><span class="pre">Tools.ToolsSymetryIndex.</span></span><span class="sig-name descname"><span class="pre">SymetryIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsSymetryIndex.html#SymetryIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsSymetryIndex.SymetryIndex" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">Tools.ToolsSymetryIndex.</span></span><span class="sig-name descname"><span class="pre">SymetryIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Tools/ToolsSymetryIndex.html#SymetryIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Tools.ToolsSymetryIndex.SymetryIndex" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute Symetry Index based on Alcantara’s article.
 Alcantara RS, Beck ON, Grabowski AM. Added lower limb mass does not affect biomechanical asymmetry but increases metabolic
 power in runners with a unilateral transtibial amputation. Eur J Appl Physiol. juin 2020;120(6):1449‑56.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Left</strong> – values of the left leg</p></li>
 <li><p><strong>Right</strong> – values of the right leg</p></li>
@@ -275,84 +447,119 @@ power in runners with a unilateral transtibial amputation. Eur J Appl Physiol. j
 
 </section>
 <section id="module-Tools">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Tools" title="Permalink to this headline">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Tools" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
-
-            <div class="clearer"></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="Walking.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Walking package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="Test.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Test</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Nathan Martin
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
           </div>
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
 <li><a class="reference internal" href="#">Tools</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-Tools.RichardBacker_SEM">Tools.RichardBacker_SEM module</a></li>
-<li><a class="reference internal" href="#module-Tools.ToolsFFT">Tools.ToolsFFT module</a></li>
-<li><a class="reference internal" href="#module-Tools.ToolsFeetmeDynamicSymetryScoreMetrics">Tools.ToolsFeetmeDynamicSymetryScoreMetrics module</a></li>
-<li><a class="reference internal" href="#module-Tools.ToolsGetStepEvent">Tools.ToolsGetStepEvent module</a></li>
-<li><a class="reference internal" href="#module-Tools.ToolsGrf">Tools.ToolsGrf module</a></li>
-<li><a class="reference internal" href="#module-Tools.ToolsInterpolationGrf">Tools.ToolsInterpolationGrf module</a></li>
-<li><a class="reference internal" href="#module-Tools.ToolsMakeDictStep">Tools.ToolsMakeDictStep module</a></li>
-<li><a class="reference internal" href="#module-Tools.ToolsSymetryIndex">Tools.ToolsSymetryIndex module</a></li>
+<li><a class="reference internal" href="#module-Tools.RichardBacker_SEM">Tools.RichardBacker_SEM module</a><ul>
+<li><a class="reference internal" href="#Tools.RichardBacker_SEM.RichardBacker_SEM"><code class="docutils literal notranslate"><span class="pre">RichardBacker_SEM()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Tools.ToolsFFT">Tools.ToolsFFT module</a><ul>
+<li><a class="reference internal" href="#Tools.ToolsFFT.TransformFourrier"><code class="docutils literal notranslate"><span class="pre">TransformFourrier()</span></code></a></li>
+<li><a class="reference internal" href="#Tools.ToolsFFT.VisuTransformFourrier"><code class="docutils literal notranslate"><span class="pre">VisuTransformFourrier()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Tools.ToolsFeetmeDynamicSymetryScoreMetrics">Tools.ToolsFeetmeDynamicSymetryScoreMetrics module</a><ul>
+<li><a class="reference internal" href="#Tools.ToolsFeetmeDynamicSymetryScoreMetrics.FeetmeDynamicSymetryScoreMetrics"><code class="docutils literal notranslate"><span class="pre">FeetmeDynamicSymetryScoreMetrics()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Tools.ToolsGetStepEvent">Tools.ToolsGetStepEvent module</a><ul>
+<li><a class="reference internal" href="#Tools.ToolsGetStepEvent.GetStepEvent"><code class="docutils literal notranslate"><span class="pre">GetStepEvent()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Tools.ToolsGrf">Tools.ToolsGrf module</a><ul>
+<li><a class="reference internal" href="#Tools.ToolsGrf.grf"><code class="docutils literal notranslate"><span class="pre">grf()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Tools.ToolsInterpolationGrf">Tools.ToolsInterpolationGrf module</a><ul>
+<li><a class="reference internal" href="#Tools.ToolsInterpolationGrf.Interpolation"><code class="docutils literal notranslate"><span class="pre">Interpolation()</span></code></a></li>
+<li><a class="reference internal" href="#Tools.ToolsInterpolationGrf.InterpolationGrf"><code class="docutils literal notranslate"><span class="pre">InterpolationGrf()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Tools.ToolsMakeDictStep">Tools.ToolsMakeDictStep module</a><ul>
+<li><a class="reference internal" href="#Tools.ToolsMakeDictStep.MakeDictStep"><code class="docutils literal notranslate"><span class="pre">MakeDictStep()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Tools.ToolsSymetryIndex">Tools.ToolsSymetryIndex module</a><ul>
+<li><a class="reference internal" href="#Tools.ToolsSymetryIndex.SymetryIndex"><code class="docutils literal notranslate"><span class="pre">SymetryIndex()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-Tools">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="Test.html"
-                        title="previous chapter">Test</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="Walking.html"
-                        title="next chapter">Walking</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/Tools.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="Walking.html" title="Walking"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="Test.html" title="Test"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Connected Insole 1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Reader</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Tools</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2023, Nathan Martin.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
-    </div>
-  </body>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
 </html>
