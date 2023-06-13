@@ -20,8 +20,6 @@ wins = fu.linRangeByStep(10, 2000)
 n, F = pydfa.computeFlucVec(wins, revSeg=True, polOrd=3)
 H, H_intercept = pydfa.fitFlucVec()
 
-import ipdb; ipdb.set_trace()
-
 #compute Hurst exponent in different ranges
 limits_list = np.array([[15,2000], [200,1000]], dtype=int)
 list_H, list_H_intercept = pydfa.multiFitFlucVec(limits_list)
