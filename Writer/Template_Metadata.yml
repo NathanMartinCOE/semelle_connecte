@@ -1,0 +1,36 @@
+---
+SubjectInfo:
+  Ipp: 1
+  Name: 1
+  FirstName: 2
+  Dob: 3
+
+
+VisitInfo:
+  Date: 4
+  SessionNumber: 5
+  Age: 6
+
+
+ExamInfo:
+  Goal : 1
+  Comments: 1
+
+
+MP:
+  Bodymass: 1
+  LeftInsoleSize: 1
+  RightInsoleSize: 1
+
+
+Protocol:
+  Test: 1
+  ResearchProtocol: 1
+  Conditions: 
+    Context: 1
+    ContextComments: 1
+    Orthosis: 1
+    ExternalAid: 1
+    PersonalAid: 1
+    Comments: 1
+    Assessor: 1

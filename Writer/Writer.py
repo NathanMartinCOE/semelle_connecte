@@ -1,11 +1,16 @@
 # coding: utf-8
 # Modified : 2023.05.20
 
-import h5py
-import os
 import pandas as pd
 import numpy as np
+import h5py
+import yaml
+import os
 
+
+import semelle_connecte
+from semelle_connecte.Reader.Reader import Reader
+from semelle_connecte.Tools.ToolsWriterHDF5 import ConvertWalkingToHDF5, ConvertMetadataYamlToHDF5 
 
 class Writer(object):
     """ Class to write h5 file
@@ -21,83 +26,113 @@ class Writer(object):
         self.m_path = path
         self.m_file_name = file_name
 
-
     def writeh5(self):
         """
         Write an h5df file with all data store in a walking object
         """
-
         walking = self.m_walking
 
         StorageDataPath = self.m_path
         f = h5py.File(os.path.join(StorageDataPath, self.m_file_name), "w")
-
-        # Save the Unique Value
-        grp_UniqueValue = f.create_group("UniqueValue")
-        grp_UniqueValue.create_dataset("mass", shape= None ,dtype = None, data = walking.m_mass)
-
-        # Save the Dictionary
-        grp_dict = f.create_group("dict")
-
-        grp_sole = grp_dict.create_group("sole")
-        for leg in ["LeftLeg", "RightLeg"]:
-            grp_leg = grp_sole.create_group(leg)
-            for axe in ["VerticalGrf", "ApGrf", "MediolateralGrf"]:
-                try:
-                    grp_leg.create_dataset(axe, shape= None ,dtype = None, data = walking.m_sole[leg].data[axe])
-                except:
-                    print(f"No value in  walking.m_sole[{leg}].data[{axe}]")
-
-        grp_StepGrfValue = grp_dict.create_group("StepGrfValue")
-        for leg in ["LeftLeg", "RightLeg"]:
-            grp_leg = grp_StepGrfValue.create_group(leg)
-            for axe in ["VerticalGrf", "ApGrf", "MediolateralGrf"]:
-                grp_axe = grp_leg.create_group(axe)
-                try :
-                    for step in np.arange(len(walking.m_StepGrfValue[leg][axe])):
-                        grp_axe.create_dataset(f"{step}", shape= None ,dtype = None, data = walking.m_StepGrfValue[leg][axe][step])
-                except:
-                    print(f"No value in walking.m_StepGrfValue[{leg}][{axe}]]")
-
-        grp_GroundReactionForces = grp_dict.create_group("GroundReactionForces")
-        for leg in ["LeftLeg", "RightLeg"]:
-            grp = grp_GroundReactionForces.create_group(leg)
-            try:
-                grp.create_dataset("DataGroundReactionForces", shape= None ,dtype = None, data = pd.DataFrame(walking.m_GroundReactionForces[leg]).T )
-            except:
-                print(f"No value in walking.m_GroundReactionForces[{leg}]")
-
-        grp_DictOfDataFrameCutGrf = grp_dict.create_group("DictOfDataFrameCutGrf")
-        for axe in ["VerticalGrf", "ApGrf", "MediolateralGrf"]:
-            try:
-                grp_DictOfDataFrameCutGrf.create_dataset(axe, shape= None ,dtype = None, data = walking.m_DictOfDataFrameCutGrf[axe])
-            except:
-                print(f"No value in walking.m_DictOfDataFrameCutGrf[{axe}]")
-                
-        grp_FunctionDynamicAssym = grp_dict.create_group("FunctionDynamicAssym")
-        for axe in ["VerticalGrf", "ApGrf", "MediolateralGrf"]:
-            try:
-                grp_FunctionDynamicAssym.create_dataset(axe, shape= None ,dtype = None, data = walking.m_FunctionDynamicAssym[axe])
-            except:
-                print(f"No value in walking.m_FunctionDynamicAssym[{axe}]")
-
-        # Save the DataFrame
-        grp_DataFrame = f.create_group("DataFrame")
-        grp_DataFrame.create_dataset("DataFrameLeftRight" ,shape= None ,dtype = None, data = walking.m_DataFrameLeftRight)
-        grp_DataFrame.create_dataset("DataFrameRightLeft" ,shape= None ,dtype = None, data = walking.m_DataFrameRightLeft)
-        grp_DataFrame.create_dataset("DataFrameDynamicSymetryScore" ,shape= None ,dtype = None, data = walking.m_DataFrameDynamicSymetryScore)
-        grp_DataFrame.create_dataset("DataFrameSpatioTemporal_Left" ,shape= None ,dtype = None, data = walking.m_DataFrameSpatioTemporal_Left)
-        grp_DataFrame.create_dataset("DataFrameSpatioTemporal_Right" ,shape= None ,dtype = None, data = walking.m_DataFrameSpatioTemporal_Right)
-            
+        ConvertWalkingToHDF5(f, walking)
         f.close()
 
 
 
 
+class WriterHDF5DataBase(object):
+    """ Class to udpate the HDF5 Database
+
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance
+    """
+
+    def __init__(self, walking=None, DataBaseName= "NantesDataBase"):
+        self.m_walking = walking #### faire en list
+        self.m_DataBaseName = DataBaseName
+        self.m_StoragePath = os.path.join(semelle_connecte.Connected_Insole_Path, "semelle_connecte\\DataBase\\")
+        self.m_DataBasePath = os.path.join(self.m_StoragePath, self.m_DataBaseName)
+
+    def CreateHDF5DataBase(self):
+        """
+        This function creates an empty HDF5 database in semelle_connecte DataBase if it does not exist.
+        """
+
+        try:
+            f = h5py.File(f'{self.m_DataBasePath}.hdf5', "r")
+            print(f"The {self.m_DataBaseName} database already exists and is available in:")
+            print(self.m_StoragePath)
+        except:
+            f = h5py.File(f'{self.m_DataBasePath}.hdf5','w-') # w- -> Create file, fail if exists (allows you to protect the database)
+            grp_IPP = f.create_group("IPP")
+            print(f"The {self.m_DataBaseName} database has been created and is available in:")
+            print(self.m_StoragePath)
+
+    def UdpateHDF5DataBase(self,path_walking, path_metadata):
+        """
+        This function is used to add data to the database.
+        Checks whether the database exists. If it exists, continues in write mode, otherwise asks the user if he 
+        wants to create it.
+        """
+
+        yaml_file = open(path_metadata, 'r')
+        yaml_content = yaml.load(yaml_file)
+
+        IPP = "000"   ### metadata yaml
+        test = "6MWT" ### metadata yaml
+        walking = Reader(path_walking).readh5() ### faire aussi list de walking + si pas un hdf5 attend metric pressure
+
+
+        try:
+            f = h5py.File(f'{self.m_DataBasePath}.hdf5','r+') # r+ -> Read/write, file must exist
+        except:
+            print(f"The {self.m_DataBaseName} database does not exist.")
+            while True:
+                key = input(f"Do you want to create {self.m_DataBaseName} database? yes=[y] ; no=[n]:")
+                if key == "y":
+                    WriterHDF5DataBase(DataBaseName=self.m_DataBaseName).CreateHDF5DataBase()
+                    f = h5py.File(f'{self.m_DataBasePath}.hdf5','r+') # r+ -> Read/write, file must exist
+                    break
+                elif key == "n":
+                    print(f"Please create {self.m_DataBaseName} database with WriterHDF5DataBase().CreateHDF5DataBase() before update")
+                    exit()
+
+
+        grp_IPP = f["IPP"]
+        try:
+            grp_IPP.create_group(IPP)
+            print(f"New patient add to the DataBase with IPP: {IPP}")
+        except:
+            print(f"Patient with IPP: {IPP} found in the DataBase")
+            pass
+
+        grp_patient = f["IPP"][IPP]
+        try:
+            grp_patient.create_group(test)
+            print(f"First time this patient do a: {test}")
+        except:
+            print(f"{test} found for patient {IPP} in the DataBase")
+            pass
+
+        grp_test = f["IPP"][IPP][test]
+        grp_visit = grp_test.create_group(str(len(grp_test)))
+
+        grp_walking = grp_visit.create_group("walking")
+        ConvertWalkingToHDF5(grp_walking, walking)
+
+        grp_metadata = grp_visit.create_group("metadata")
+        ConvertMetadataYamlToHDF5(grp_metadata, path_metadata)
+
+        import ipdb; ipdb.set_trace()
 
 
 
-
+if __name__ == '__main__':
+    path_walking = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\APA\\161095\\Parcours_1\\walking_161095_Parcours_1.hdf5"
+    path_metadata = "C:\\Users\\Nathan\\Desktop\\Recherche\\Github\\semelle_connecte\\semelle_connecte\\Writer\\Template_Metadata.yml"
+    WriterHDF5DataBase().UdpateHDF5DataBase(path_walking= path_walking, path_metadata=path_metadata)
+    
+    import ipdb; ipdb.set_trace()
 
 
 
