@@ -1,36 +1,45 @@
 ---
+YamlInfo:
+  FileVersion: 1.0
+
 SubjectInfo:
-  Ipp: 1
-  Name: 1
-  FirstName: 2
-  Dob: 3
+  Ipp: 00000
+  Name: "NomDeFamille"
+  FirstName: "Prenom"
+  Dob: "00/00/0000"
 
 
 VisitInfo:
-  Date: 4
-  SessionNumber: 5
-  Age: 6
+  Date: "00/00/0000"
+  SessionNumber: 0
+  Age: 00
 
 
 ExamInfo:
-  Goal : 1
-  Comments: 1
+  Goal : Test
+  Comments: 
 
 
 MP:
-  Bodymass: 1
-  LeftInsoleSize: 1
-  RightInsoleSize: 1
+  Bodymass: 00
+  LeftInsoleSize: 00
+  RightInsoleSize: 00
 
 
 Protocol:
-  Test: 1
-  ResearchProtocol: 1
+  # Arg fo Test ->
+            # 6minute walking test: "6MWT"   
+            # 10 meters walking test: "10mWT" 
+            # 400 meters walking test: "400mWT"
+            # 25 step walking test: "25sWT"
+            # free walking test: "FWT"
+  Test: "ArgTest" 
+  ResearchProtocol: False
   Conditions: 
-    Context: 1
-    ContextComments: 1
-    Orthosis: 1
-    ExternalAid: 1
-    PersonalAid: 1
-    Comments: 1
-    Assessor: 1
+    Context: "Normal"
+    ContextComments: 
+    Orthosis: False
+    ExternalAid: False
+    PersonalAid: False
+    Comments: 
+    Assessor: "Prenom Nom du therapeute"
