@@ -80,24 +80,32 @@ def ConvertMetadataYamlToHDF5(f, yaml_path):
         yaml_path (path) the path of a Metadata.yml 
     
     Caution: Metadata.yml must be in the form of the Template_Metadata.yml file
+        Supported FileVersion: 1.0
     """
 
     yaml_file = open(yaml_path, 'r')
     yaml_content = yaml.load(yaml_file)
 
+    if yaml_content["YamlInfo"]["FileVersion"] != 1.0:
+        print(f'The metadata version {yaml_content["YamlInfo"]["FileVersion"]} is not recognised')
+        exit()
+
     for grp_name in yaml_content.keys():
         grp_1 = f.create_group(grp_name)
-        for key, value in yaml_content[grp_name].items():
+        for key_1, value_1 in yaml_content[grp_name].items():
             try:
-                grp_1.create_dataset(key, shape= None ,dtype = None, data = value)
+                grp_1.create_dataset(key_1, shape= None ,dtype = None, data = value_1)
             except:
-                grp_2 = grp_1.create_group(key)
-                for key, value in yaml_content[grp_name][key].items():
-                    grp_2.create_dataset(key, shape= None ,dtype = None, data = value)
-
-
-    # grp_SubjectInfo = f.create_group("SubjectInfo")
-    # grp_SubjectInfo.create_dataset("Ipp", shape= None ,dtype = None, data = yaml_content["SubjectInfo"]["Ipp"])
-    # grp_SubjectInfo.create_dataset("Name", shape= None ,dtype = None, data = yaml_content["SubjectInfo"]["Name"])
-    # grp_SubjectInfo.create_dataset("FirstName", shape= None ,dtype = None, data = yaml_content["SubjectInfo"]["FirstName"])
-    # grp_SubjectInfo.create_dataset("Dob", shape= None ,dtype = None, data = yaml_content["SubjectInfo"]["Dob"])
+                if value_1 == None:
+                    grp_1.create_dataset(key_1, shape= None ,dtype = None, data = [])
+                else:
+                    grp_2 = grp_1.create_group(key_1)
+                    for key_2, value_2 in yaml_content[grp_name][key_1].items():
+                        try:    
+                            grp_2.create_dataset(key_2, shape= None ,dtype = None, data = value_2)
+                        except:
+                            if value_2 == None:
+                                grp_2.create_dataset(key_2, shape= None ,dtype = None, data = [])
+                            else:
+                                print("You have more than two level of subgroup")
+                                print(f"Error for [{grp_name}][{key_1}][{key_2}]")
