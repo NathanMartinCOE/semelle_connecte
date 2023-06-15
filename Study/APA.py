@@ -54,13 +54,13 @@ from semelle_connecte.SOLE.FeetMe import ReadSpatioTemporalCsv
 from semelle_connecte.Reader.Reader import Reader
 from semelle_connecte.Tools.ToolsSymetryIndex import SymetryIndex
 
-ID = 161095
-mass = 60
-tests = ["Parcours_1", "Parcours_2", "Haie", "Salom", "doubleTache", "bande", "Back"]
-
-# ID = "test_nathan"
+# ID = 161095
 # mass = 60
-# tests = ["TDM"]
+# tests = ["Parcours_1", "Parcours_2", "Haie", "Salom", "doubleTache", "bande", "Back"]
+
+ID = "flo"
+mass = [80,80,80]
+tests = ["Session", "Test_sans_maintient", "Test_avec_maintient"]
 
 def main():
     document = Document()
@@ -101,10 +101,10 @@ def main():
             procedure = GroundReactionForceKinematicsProcedure()
             WalkingKinematicsFilter(walking, procedure).run()
 
-            from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
-            from semelle_connecte.Walking.WalkingDataProcessingProcedure import DeleteStepProcedure
-            procedure = DeleteStepProcedure()
-            WalkingDataProcessingFilter(walking, procedure).run()
+            # from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+            # from semelle_connecte.Walking.WalkingDataProcessingProcedure import DeleteStepProcedure
+            # procedure = DeleteStepProcedure()
+            # WalkingDataProcessingFilter(walking, procedure).run()
 
             from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
             from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
