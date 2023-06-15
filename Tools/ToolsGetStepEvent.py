@@ -1,6 +1,7 @@
 # coding utf-8
 # Author : Nathan Martin 
 # Create : 2023 - 05 - 06
+from tqdm import tqdm
 
 def GetStepEvent(VerticalGrf):
     """
@@ -20,7 +21,7 @@ def GetStepEvent(VerticalGrf):
 
     HeelStrike = []
     ToeOff = []
-    for i in range(0,len(VerticalGrf)-1):
+    for i in tqdm(range(0,len(VerticalGrf)-1)):
         if thresfold == 0:
             if VerticalGrf[i] == 0 and VerticalGrf[i+1] > 0 : 
                 HeelStrike.append(i)
