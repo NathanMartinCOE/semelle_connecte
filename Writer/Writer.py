@@ -3,6 +3,7 @@
 
 import pandas as pd
 import numpy as np
+import shutil
 import h5py
 import yaml
 import os
@@ -25,6 +26,7 @@ class Writer(object):
         self.m_walking = walking
         self.m_path = path
         self.m_file_name = file_name
+        self.m_TemplateMetadata = os.path.join(semelle_connecte.Connected_Insole_Path, "semelle_connecte\\Writer\\Template_Metadata.yml")
 
     def writeh5(self):
         """
@@ -36,6 +38,8 @@ class Writer(object):
         f = h5py.File(os.path.join(StorageDataPath, self.m_file_name), "w")
         ConvertWalkingToHDF5(f, walking)
         f.close()
+
+        shutil.copy2(self.m_TemplateMetadata, os.path.join(StorageDataPath, "Metadata.yml"))
 
 
 
@@ -73,15 +77,21 @@ class WriterHDF5DataBase(object):
         This function is used to add data to the database.
         Checks whether the database exists. If it exists, continues in write mode, otherwise asks the user if he 
         wants to create it.
+
+        Implements the database with walking and metadata files.
         """
 
         yaml_file = open(path_metadata, 'r')
         yaml_content = yaml.load(yaml_file)
+        if yaml_content["YamlInfo"]["FileVersion"] != 1.0:
+            print(f'The metadata version {yaml_content["YamlInfo"]["FileVersion"]} is not recognised')
+            exit()
 
-        IPP = "000"   ### metadata yaml
-        test = "6MWT" ### metadata yaml
+        IPP = str(yaml_content["SubjectInfo"]["Ipp"])  
+        Test = yaml_content["Protocol"]["Test"]
+        SessionNumber = yaml_content["VisitInfo"]["SessionNumber"]
+
         walking = Reader(path_walking).readh5() ### faire aussi list de walking + si pas un hdf5 attend metric pressure
-
 
         try:
             f = h5py.File(f'{self.m_DataBasePath}.hdf5','r+') # r+ -> Read/write, file must exist
@@ -108,22 +118,25 @@ class WriterHDF5DataBase(object):
 
         grp_patient = f["IPP"][IPP]
         try:
-            grp_patient.create_group(test)
-            print(f"First time this patient do a: {test}")
+            grp_patient.create_group(Test)
+            print(f"First time this patient do a: {Test}")
         except:
-            print(f"{test} found for patient {IPP} in the DataBase")
+            print(f"{Test} found for patient {IPP} in the DataBase")
             pass
 
-        grp_test = f["IPP"][IPP][test]
-        grp_visit = grp_test.create_group(str(len(grp_test)))
+        # Create visit session after last visit
+        grp_Test = f["IPP"][IPP][Test]
+        grp_visit = grp_Test.create_group(str(len(grp_Test)))
 
-        grp_walking = grp_visit.create_group("walking")
-        ConvertWalkingToHDF5(grp_walking, walking)
-
+        # Add metadata to the visit session
         grp_metadata = grp_visit.create_group("metadata")
         ConvertMetadataYamlToHDF5(grp_metadata, path_metadata)
 
-        import ipdb; ipdb.set_trace()
+        # Add walking data to the visit session
+        grp_walking = grp_visit.create_group("walking")
+        ConvertWalkingToHDF5(grp_walking, walking)
+
+        f.close()
 
 
 
