@@ -40,7 +40,9 @@ class Writer(object):
         f.close()
 
         shutil.copy2(self.m_TemplateMetadata, os.path.join(StorageDataPath, "Metadata.yml"))
-
+        print(f" ====================== A YAML file Metadata.yml has been added to the folder: {StorageDataPath}. ==")
+        print( " ====================== This file is a copy of the Template_Metadata.yml file. ====================")
+        print( " ====================== Be careful to modify the data in this file. ===============================")
 
 
 
@@ -82,7 +84,7 @@ class WriterHDF5DataBase(object):
         """
 
         yaml_file = open(path_metadata, 'r')
-        yaml_content = yaml.load(yaml_file)
+        yaml_content = yaml.load(yaml_file, Loader=yaml.FullLoader)
         if yaml_content["YamlInfo"]["FileVersion"] != 1.0:
             print(f'The metadata version {yaml_content["YamlInfo"]["FileVersion"]} is not recognised')
             exit()
@@ -107,6 +109,13 @@ class WriterHDF5DataBase(object):
                     print(f"Please create {self.m_DataBaseName} database with WriterHDF5DataBase().CreateHDF5DataBase() before update")
                     exit()
 
+        # Look if the record is already stored in the DataBase:
+        try :
+            f["IPP"][str(IPP)][Test][str(SessionNumber)]
+            print(f"This session is already stored in the DataBase: ['IPP'][{IPP}][{Test}][{SessionNumber}]")
+            return
+        except:
+            pass
 
         grp_IPP = f["IPP"]
         try:
@@ -144,8 +153,6 @@ if __name__ == '__main__':
     path_walking = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\APA\\161095\\Parcours_1\\walking_161095_Parcours_1.hdf5"
     path_metadata = "C:\\Users\\Nathan\\Desktop\\Recherche\\Github\\semelle_connecte\\semelle_connecte\\Writer\\Template_Metadata.yml"
     WriterHDF5DataBase().UdpateHDF5DataBase(path_walking= path_walking, path_metadata=path_metadata)
-    
-    import ipdb; ipdb.set_trace()
 
 
 
