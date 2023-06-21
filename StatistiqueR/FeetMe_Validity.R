@@ -297,5 +297,36 @@ ANOVA_factory <- function(){
 }
 
 
+### ============================================== Repetability ===========================================
+
+conditions = c("normal_ground", "mottek_vL12_vR12", "mottek_vL14_vR12", "mottek_vL16_vR12", "mottek_vL18_vR12", "mottek_vL12_vR14", "mottek_vL12_vR16", "mottek_vL12_vR18")
+
+for (metric in metrics){
+  for (condition in conditions){
+    df <- subset(DataFrame, Metric == metric & Condition == condition)
+    df$Mean = rowMeans(df[, 7:368], na.rm = TRUE)
+    
+    stat.test  <- df %>%
+      t_test(Mean ~ N_test,paired=FALSE) %>%
+      adjust_pvalue(method = "bonferroni") %>%
+      add_significance("p.adj")
+    print(paste("Metric:", metric, "Condition:", condition, sep = " "))
+    print(stat.test)
+    
+    stat.test <- stat.test %>%
+      add_xy_position(x = "Condition", dodge = 0.8)
+    
+    metric_plot <- ggboxplot(
+      df, x = "N_test", y = "Mean", 
+      ylab=metric,xlab="N_test",xaxt="n"
+    )
+    
+    metric_plot <- metric_plot + stat_pvalue_manual(stat.test,label = "{p.adj.signif}", tip.length = 0)
+    print(metric_plot)
+    
+  } # end for condition
+}   # end for metric
+
+
 
 
