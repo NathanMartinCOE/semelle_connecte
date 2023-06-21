@@ -20,7 +20,7 @@ while True:
     key = input("Name of the DataBase:")
     DataBaseName = str(key)
     break
-DataBaseName= "TESTDataBase"
+# DataBaseName= "TESTDataBase"
 
 for folder in folders:
     folderPath = os.path.join(DataBasePath, folder)
