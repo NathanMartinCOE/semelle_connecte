@@ -28,7 +28,7 @@ class Writer(object):
         self.m_file_name = file_name
         self.m_TemplateMetadata = os.path.join(semelle_connecte.Connected_Insole_Path, "semelle_connecte\\Writer\\Template_Metadata.yml")
 
-    def writeh5(self):
+    def writeh5(self, CreateMetadata=True):
         """
         Write an h5df file with all data store in a walking object
         """
@@ -39,10 +39,11 @@ class Writer(object):
         ConvertWalkingToHDF5(f, walking)
         f.close()
 
-        shutil.copy2(self.m_TemplateMetadata, os.path.join(StorageDataPath, "Metadata.yml"))
-        print(f" ====================== A YAML file Metadata.yml has been added to the folder: {StorageDataPath}. ==")
-        print( " ====================== This file is a copy of the Template_Metadata.yml file. ====================")
-        print( " ====================== Be careful to modify the data in this file. ===============================")
+        if CreateMetadata == True:
+            shutil.copy2(self.m_TemplateMetadata, os.path.join(StorageDataPath, "Metadata.yml"))
+            print(f" ====================== A YAML file Metadata.yml has been added to the folder: {StorageDataPath}. ==")
+            print( " ====================== This file is a copy of the Template_Metadata.yml file. ====================")
+            print( " ====================== Be careful to modify the data in this file. ===============================")
 
 
 
@@ -54,7 +55,7 @@ class WriterHDF5DataBase(object):
     """
 
     def __init__(self, walking=None, DataBaseName= "NantesDataBase"):
-        self.m_walking = walking #### faire en list
+        self.m_walking = walking 
         self.m_DataBaseName = DataBaseName
         self.m_StoragePath = os.path.join(semelle_connecte.Connected_Insole_Path, "semelle_connecte\\DataBase\\")
         self.m_DataBasePath = os.path.join(self.m_StoragePath, self.m_DataBaseName)
@@ -146,6 +147,44 @@ class WriterHDF5DataBase(object):
         ConvertWalkingToHDF5(grp_walking, walking)
 
         f.close()
+
+
+
+class WriterMetadata(object):
+    """
+        Class to write metadata dict in an metadata.yaml file.
+    Args:
+        Metadata(dict): a metadata instance
+        StoragePath(path): the path to save the yaml
+        FileName(str): the name of the file ({FileName}.yaml)
+    Outputs:
+        {FileName}.yaml(yaml file): a yaml file with metadata info save in the Storage_path
+    """
+    def __init__(self, Metadata, StoragePath, FileName):
+        self.m_Metadata = Metadata
+        self.m_StoragePath = StoragePath
+        self.m_FileName = FileName
+
+    def run(self):
+        FillPath = os.path.join(self.m_StoragePath,self.m_FileName)
+        with open(FillPath, 'w',) as f :
+            yaml.dump(self.m_Metadata,f,sort_keys=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
