@@ -193,5 +193,52 @@ def main():
     DatFrame_all_metric.to_csv(os.path.join(PathSaveData, "DatFrame_all_metric.csv"))
 
 
+
+from docx import Document
+from docx.shared import Inches
+
+def Graph3D():
+    conditions = ["normal_ground", "mottek_vL12_vR12", "mottek_vL12_vR14", "mottek_vL12_vR16", "mottek_vL12_vR18", "mottek_vL14_vR12", "mottek_vL16_vR12", "mottek_vL18_vR12"]
+
+    document = Document()
+    StoragePath = "C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\img\\"
+
+    for condition in conditions:
+        document.add_heading(f'Condition : {condition}', 0)
+        PathMSE = f"C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\{condition}\\"
+        
+        files = os.listdir(PathMSE)
+        hdf5_files = [file for file in files if file.endswith(".hdf5")]
+
+        for file in hdf5_files:
+            PathHDF5 = PathMSE
+            NameFileHDF5 = str(file)
+            DataPathHDF5 = os.path.join(PathHDF5, NameFileHDF5)
+            walking = Reader(DataPathHDF5).readh5()
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+            from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+            procedure = GroundReactionForceKinematicsProcedure()
+            WalkingKinematicsFilter(walking, procedure).run()
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+            from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+            procedure = NormalisationProcedure()
+            WalkingDataProcessingFilter(walking, procedure).run()
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+            from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotVerticalGroundReaction3DProcedure
+
+            procedure = PlotVerticalGroundReaction3DProcedure(show_graph = False,  save_graph = True, StoragePath = StoragePath)
+            WalkingGraphicsFilter(walking, procedure).run()
+
+            document.add_picture(os.path.join(StoragePath,'VerticalGroundReaction3D.png'), height = Inches(3.5))
+    
+    document.save("C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\Graphiques3D_GRF.docx")
+
+
+
+
 if __name__ == '__main__':
-    main()
+    # main()
+    Graph3D()
