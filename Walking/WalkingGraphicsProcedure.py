@@ -7,8 +7,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from math import nan
 import os
+
+from math import nan
+
 
 from semelle_connecte.Tools.ToolsInterpolationGrf import InterpolationGrf
 from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter, WalkingKinematicsFilter
@@ -560,4 +562,61 @@ class PlotSpatioTemporalParametersBoxplotProcedure(AbstractWalkingGraphicsProced
         if self.m_show_graph == True:
                 plt.show()
         plt.close()
+
+
+class PlotVerticalGroundReaction3DProcedure(AbstractWalkingGraphicsProcedure):
+    """
+    This procedure plot a 3D graph of the evolution of the Vertical Ground Reaction Force.
+    
+    Args:
+        Walking (semelle_connecte.Walking.Walking): a walking patient instance  
+    
+    Outputs :
+        3D graph with: x the % of cycle; y the number of the cycle; z the value of the Vertical GRF
+    """
+
+    def __init__(self, show_graph = True, save_graph = False, StoragePath = None):
+        super(PlotVerticalGroundReaction3DProcedure, self).__init__(show_graph , save_graph, StoragePath)
+
+    def run(self, walking):
+
+        LeftValues_VerticalGrf = pd.DataFrame(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]).dropna(axis=1)
+        RightValues_VerticalGrf = pd.DataFrame(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"]).dropna(axis=1)
+
+        xL = range(1000)  
+        yL = range(LeftValues_VerticalGrf.shape[1])
+        xL, yL = np.meshgrid(xL, yL)
+        zL = LeftValues_VerticalGrf.T
+
+        xR = range(1000)  
+        yR = range(RightValues_VerticalGrf.shape[1]) 
+        xR, yR = np.meshgrid(xR, yR)
+        zR = RightValues_VerticalGrf.T
+
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,5), subplot_kw={'projection': '3d'})
+
+        ax1.plot_surface(xL, yL, zL , cmap='viridis')
+        ax1.set_title("Left Leg")
+        ax1.set_xlabel('Cycle')
+        ax1.set_ylabel('Number of Step')
+        ax1.set_zlabel('Ground Reaction Force (kg/cm²)')
+        ax1.view_init(elev=30, azim=-120)
+
+        ax2.plot_surface(xR, yR, zR , cmap='viridis')
+        ax2.set_title("Right Leg")
+        ax2.set_xlabel('Cycle')
+        ax2.set_ylabel('Number of Step')
+        ax2.set_zlabel('Ground Reaction Force (kg/cm²)')
+        ax2.view_init(elev=30, azim=-120)
+
+        plt.subplots_adjust(wspace=0.4)
+        if self.m_save_graph == True:
+            try :
+                plt.savefig(os.path.join(self.m_StoragePath,'VerticalGroundReaction3D.png'))
+            except :
+                print(f"Can't save plot to {self.m_StoragePath} VerticalGroundReaction3D.png'")
+        if self.m_show_graph == True:
+                plt.show()
+        plt.close()
+
 
