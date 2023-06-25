@@ -19,6 +19,7 @@
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Graphics::test_PlotCutGroundReactionForceProcedure
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Graphics::test_PlotTwoStepProcedure
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Graphics::test_PlotDynamicSymetryFunctionNormalisedProcedure
+# pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Graphics::test_PlotVerticalGroundReaction3DProcedure
 
 # pytest -s --disable-pytest-warnings  TestFeetme.py::Test_Writer::test_Writer
 
@@ -227,6 +228,24 @@ class Test_Graphics:
 
         procedure = PlotDynamicSymetryFunctionNormalisedProcedure(show_graph = False)
         WalkingGraphicsFilter(walking, procedure).run()
+
+    def test_PlotVerticalGroundReaction3DProcedure(self):
+        from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+        from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+        procedure = GroundReactionForceKinematicsProcedure()
+        WalkingKinematicsFilter(walking, procedure).run()
+
+        from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+        from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+        procedure = NormalisationProcedure()
+        WalkingDataProcessingFilter(walking, procedure).run()
+
+        from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+        from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotVerticalGroundReaction3DProcedure
+
+        procedure = PlotVerticalGroundReaction3DProcedure(show_graph = True)
+        WalkingGraphicsFilter(walking, procedure).run()
+
 
 
 class Test_Writer:
