@@ -241,38 +241,69 @@
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="Writer.Writer.Writer.writeh5">
-<span class="sig-name descname"><span class="pre">writeh5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/Writer.html#Writer.writeh5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.Writer.Writer.writeh5" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">writeh5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">CreateMetadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/Writer.html#Writer.writeh5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.Writer.Writer.writeh5" title="Permalink to this definition">#</a></dt>
 <dd><p>Write an h5df file with all data store in a walking object</p>
 </dd></dl>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="Writer.Writer.WriterHDF5DataBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Writer.Writer.</span></span><span class="sig-name descname"><span class="pre">WriterHDF5DataBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DataBaseName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NantesDataBase'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/Writer.html#WriterHDF5DataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.Writer.WriterHDF5DataBase" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to udpate the HDF5 Database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Writer.Writer.WriterHDF5DataBase.CreateHDF5DataBase">
+<span class="sig-name descname"><span class="pre">CreateHDF5DataBase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/Writer.html#WriterHDF5DataBase.CreateHDF5DataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.Writer.WriterHDF5DataBase.CreateHDF5DataBase" title="Permalink to this definition">#</a></dt>
+<dd><p>This function creates an empty HDF5 database in semelle_connecte DataBase if it does not exist.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Writer.Writer.WriterHDF5DataBase.UdpateHDF5DataBase">
+<span class="sig-name descname"><span class="pre">UdpateHDF5DataBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_walking</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/Writer.html#WriterHDF5DataBase.UdpateHDF5DataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.Writer.WriterHDF5DataBase.UdpateHDF5DataBase" title="Permalink to this definition">#</a></dt>
+<dd><p>This function is used to add data to the database.
+Checks whether the database exists. If it exists, continues in write mode, otherwise asks the user if he
+wants to create it.</p>
+<p>Implements the database with walking and metadata files.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Writer.Writer.WriterMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Writer.Writer.</span></span><span class="sig-name descname"><span class="pre">WriterMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FileName</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/Writer.html#WriterMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.Writer.WriterMetadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<blockquote>
+<div><p>Class to write metadata dict in an metadata.yaml file.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Metadata</strong> (<em>dict</em>) – a metadata instance</p></li>
+<li><p><strong>StoragePath</strong> (<em>path</em>) – the path to save the yaml</p></li>
+<li><p><strong>FileName</strong> (<em>str</em>) – the name of the file ({FileName}.yaml)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>{FileName}.yaml(yaml file): a yaml file with metadata info save in the Storage_path</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Writer.Writer.WriterMetadata.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/Writer.html#WriterMetadata.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.Writer.WriterMetadata.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="module-Writer.write_h5_GuttembergGaitDatabase">
-<span id="writer-write-h5-guttemberggaitdatabase-module"></span><h2>Writer.write_h5_GuttembergGaitDatabase module<a class="headerlink" href="#module-Writer.write_h5_GuttembergGaitDatabase" title="Permalink to this heading">#</a></h2>
-<p>This code is not a function. It is a code for converting files from the Gutenberg Gait Database into HDF5 files.
-Available at :
-<a class="reference external" href="https://springernature.figshare.com/collections/Gutenberg_Gait_Database_A_ground_reaction_force_database_of_level_overground_walking_in_healthy_individuals/5311538">https://springernature.figshare.com/collections/Gutenberg_Gait_Database_A_ground_reaction_force_database_of_level_overground_walking_in_healthy_individuals/5311538</a></p>
-<dl class="py function">
-<dt class="sig sig-object py" id="Writer.write_h5_GuttembergGaitDatabase.MeanData">
-<span class="sig-prename descclassname"><span class="pre">Writer.write_h5_GuttembergGaitDatabase.</span></span><span class="sig-name descname"><span class="pre">MeanData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataLeft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DataRight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/write_h5_GuttembergGaitDatabase.html#MeanData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.write_h5_GuttembergGaitDatabase.MeanData" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="Writer.write_h5_GuttembergGaitDatabase.SelectSuject">
-<span class="sig-prename descclassname"><span class="pre">Writer.write_h5_GuttembergGaitDatabase.</span></span><span class="sig-name descname"><span class="pre">SelectSuject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DataLeft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DataRight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/write_h5_GuttembergGaitDatabase.html#SelectSuject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.write_h5_GuttembergGaitDatabase.SelectSuject" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="Writer.write_h5_GuttembergGaitDatabase.TabGrfTotal">
-<span class="sig-prename descclassname"><span class="pre">Writer.write_h5_GuttembergGaitDatabase.</span></span><span class="sig-name descname"><span class="pre">TabGrfTotal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataSubjectLeft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DataSubjectRight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decalage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/write_h5_GuttembergGaitDatabase.html#TabGrfTotal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.write_h5_GuttembergGaitDatabase.TabGrfTotal" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="Writer.write_h5_GuttembergGaitDatabase.TransformDataFrame">
-<span class="sig-prename descclassname"><span class="pre">Writer.write_h5_GuttembergGaitDatabase.</span></span><span class="sig-name descname"><span class="pre">TransformDataFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Writer/write_h5_GuttembergGaitDatabase.html#TransformDataFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Writer.write_h5_GuttembergGaitDatabase.TransformDataFrame" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
+<section id="writer-write-h5-guttemberggaitdatabase-module">
+<h2>Writer.write_h5_GuttembergGaitDatabase module<a class="headerlink" href="#writer-write-h5-guttemberggaitdatabase-module" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="module-Writer">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Writer" title="Permalink to this heading">#</a></h2>
@@ -333,15 +364,18 @@ Available at :
 <li><a class="reference internal" href="#Writer.Writer.Writer.writeh5"><code class="docutils literal notranslate"><span class="pre">Writer.writeh5()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#Writer.Writer.WriterHDF5DataBase"><code class="docutils literal notranslate"><span class="pre">WriterHDF5DataBase</span></code></a><ul>
+<li><a class="reference internal" href="#Writer.Writer.WriterHDF5DataBase.CreateHDF5DataBase"><code class="docutils literal notranslate"><span class="pre">WriterHDF5DataBase.CreateHDF5DataBase()</span></code></a></li>
+<li><a class="reference internal" href="#Writer.Writer.WriterHDF5DataBase.UdpateHDF5DataBase"><code class="docutils literal notranslate"><span class="pre">WriterHDF5DataBase.UdpateHDF5DataBase()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-Writer.write_h5_GuttembergGaitDatabase">Writer.write_h5_GuttembergGaitDatabase module</a><ul>
-<li><a class="reference internal" href="#Writer.write_h5_GuttembergGaitDatabase.MeanData"><code class="docutils literal notranslate"><span class="pre">MeanData()</span></code></a></li>
-<li><a class="reference internal" href="#Writer.write_h5_GuttembergGaitDatabase.SelectSuject"><code class="docutils literal notranslate"><span class="pre">SelectSuject()</span></code></a></li>
-<li><a class="reference internal" href="#Writer.write_h5_GuttembergGaitDatabase.TabGrfTotal"><code class="docutils literal notranslate"><span class="pre">TabGrfTotal()</span></code></a></li>
-<li><a class="reference internal" href="#Writer.write_h5_GuttembergGaitDatabase.TransformDataFrame"><code class="docutils literal notranslate"><span class="pre">TransformDataFrame()</span></code></a></li>
+<li><a class="reference internal" href="#Writer.Writer.WriterMetadata"><code class="docutils literal notranslate"><span class="pre">WriterMetadata</span></code></a><ul>
+<li><a class="reference internal" href="#Writer.Writer.WriterMetadata.run"><code class="docutils literal notranslate"><span class="pre">WriterMetadata.run()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#writer-write-h5-guttemberggaitdatabase-module">Writer.write_h5_GuttembergGaitDatabase module</a></li>
 <li><a class="reference internal" href="#module-Writer">Module contents</a></li>
 </ul>
 </li>

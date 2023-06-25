@@ -817,6 +817,27 @@ for each legs to look at assymetry.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotVerticalGroundReaction3DProcedure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotVerticalGroundReaction3DProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotVerticalGroundReaction3DProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotVerticalGroundReaction3DProcedure" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
+<p>This procedure plot a 3D graph of the evolution of the Vertical Ground Reaction Force.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Walking</strong> (<em>semelle_connecte.Walking.Walking</em>) – a walking patient instance</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs :</dt><dd><p>3D graph with: x the % of cycle; y the number of the cycle; z the value of the Vertical GRF</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotVerticalGroundReaction3DProcedure.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walking</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotVerticalGroundReaction3DProcedure.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotVerticalGroundReaction3DProcedure.run" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Walking.WalkingGraphicsProcedure.</span></span><span class="sig-name descname"><span class="pre">PlotWorthAndBestStepProcedure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">StoragePath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Walking/WalkingGraphicsProcedure.html#PlotWorthAndBestStepProcedure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure" title="Walking.WalkingGraphicsProcedure.AbstractWalkingGraphicsProcedure"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractWalkingGraphicsProcedure</span></code></a></p>
@@ -1132,6 +1153,10 @@ RightLeft_df = a DataFrame of the sum of ground reaction force for each Right an
 </li>
 <li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure"><code class="docutils literal notranslate"><span class="pre">PlotTwoStepProcedure</span></code></a><ul>
 <li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotTwoStepProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotTwoStepProcedure.run()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotVerticalGroundReaction3DProcedure"><code class="docutils literal notranslate"><span class="pre">PlotVerticalGroundReaction3DProcedure</span></code></a><ul>
+<li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotVerticalGroundReaction3DProcedure.run"><code class="docutils literal notranslate"><span class="pre">PlotVerticalGroundReaction3DProcedure.run()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#Walking.WalkingGraphicsProcedure.PlotWorthAndBestStepProcedure"><code class="docutils literal notranslate"><span class="pre">PlotWorthAndBestStepProcedure</span></code></a><ul>

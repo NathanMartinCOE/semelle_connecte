@@ -173,15 +173,15 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#walking">Walking</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="Walking.html">Walking package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Walking.html">Walking</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#study">Study</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="Study.html">Study package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Study.html">Study</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html#writer">Writer</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="Writer.html">Writer package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Writer.html">Writer</a></li>
 </ul>
 </li>
 </ul>
@@ -253,10 +253,10 @@ dataRight = pd.DataFrame() with VerticalVGrf ; ApGrf ; MediolateralGrf for Groun
 <dt class="sig sig-object py" id="Reader.Reader.Reader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Reader.Reader.</span></span><span class="sig-name descname"><span class="pre">Reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Reader/Reader.html#Reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Reader.Reader.Reader" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to read h5 file</p>
+<p>Class to read walking h5 file or walking grp in an h5 file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file</strong> (<em>h5df</em>) – </p>
+<dd class="field-odd"><p><strong>path</strong> – h5df file path</p>
 </dd>
 </dl>
 <dl class="simple">
@@ -266,6 +266,36 @@ dataRight = pd.DataFrame() with VerticalVGrf ; ApGrf ; MediolateralGrf for Groun
 <dl class="py method">
 <dt class="sig sig-object py" id="Reader.Reader.Reader.readh5">
 <span class="sig-name descname"><span class="pre">readh5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Reader/Reader.html#Reader.readh5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Reader.Reader.Reader.readh5" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Reader.Reader.Reader.readh5_grp">
+<span class="sig-name descname"><span class="pre">readh5_grp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Reader/Reader.html#Reader.readh5_grp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Reader.Reader.Reader.readh5_grp" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Arg:</dt><dd><p>f(hdf5 grp): is the grp walking in a big h5 file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Reader.Reader.ReaderMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Reader.Reader.</span></span><span class="sig-name descname"><span class="pre">ReaderMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Reader/Reader.html#ReaderMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Reader.Reader.ReaderMetadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to read metadata grp in an h5 file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> (<em>hdf5 grp</em>) – metadata grp in an h5 file</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>metadata: an metadata instance wich can be save as an yaml file</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Reader.Reader.ReaderMetadata.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Reader/Reader.html#ReaderMetadata.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Reader.Reader.ReaderMetadata.run" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -340,6 +370,11 @@ dataRight = pd.DataFrame() with VerticalVGrf ; ApGrf ; MediolateralGrf for Groun
 <li><a class="reference internal" href="#module-Reader.Reader">Reader.Reader module</a><ul>
 <li><a class="reference internal" href="#Reader.Reader.Reader"><code class="docutils literal notranslate"><span class="pre">Reader</span></code></a><ul>
 <li><a class="reference internal" href="#Reader.Reader.Reader.readh5"><code class="docutils literal notranslate"><span class="pre">Reader.readh5()</span></code></a></li>
+<li><a class="reference internal" href="#Reader.Reader.Reader.readh5_grp"><code class="docutils literal notranslate"><span class="pre">Reader.readh5_grp()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Reader.Reader.ReaderMetadata"><code class="docutils literal notranslate"><span class="pre">ReaderMetadata</span></code></a><ul>
+<li><a class="reference internal" href="#Reader.Reader.ReaderMetadata.run"><code class="docutils literal notranslate"><span class="pre">ReaderMetadata.run()</span></code></a></li>
 </ul>
 </li>
 </ul>
