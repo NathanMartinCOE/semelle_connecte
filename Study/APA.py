@@ -54,13 +54,13 @@ from semelle_connecte.SOLE.FeetMe import ReadSpatioTemporalCsv
 from semelle_connecte.Reader.Reader import Reader
 from semelle_connecte.Tools.ToolsSymetryIndex import SymetryIndex
 
-# ID = 161095
-# mass = 60
-# tests = ["Parcours_1", "Parcours_2", "Haie", "Salom", "doubleTache", "bande", "Back"]
+ID = 161095
+mass = [60] * 7
+tests = ["Parcours_1", "Parcours_2", "Haie", "Salom", "doubleTache", "bande", "Back"]
 
-ID = "flo"
-mass = [80,80,80]
-tests = ["Session", "Test_sans_maintient", "Test_avec_maintient"]
+# ID = "flo"
+# mass = [80,80,80]
+# tests = ["Session", "Test_sans_maintient", "Test_avec_maintient"]
 
 def main():
     document = Document()
@@ -246,6 +246,30 @@ def main():
             document.add_picture(FigPath, width = Inches(1.57))
         except:
             print("Don't find ImageForReport ----> SI_Formule.jpg")
+
+        # =============================================== 3D plot ================================================
+        Plot_3D_graph = True
+        
+        if Plot_3D_graph == True:
+            document.add_heading('Evolution of Vertical Ground Reaction Force', level=1)
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+            from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+            procedure = GroundReactionForceKinematicsProcedure()
+            WalkingKinematicsFilter(walking, procedure).run()
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+            from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+            procedure = NormalisationProcedure()
+            WalkingDataProcessingFilter(walking, procedure).run()
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingGraphicsFilter
+            from semelle_connecte.Walking.WalkingGraphicsProcedure import PlotVerticalGroundReaction3DProcedure
+
+            procedure = PlotVerticalGroundReaction3DProcedure(show_graph = False,  save_graph = True, StoragePath = DataPath)
+            WalkingGraphicsFilter(walking, procedure).run()
+
+            document.add_picture(os.path.join(DataPath,'VerticalGroundReaction3D.png'), height = Inches(3.5))
         
     document.save(f"C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\APA\\{ID}\\Report.docx")
 
