@@ -236,9 +236,48 @@ def Graph3D():
     
     document.save("C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\Graphiques3D_GRF.docx")
 
+def MeanGrf():
+    document = Document()
+    conditions = ["normal_ground", "mottek_vL12_vR12", "mottek_vL12_vR14", "mottek_vL12_vR16", "mottek_vL12_vR18", "mottek_vL14_vR12", "mottek_vL16_vR12", "mottek_vL18_vR12"]
 
+    for condition in conditions:
+        PathMSE = f"C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\{condition}\\"
+        
+        files = os.listdir(PathMSE)
+        hdf5_files = [file for file in files if file.endswith(".hdf5")]
+
+        MeanGrfLeft = []
+        MeanGrfRight = []
+
+        for file in hdf5_files:
+            PathHDF5 = PathMSE
+            NameFileHDF5 = str(file)
+            DataPathHDF5 = os.path.join(PathHDF5, NameFileHDF5)
+            walking = Reader(DataPathHDF5).readh5()
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingKinematicsFilter
+            from semelle_connecte.Walking.WalkingKinematicsProcedure import GroundReactionForceKinematicsProcedure
+            procedure = GroundReactionForceKinematicsProcedure()
+            WalkingKinematicsFilter(walking, procedure).run()
+
+            from semelle_connecte.Walking.WalkingFilters import WalkingDataProcessingFilter
+            from semelle_connecte.Walking.WalkingDataProcessingProcedure import NormalisationProcedure
+            procedure = NormalisationProcedure()
+            WalkingDataProcessingFilter(walking, procedure).run()
+
+            MeanGrfLeft.append(np.mean(pd.DataFrame(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]).mean(axis=1)))
+            MeanGrfRight.append(np.mean(pd.DataFrame(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"]).mean(axis=1)))
+
+        document.add_heading(f'Condition : {condition}', 0)
+        document.add_heading(f'MeanGrfLeft : {round(np.mean(MeanGrfLeft), 2)}', 1)
+        document.add_heading(f'MeanGrfRight : {round(np.mean(MeanGrfRight), 2)}', 1)
+
+    document.save("C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\MeanGRF.docx")
+
+            
 
 
 if __name__ == '__main__':
     # main()
-    Graph3D()
+    # Graph3D()
+    MeanGrf()
