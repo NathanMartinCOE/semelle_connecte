@@ -248,6 +248,8 @@ def MeanGrf():
 
         MeanGrfLeft = []
         MeanGrfRight = []
+        StdGrfLeft = []
+        StdGrfRight = []
 
         for file in hdf5_files:
             PathHDF5 = PathMSE
@@ -267,10 +269,14 @@ def MeanGrf():
 
             MeanGrfLeft.append(np.mean(pd.DataFrame(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]).mean(axis=1)))
             MeanGrfRight.append(np.mean(pd.DataFrame(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"]).mean(axis=1)))
+            StdGrfLeft.append(np.mean(pd.DataFrame(walking.m_StepGrfValue["LeftLeg"]["VerticalGrf"]).std(axis=1)))
+            StdGrfRight.append(np.mean(pd.DataFrame(walking.m_StepGrfValue["RightLeg"]["VerticalGrf"]).std(axis=1)))
 
         document.add_heading(f'Condition : {condition}', 0)
         document.add_heading(f'MeanGrfLeft : {round(np.mean(MeanGrfLeft), 2)}', 1)
+        document.add_heading(f'StdGrfLeft : {round(np.mean(StdGrfLeft), 2)}', 1)
         document.add_heading(f'MeanGrfRight : {round(np.mean(MeanGrfRight), 2)}', 1)
+        document.add_heading(f'StdGrfRight : {round(np.mean(StdGrfRight), 2)}', 1)
 
     document.save("C:\\Users\\Nathan\\Desktop\\Wheelchair tests datas\\FeetMe\\MSE\\MeanGRF.docx")
 

@@ -54,13 +54,17 @@ from semelle_connecte.SOLE.FeetMe import ReadSpatioTemporalCsv
 from semelle_connecte.Reader.Reader import Reader
 from semelle_connecte.Tools.ToolsSymetryIndex import SymetryIndex
 
-ID = 161095
-mass = [60] * 7
-tests = ["Parcours_1", "Parcours_2", "Haie", "Salom", "doubleTache", "bande", "Back"]
+# ID = 161095
+# mass = [60] * 7
+# tests = ["Parcours_1", "Parcours_2", "Haie", "Salom", "doubleTache", "bande", "Back"]
 
 # ID = "flo"
 # mass = [80,80,80]
 # tests = ["Session", "Test_sans_maintient", "Test_avec_maintient"]
+
+ID = "FrançoisTest2"
+mass = [70]
+tests = ["TDM6"]
 
 def main():
     document = Document()

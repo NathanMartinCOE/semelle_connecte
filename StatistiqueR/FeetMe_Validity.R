@@ -328,5 +328,20 @@ for (metric in metrics){
 }   # end for metric
 
 
+### ============================================ Graph total ===========================================
+
+library(ggplot2)
+# Obtenir les valeurs uniques de la colonne "Metric"
+DataFrame$Mean = rowMeans(DataFrame[, 7:368], na.rm = TRUE)
+unique_metrics <- unique(DataFrame$Metric)
+
+# Créer un graphique avec ggplot2
+ggplot(DataFrame, aes(x = Condition, y = Mean, fill = Leg)) +
+  geom_boxplot() +
+  facet_grid(. ~ Metric, scales = "free_x") +
+  theme(panel.grid = element_blank())
+
+
+
 
 
